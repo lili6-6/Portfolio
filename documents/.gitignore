@@ -1,0 +1,12 @@
+*
+!img/
+!img/**
+!video/
+!video/**
+!index.html
+!README.md
+!AGENTS.md
+!ASSETS.md
+!WORKFLOW.md
+!CONTENT.md
+!.gitignore
