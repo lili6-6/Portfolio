@@ -1,8 +1,12 @@
 *
-!网页/
-!网页/**
-!documents/
+!img/
+!img/**
+!video/
+!video/**
+!index.html
+!README.md
 !documents/**
+!documents/**/*
 !.gitignore
-网页/作品集.docx
-网页/index旧.html
+作品集.docx
+index旧.html
