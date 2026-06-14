@@ -2475,8 +2475,14 @@
 
     function showVibecodingImage() {
       if (!vibecodingGallery) return;
-      lightboxImage.src = vibecodingGallery[vibecodingGalleryIndex];
-      lightboxCaption.textContent = `${vibecodingGallery[vibecodingGalleryIndex].split('/').pop()} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
+      const url = vibecodingGallery[vibecodingGalleryIndex];
+      lightboxImage.src = '';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          lightboxImage.src = url;
+        });
+      });
+      lightboxCaption.textContent = `${url.split('/').pop()} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
       document.getElementById('lightboxPrev').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
       document.getElementById('lightboxNext').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
     }
@@ -2582,6 +2588,7 @@
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.classList.remove('modal-open');
+      vibecodingGallery = null;
     }
 
     function updateNavState() {
