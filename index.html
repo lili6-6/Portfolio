@@ -2595,10 +2595,12 @@
 
     let vibecodingGallery = null;
     let vibecodingGalleryIndex = 0;
+    let vibecodingGalleryTitle = '';
 
     function openVibecodingGallery(project) {
       vibecodingGallery = project.images;
       vibecodingGalleryIndex = 0;
+      vibecodingGalleryTitle = project.title;
       showVibecodingImage();
       lightbox.classList.add('active');
       document.body.classList.add('modal-open');
@@ -2613,7 +2615,7 @@
           lightboxImage.src = url;
         });
       });
-      lightboxCaption.textContent = `${url.split('/').pop()} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
+      lightboxCaption.textContent = `${vibecodingGalleryTitle} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
       document.getElementById('lightboxPrev').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
       document.getElementById('lightboxNext').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
     }
