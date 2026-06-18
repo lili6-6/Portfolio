@@ -2766,14 +2766,15 @@
     }
 
     function renderOtherWorks() {
+      const playIcon = '<svg class="play-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>';
+      const pauseIcon = '<svg class="play-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>';
+
       const grid = document.getElementById('otherworksGrid');
       grid.innerHTML = otherWorks.map(w => `
         <article class="otherwork-card glass reveal">
-          <div class="otherwork-cover" data-audio="${w.audio}">
+          <div class="otherwork-cover">
             <img src="${w.cover}" alt="${w.title}" loading="lazy" />
-            <div class="otherwork-play-btn">
-              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>
-            </div>
+            <div class="otherwork-play-btn">${playIcon}</div>
           </div>
           <div class="otherwork-body">
             <div class="otherwork-head">
@@ -2785,28 +2786,30 @@
                 ${w.tags.map(t => `<span>${t}</span>`).join('')}
               </div>
             ` : ''}
-            <audio controls preload="metadata" src="${w.audio}"></audio>
+            <audio controls preload="none" src="${w.audio}"></audio>
           </div>
         </article>
       `).join('');
 
-      grid.querySelectorAll('.otherwork-cover').forEach(el => {
-        const audio = el.parentElement.querySelector('audio');
-        el.addEventListener('click', () => {
+      grid.querySelectorAll('.otherwork-card').forEach(card => {
+        const cover = card.querySelector('.otherwork-cover');
+        const audio = card.querySelector('audio');
+        const btn = card.querySelector('.otherwork-play-btn');
+
+        cover.addEventListener('click', e => {
+          e.stopPropagation();
           if (audio.paused) {
             audio.play();
-            el.querySelector('.otherwork-play-btn').innerHTML = `
-              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>`;
+            btn.innerHTML = pauseIcon;
           } else {
             audio.pause();
-            el.querySelector('.otherwork-play-btn').innerHTML = `
-              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>`;
+            btn.innerHTML = playIcon;
           }
         });
-        audio.addEventListener('ended', () => {
-          el.querySelector('.otherwork-play-btn').innerHTML = `
-            <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>`;
-        });
+
+        audio.addEventListener('play', () => btn.innerHTML = pauseIcon);
+        audio.addEventListener('pause', () => btn.innerHTML = playIcon);
+        audio.addEventListener('ended', () => btn.innerHTML = playIcon);
       });
     }
 
