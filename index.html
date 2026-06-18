@@ -1463,6 +1463,8 @@
       overflow: hidden;
       background: rgba(0,0,0,0.3);
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      cursor: pointer;
     }
 
     .otherwork-cover img {
@@ -1474,6 +1476,31 @@
 
     .otherwork-card:hover .otherwork-cover img {
       transform: scale(1.06);
+    }
+
+    .otherwork-play-btn {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(7,17,31,0.35);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .otherwork-cover:hover .otherwork-play-btn {
+      opacity: 1;
+    }
+
+    .otherwork-play-btn svg {
+      width: 56px;
+      height: 56px;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+      transition: transform 0.25s ease;
+    }
+
+    .otherwork-cover:hover .otherwork-play-btn svg {
+      transform: scale(1.08);
     }
 
     .otherwork-body {
@@ -2742,8 +2769,11 @@
       const grid = document.getElementById('otherworksGrid');
       grid.innerHTML = otherWorks.map(w => `
         <article class="otherwork-card glass reveal">
-          <div class="otherwork-cover">
+          <div class="otherwork-cover" data-audio="${w.audio}">
             <img src="${w.cover}" alt="${w.title}" loading="lazy" />
+            <div class="otherwork-play-btn">
+              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>
+            </div>
           </div>
           <div class="otherwork-body">
             <div class="otherwork-head">
@@ -2759,6 +2789,25 @@
           </div>
         </article>
       `).join('');
+
+      grid.querySelectorAll('.otherwork-cover').forEach(el => {
+        const audio = el.parentElement.querySelector('audio');
+        el.addEventListener('click', () => {
+          if (audio.paused) {
+            audio.play();
+            el.querySelector('.otherwork-play-btn').innerHTML = `
+              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>`;
+          } else {
+            audio.pause();
+            el.querySelector('.otherwork-play-btn').innerHTML = `
+              <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>`;
+          }
+        });
+        audio.addEventListener('ended', () => {
+          el.querySelector('.otherwork-play-btn').innerHTML = `
+            <svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>`;
+        });
+      });
     }
 
     function setupReveal() {
