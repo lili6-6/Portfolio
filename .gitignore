@@ -9,6 +9,8 @@
 !documents/**/*
 !assets/vibecoding/**
 !assets/vibecoding/**/*
+!audio/
+!audio/**
 !.gitignore
 作品集.docx
 index旧.html
