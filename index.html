@@ -846,6 +846,14 @@
   object-fit: contain;
 }
 
+    .bilibili-embed {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  background: #030812;
+}
+
     .project-main img {
       width: 100%;
       height: 100%;
@@ -1718,7 +1726,7 @@
               <h3>作品概况</h3>
               <div class="stats-grid">
                 <div class="stat-card">
-                  <div class="stat-value" data-count="7">0</div>
+                  <div class="stat-value" data-count="8">0</div>
                   <div class="stat-label">核心项目</div>
                 </div>
                 <div class="stat-card">
@@ -1730,7 +1738,7 @@
                   <div class="stat-label">游戏/AI/交互</div>
                 </div>
                 <div class="stat-card">
-                  <div class="stat-value" data-count="9">0</div>
+                  <div class="stat-value" data-count="10">0</div>
                   <div class="stat-label">主要获奖 / 学业亮点</div>
                 </div>
               </div>
@@ -1835,6 +1843,10 @@
               <div class="timeline-node">
                 <strong>2026.5 - 2026.6｜Iterate / 迭代</strong>
                 <span>CorgiEngine框架、AI寻路与智能行为、阿里云百炼AI剧情、多周目意识进化叙事。</span>
+              </div>
+              <div class="timeline-node">
+                <strong>2026.7.3-2026.7.5｜Dream Who To Be / 我想成为谁</strong>
+                <span>CIGA 西安站 GameJam、TopdownEngine 3D、双梦境玩法、Agent 工作流。</span>
               </div>
             </div>
           </div>
@@ -2065,6 +2077,44 @@
 
     // video.src 请替换为你的实际视频文件路径，建议统一放在 video/ 目录。
     const projects = [
+      {
+        title: "Dream Who To Be / 我想成为谁",
+        date: "2026.7.3-2026.7.5",
+        badge: "CIGA 西安站 GameJam / 第三人称 3D 剧情游戏",
+        category: ["游戏开发", "GameJam"],
+        tags: ["TopdownEngine", "3D", "第三人称", "Agent工作流", "场景交互", "VibeCoding"],
+        desc: "<strong>项目简介：</strong>一款第三人称 3D 剧情游戏。玩家通过童年的消防车与听诊器进入不同梦境，体验消防员与医生的职责与使命。在一次次选择与经历中，寻找属于自己的成长锚点，最终明白：比梦想成为谁更重要的，是成为一个愿意帮助他人的人。",
+        work: [
+          "基于 TopdownEngine 框架扩展开发第三人称漫游、场景交互与射击等核心玩法系统。",
+          "设计并实现消防员梦境（火焰扩散、灭火射击、人员救助）与医生梦境（多人急救、倒计时治疗）双玩法系统。",
+          "构建现实探索—梦境双线—醒来反馈—第二天行为变化—结局的完整叙事流程与关卡衔接。",
+          "搭建 Agent 到 Unity 的 AI 工作流，实现自然语言驱动的游戏原型快速搭建、脚本框架生成、重复性自动化与 Bug 排查，再手动优化完成。",
+          "作为唯一程序负责比赛期间整体游戏开发、团队 Git 版本控制与分支管理，保障 48h 比赛节奏下的多人协作效率。"
+        ],
+        achievement: "<strong>项目成果：</strong>CIGA 2026 西安站 GameJam 参赛作品；获得 CIGA 最受喜爱奖。",
+        summary: {
+          type: "项目类型",
+          role: "整体开发 / 唯一程序",
+          focus: "TopdownEngine、3D漫游与场景交互、双梦境玩法、Agent工作流",
+          output: "48h内完成的3D第三人称多玩法叙事体验"
+        },
+        video: {
+          type: "bilibili",
+          src: "https://player.bilibili.com/player.html?bvid=BV17cT26yE4w",
+          poster: "img/dream_cover.png",
+          title: ""
+        },
+        images: [
+          { src: "img/dream_cover.png", alt: "Dream Who To Be封面" },
+          { src: "img/dream_1.png", alt: "Dream Who To Be剧情" },
+          { src: "img/dream_2.png", alt: "Dream Who To Be消防员" },
+          { src: "img/dream_3.png", alt: "Dream Who To Be医生" },
+          { src: "img/dream_4.png", alt: "Dream Who To Be主角" },
+          { src: "img/dream_5.png", alt: "Dream Who To Be结局" },
+          { src: "img/dream_6.png", alt: "Dream Who To Be结局截图" },
+          { src: "img/dream_cert.png", alt: "CIGA通关证书" }
+        ]
+      },
       {
         title: "GlowBorn / 光裔",
         date: "2025.9-2025.12",
@@ -2307,7 +2357,8 @@
           { src: "img/iterate_6.png", alt: "迭代游戏截图6" },
           { src: "img/iterate_7.png", alt: "迭代游戏截图7" },
           { src: "img/iterate_8.png", alt: "迭代游戏截图8" },
-          { src: "img/iterate_9.png", alt: "迭代游戏截图9" }
+          { src: "img/iterate_9.png", alt: "迭代游戏截图9" },
+          { src: "img/iterate_minigame.png", alt: "网易MiniGame参赛证明" }
         ]
       }
     ];
@@ -2322,7 +2373,8 @@
       { icon: "🏆", title: "2026 国际大学生数字艺术设计大赛-文化遗产保护", level: "铜奖" },
       { icon: "🏆", title: "2026 国际大学生数字艺术设计大赛-游戏程序设计", level: "铜奖" },
       { icon: "🏆", title: "2026\u201c华夏奖\u201d文化艺术设计大赛", level: "银奖" },
-      { icon: "🏆", title: "第六届全国数字艺术与媒介文化学术论坛", level: "银奖" }
+      { icon: "🏆", title: "第六届全国数字艺术与媒介文化学术论坛", level: "银奖" },
+      { icon: "🏆", title: "CIGA 2026 西安站 GameJam", level: "最受喜爱奖" }
     ];
 
     const certificates = [
@@ -2335,7 +2387,8 @@
       { src: "img/award6.jpg", alt: "2026国际大学生数字艺术设计大赛-游戏程序设计 铜奖" },
       { src: "img/award7.jpg", alt: "2026国际大学生数字艺术设计大赛-文化遗产保护 铜奖" },
       { src: "img/award8.jpg", alt: "2026华夏奖文化艺术设计大赛 银奖" },
-      { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" }
+      { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" },
+      { src: "img/award10.jpg", alt: "CIGA 2026 西安站 GameJam 最受喜爱奖" }
     ];
 
     const vibecodingProjects = [
@@ -2491,7 +2544,7 @@
 
       projectsGrid.innerHTML = visibleProjects.map((project, projectIndex) => {
         const mainMedia = project.video
-          ? { type: 'video', src: project.video.src, poster: project.video.poster, alt: project.video.title }
+          ? { type: project.video.type || 'video', src: project.video.src, poster: project.video.poster, alt: project.video.title }
           : { type: 'image', src: project.images[0].src, alt: project.images[0].alt };
 
         return `
@@ -2516,7 +2569,9 @@
 
               <div class="project-gallery" data-gallery-index="${projectIndex}">
                 <div class="project-main media-stage">
-                 ${mainMedia.type === 'video' ? `
+                 ${mainMedia.type === 'bilibili' ? `
+  <iframe class="main-gallery-video bilibili-embed" src="${mainMedia.src}" frameborder="0" allowfullscreen></iframe>
+` : mainMedia.type === 'video' ? `
   <video class="main-gallery-video" controls preload="metadata" playsinline poster="${mainMedia.poster || ''}">
     <source src="${mainMedia.src}" type="video/mp4" />
   </video>
@@ -2524,13 +2579,13 @@
   <img src="${mainMedia.src}" alt="${mainMedia.alt}" class="main-gallery-image" data-lightbox="${mainMedia.alt}" />
 `}
 <div class="project-main-overlay">
-  ${mainMedia.type === 'video' ? '' : `<span>${mainMedia.alt}</span>`}
-  <span>${mainMedia.type === 'video' ? '' : '点击查看大图'}</span>
+  ${mainMedia.type === 'video' || mainMedia.type === 'bilibili' ? '' : `<span>${mainMedia.alt}</span>`}
+  <span>${mainMedia.type === 'video' || mainMedia.type === 'bilibili' ? '' : '点击查看大图'}</span>
 </div>
                 </div>
                 <div class="thumb-row">
                   ${project.video ? `
-                    <button class="thumb active" type="button" data-type="video" data-src="${project.video.src}" data-poster="${project.video.poster || ''}" data-alt="${project.video.title}">
+                    <button class="thumb active" type="button" data-type="${project.video.type || 'video'}" data-src="${project.video.src}" data-poster="${project.video.poster || ''}" data-alt="${project.video.title}">
                       <img src="${project.video.poster || project.images[0].src}" alt="${project.video.title}" />
                     </button>
                   ` : ''}
@@ -2607,7 +2662,12 @@
             const alt = thumb.dataset.alt;
             const poster = thumb.dataset.poster || '';
 
-            if (type === 'video') {
+            if (type === 'bilibili') {
+              mainStage.innerHTML = `
+  <iframe class="main-gallery-video bilibili-embed" src="${src}" frameborder="0" allowfullscreen></iframe>
+  <div class="project-main-overlay"></div>
+`;
+            } else if (type === 'video') {
               mainStage.innerHTML = `
   <video class="main-gallery-video" controls preload="metadata" playsinline poster="${poster}">
     <source src="${src}" type="video/mp4" />
