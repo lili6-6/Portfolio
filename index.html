@@ -1,2999 +1,1796 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>刘嘉琳｜Unity 游戏开发作品集</title>
-  <style>
-    :root {
-      --bg: #07111f;
-      --bg-soft: #0d1b2a;
-      --panel: rgba(12, 23, 39, 0.72);
-      --panel-strong: rgba(15, 27, 46, 0.92);
-      --card: rgba(255, 255, 255, 0.08);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --text: #edf4ff;
-      --muted: #a8b7cf;
-      --primary: #60a5fa;
-      --secondary: #8b5cf6;
-      --accent: #22d3ee;
-      --warm: #fb923c;
-      --success: #34d399;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --max-width: 1280px;
-      --transition: 0.35s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 28%),
-        radial-gradient(circle at 85% 10%, rgba(139, 92, 246, 0.2), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(34, 211, 238, 0.14), transparent 30%),
-        linear-gradient(160deg, #04101d 0%, #07111f 36%, #09182a 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-      line-height: 1.7;
-    }
-
-    body.modal-open {
-      overflow: hidden;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .noise,
-    .bg-glow,
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    .bg-grid {
-      background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-      background-size: 38px 38px;
-      mask-image: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent 80%);
-    }
-
-    .bg-glow::before,
-    .bg-glow::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.55;
-      animation: floatGlow 14s ease-in-out infinite;
-    }
-
-    .bg-glow::before {
-      width: 340px;
-      height: 340px;
-      background: rgba(96, 165, 250, 0.24);
-      top: 8%;
-      left: 4%;
-    }
-
-    .bg-glow::after {
-      width: 380px;
-      height: 380px;
-      background: rgba(139, 92, 246, 0.22);
-      right: 2%;
-      top: 18%;
-      animation-delay: -4s;
-    }
-
-    .noise {
-      z-index: -1;
-      opacity: 0.07;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18) 0 0.7px, transparent 0.8px),
-        radial-gradient(circle at 80% 60%, rgba(255,255,255,0.18) 0 0.7px, transparent 0.8px),
-        radial-gradient(circle at 40% 85%, rgba(255,255,255,0.12) 0 0.7px, transparent 0.8px);
-      background-size: 22px 22px, 26px 26px, 28px 28px;
-    }
-
-    .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      z-index: 1200;
-      background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-      box-shadow: 0 0 18px rgba(96,165,250,0.8);
-    }
-
-    .container {
-      width: min(var(--max-width), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .glass {
-      background: var(--panel);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-    }
-
-    .section {
-      padding: 96px 0;
-      position: relative;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 34px;
-      flex-wrap: wrap;
-    }
-
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-      color: var(--accent);
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: clamp(30px, 3vw, 48px);
-      line-height: 1.15;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    .section-desc {
-      color: var(--muted);
-      max-width: 680px;
-      font-size: 16px;
-    }
-
-    .module-footer-action {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 26px;
-    }
-
-    .module-top-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: #dce9ff;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: var(--transition);
-    }
-
-    .module-top-btn:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(139,92,246,0.15));
-      border-color: rgba(96,165,250,0.26);
-    }
-
-    .navbar-wrap {
-      position: sticky;
-      top: 16px;
-      z-index: 1000;
-      padding-top: 16px;
-    }
-
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-radius: 22px;
-      transition: var(--transition);
-    }
-
-    .navbar.scrolled {
-      background: rgba(8, 18, 31, 0.88);
-      border-color: rgba(255,255,255,0.14);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .brand-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      background: linear-gradient(135deg, rgba(96,165,250,0.9), rgba(139,92,246,0.9));
-      box-shadow: 0 10px 24px rgba(96,165,250,0.25);
-    }
-
-    .brand-text {
-      min-width: 0;
-    }
-
-    .brand-text h1 {
-      font-size: 16px;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .brand-text p {
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      color: var(--muted);
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .hero {
-      padding: 42px 0 28px;
-      min-height: calc(100vh - 24px);
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-shell {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 26px;
-      align-items: stretch;
-    }
-
-    .hero-main,
-    .hero-side {
-      border-radius: 32px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-main {
-      padding: 48px;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(96,165,250,0.14), transparent 26%),
-        radial-gradient(circle at 100% 20%, rgba(139,92,246,0.16), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    }
-
-    .hero-main::after {
-      content: "";
-      position: absolute;
-      inset: auto -60px -120px auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,211,238,0.24), transparent 65%);
-      filter: blur(24px);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      margin-bottom: 20px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.09);
-      color: #cfe3ff;
-      font-size: 14px;
-    }
-
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 12px rgba(52, 211, 153, 0.75);
-    }
-
-    .hero-title {
-      font-size: clamp(40px, 6vw, 76px);
-      font-weight: 900;
-      line-height: 1.02;
-      letter-spacing: -0.045em;
-      margin-bottom: 20px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #dbeafe 0%, #60a5fa 30%, #22d3ee 60%, #8b5cf6 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-sub {
-      font-size: clamp(21px, 2vw, 24px);
-      color: #d8e7fb;
-      margin-bottom: 14px;
-      font-weight: 600;
-    }
-
-    .hero-desc {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 720px;
-      margin-bottom: 28px;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-
-    .hero-pill {
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.09);
-      color: #d7e4f6;
-      font-size: 14px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 20px;
-      border-radius: 16px;
-      border: 1px solid transparent;
-      transition: var(--transition);
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #2563eb, #8b5cf6);
-      box-shadow: 0 14px 34px rgba(37,99,235,0.28);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(37,99,235,0.35);
-    }
-    .btn-GitHub{
-      background: linear-gradient(135deg, #2563eb, #8b5cf6);
-      box-shadow: 0 14px 34px rgba(37,99,235,0.28);
-    }
-    .btn-GitHub:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(37,99,235,0.35);
-    }
-
-    .btn-secondary {
-      border-color: rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    .hero-side {
-      padding: 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      background:
-        radial-gradient(circle at top right, rgba(34,211,238,0.12), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    }
-
-    .hero-card {
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .hero-card h3 {
-      font-size: 15px;
-      color: #d6e6ff;
-      margin-bottom: 16px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stat-card {
-      padding: 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      line-height: 1;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .mini-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .mini-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .mini-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(139,92,246,0.18));
-      color: #dbeafe;
-    }
-
-    .floating-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .floating-tags span {
-      padding: 9px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: #d7e6fb;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .overview-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 24px;
-    }
-
-    .overview-card {
-      padding: 28px;
-      border-radius: 28px;
-    }
-
-    .overview-card h3 {
-      font-size: 24px;
-      margin-bottom: 16px;
-    }
-
-    .overview-card p,
-    .overview-card li {
-      color: var(--muted);
-    }
-
-    .overview-card ul {
-      list-style: none;
-      display: grid;
-      gap: 14px;
-      margin-top: 12px;
-    }
-
-    .overview-card li {
-      padding-left: 26px;
-      position: relative;
-      font-size: 21px;
-    }
-
-    .overview-card li::before {
-      content: "✦";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--accent);
-    }
-
-    .timeline-line {
-      display: grid;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .timeline-node {
-      position: relative;
-      padding: 18px 18px 18px 48px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .timeline-node::before {
-      content: "";
-      position: absolute;
-      left: 18px;
-      top: 20px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--secondary));
-      box-shadow: 0 0 0 6px rgba(96,165,250,0.08);
-    }
-
-    .timeline-node strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 15px;
-      color: #dce9ff;
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .skill-card {
-      padding: 24px;
-      border-radius: 24px;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .skill-card::before {
-      content: "";
-      position: absolute;
-      inset: auto -30px -30px auto;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
-      opacity: 0.7;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(96,165,250,0.32);
-      box-shadow: 0 22px 42px rgba(0,0,0,0.25);
-    }
-
-    .skill-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-      margin-bottom: 18px;
-      background: linear-gradient(135deg, rgba(96,165,250,0.24), rgba(139,92,246,0.22));
-      color: #e8f1ff;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
-    }
-
-    .skill-card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .skill-card p {
-      color: var(--muted);
-      font-size: 15px;
-    }
-
-    .skills-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .skills-tags span {
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: rgba(255,255,255,0.06);
-      color: #d9e7fb;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .projects-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      padding: 11px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: var(--muted);
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 14px;
-    }
-
-    .filter-btn.active,
-    .filter-btn:hover {
-      color: var(--text);
-      background: linear-gradient(135deg, rgba(96,165,250,0.2), rgba(139,92,246,0.16));
-      border-color: rgba(96,165,250,0.26);
-    }
-
-    .project-count {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .projects-grid {
-      display: grid;
-      gap: 24px;
-    }
-
-    .project-card {
-      padding: 28px;
-      border-radius: 30px;
-      transition: var(--transition);
-    }
-
-    .project-card.hidden {
-      display: none;
-    }
-
-    .project-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .project-top {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-      gap: 24px;
-      align-items: start;
-    }
-
-    .project-copy {
-      display: grid;
-      gap: 18px;
-    }
-
-    .project-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .project-title-wrap {
-      min-width: 0;
-    }
-
-    .project-title {
-      font-size: clamp(28px, 3vw, 38px);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-    }
-
-    .project-date {
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-
-    .project-badge {
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: #e5f1ff;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      white-space: nowrap;
-    }
-
-    .project-desc {
-      padding: 18px 20px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-    }
-
-    .project-desc strong {
-      color: #dce9ff;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .project-tags span {
-      padding: 9px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #d7e4f7;
-    }
-
-    .project-highlight {
-      padding: 16px 18px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, rgba(251,146,60,0.16), rgba(96,165,250,0.1));
-      border: 1px solid rgba(251,146,60,0.16);
-      color: #fde4cf;
-      font-size: 15px;
-    }
-
-    .project-highlight strong {
-      color: #fff3e7;
-    }
-
-    .project-gallery {
-      display: grid;
-      gap: 14px;
-    }
-
-    .project-main {
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      aspect-ratio: 16 / 10;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
-    }
-    .main-gallery-video {
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: #030812;
-  object-fit: contain;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>刘嘉琳｜Unity 游戏开发作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-deep: #08090a;
+  --bg-panel: #0f1011;
+  --bg-surface: #191a1b;
+  --bg-surface-light: #28282c;
+  --text-primary: #f7f8f8;
+  --text-secondary: #d0d6e0;
+  --text-tertiary: #8a8f98;
+  --text-quaternary: #62666d;
+  --accent-indigo: #5e6ad2;
+  --accent-violet: #7170ff;
+  --accent-hover: #828fff;
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-standard: rgba(255,255,255,0.08);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 22px;
+  --max-width: 1200px;
+  --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-    .bilibili-embed {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 16 / 9;
-  border: none;
-  background: #030812;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Inter", "SF Pro Display", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-feature-settings: "cv01", "ss03";
+  color: #f7f8f8;
+  background: #08090a;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-    .project-main img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-      cursor: zoom-in;
-    }
-
-    .project-card:hover .project-main img {
-      transform: scale(1.03);
-    }
-
-    .project-main-overlay {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 18px;
-      background: linear-gradient(to top, rgba(7,17,31,0.82), rgba(7,17,31,0));
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 12px;
-    }
-
-    .project-main-overlay span {
-      font-size: 13px;
-      color: #deebff;
-    }
-
-    .thumb-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
-      gap: 10px;
-    }
-
-    .thumb {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      aspect-ratio: 1.25;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      transition: var(--transition);
-    }
-
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .thumb.active,
-    .thumb:hover {
-      border-color: rgba(96,165,250,0.38);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.22);
-    }
-
-    .project-video-card {
-      margin-top: 22px;
-      padding: 20px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .project-video-card h4 {
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: #dce9ff;
-    }
-
-    .project-video-card p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 14px;
-    }
-
-    .project-video-shell {
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.03);
-      aspect-ratio: 16 / 9;
-    }
-
-    .project-video-shell video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      background: #030812;
-    }
-
-    .project-bottom {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
-      gap: 20px;
-      margin-top: 22px;
-    }
-
-    .work-block,
-    .project-side-info {
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .work-block h4,
-    .project-side-info h4 {
-      font-size: 16px;
-      margin-bottom: 14px;
-      color: #dce9ff;
-    }
-
-    .work-list {
-      list-style: none;
-      display: grid;
-      gap: 12px;
-    }
-
-    .work-list li {
-      padding-left: 24px;
-      position: relative;
-      color: var(--muted);
-      font-size: 15px;
-    }
-
-    .work-list li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--accent);
-      font-weight: 800;
-    }
-
-    .project-side-info dl {
-      display: grid;
-      gap: 14px;
-    }
-
-    .project-side-info dt {
-      font-size: 13px;
-      color: #98acc8;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .project-side-info dd {
-      color: #deebff;
-      font-size: 15px;
-    }
-
-    .project-card-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
-
-    .awards-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .award-list {
-      display: grid;
-      gap: 16px;
-    }
-
-    .award-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      padding: 20px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: var(--transition);
-    }
-
-    .award-item:hover {
-      transform: translateY(-4px);
-      border-color: rgba(139,92,246,0.26);
-    }
-
-    .award-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(96,165,250,0.28), rgba(139,92,246,0.26));
-      color: #f8fbff;
-      font-size: 20px;
-    }
-
-    .award-item h4 {
-      font-size: 17px;
-      margin-bottom: 6px;
-    }
-
-    .award-item p {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .certificate-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .certificate-card {
-      position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-      aspect-ratio: 1 / 1.12;
-      cursor: zoom-in;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .certificate-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .certificate-card:hover img {
-      transform: scale(1.05);
-    }
-
-    .certificate-card span {
-      position: absolute;
-      inset: auto 12px 12px 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(7,17,31,0.68);
-      backdrop-filter: blur(10px);
-      font-size: 13px;
-      color: #dce9ff;
-    }
-
-    .contact-shell {
-      display: grid;
-      grid-template-columns: 1fr 0.9fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .contact-card-large,
-    .contact-card-side {
-      padding: 32px;
-      border-radius: 30px;
-    }
-
-    .contact-title {
-      font-size: clamp(28px, 3vw, 44px);
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 14px;
-    }
-
-    .contact-desc {
-      color: var(--muted);
-      margin-bottom: 24px;
-      max-width: 620px;
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .contact-item strong {
-      display: block;
-      font-size: 13px;
-      color: #98acc8;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .contact-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      background: linear-gradient(135deg, rgba(34,211,238,0.26), rgba(96,165,250,0.24));
-      color: #ecfeff;
-      flex-shrink: 0;
-    }
-
-    .contact-card-side {
-      display: grid;
-      place-items: center;
-      gap: 18px;
-      text-align: center;
-      background:
-        radial-gradient(circle at top, rgba(139,92,246,0.14), transparent 36%),
-        rgba(255,255,255,0.04);
-    }
-
-    .qr-shell {
-      width: min(100%, 260px);
-      padding: 16px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .qr-shell img {
-      border-radius: 18px;
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      cursor: zoom-in;
-    }
-
-    .footer {
-      padding: 28px 0 50px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background: rgba(3, 8, 15, 0.88);
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-      z-index: 1500;
-    }
-
-    .lightbox.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .lightbox-inner {
-      position: relative;
-      width: min(1100px, 100%);
-      max-height: 92vh;
-      border-radius: 24px;
-      overflow: hidden;
-      background: rgba(8,18,31,0.9);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.45);
-    }
-
-    .lightbox img {
-      width: 100%;
-      max-height: 82vh;
-      object-fit: contain;
-      background: #040a13;
-    }
-
-    .lightbox-caption {
-      padding: 14px 18px;
-      color: #dce9ff;
-      font-size: 14px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: none;
-      color: var(--text);
-      cursor: pointer;
-      font-size: 20px;
-      background: rgba(7,17,31,0.72);
-      border: 1px solid rgba(255,255,255,0.12);
-      z-index: 2;
-    }
-
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 28px;
-      background: rgba(7,17,31,0.72);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-      z-index: 2;
-      display: none;
-    }
-
-    .lightbox-nav:hover {
-      background: rgba(96,165,250,0.25);
-      border-color: rgba(96,165,250,0.3);
-    }
-
-    .lightbox-nav-prev { left: 14px; }
-    .lightbox-nav-next { right: 14px; }
-
-    .empty-state {
-      padding: 30px;
-      border-radius: 24px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.04);
-      display: none;
-    }
-
-    .vibecoding-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .vibecoding-card {
-      border-radius: 24px;
-      overflow: hidden;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .vibecoding-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(96, 165, 250, 0.32);
-      box-shadow: 0 22px 42px rgba(0,0,0,0.25);
-    }
-
-    .vibecoding-card-img {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.3);
-    }
-
-    .vibecoding-card-img {
-      cursor: pointer;
-    }
-
-    .vibecoding-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transition: transform 0.6s ease;
-    }
-
-    .vibecoding-card-img-hint {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(7,17,31,0.72);
-      backdrop-filter: blur(8px);
-      font-size: 12px;
-      color: #dce9ff;
-      border: 1px solid rgba(255,255,255,0.1);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .vibecoding-carousel-dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .vibecoding-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(255,255,255,0.25);
-      transition: var(--transition);
-    }
-
-    .vibecoding-dot.active {
-      background: #fff;
-      border-color: #fff;
-      box-shadow: 0 0 8px rgba(255,255,255,0.5);
-    }
-
-    .vibecoding-carousel-img {
-      transition: opacity 0.4s ease;
-    }
-
-    .vibecoding-card-body {
-      padding: 18px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .vibecoding-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .vibecoding-card-head h3 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .vibecoding-badge {
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--accent);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .vibecoding-card-body p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    .vibecoding-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .vibecoding-tags span {
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #d7e4f7;
-    }
-
-    .otherworks-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
-    }
-
-    .otherwork-card {
-      border-radius: 24px;
-      overflow: hidden;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .otherwork-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(96, 165, 250, 0.32);
-      box-shadow: 0 22px 42px rgba(0,0,0,0.25);
-    }
-
-    .otherwork-cover {
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: rgba(0,0,0,0.3);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      position: relative;
-      cursor: pointer;
-    }
-
-    .otherwork-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .otherwork-card:hover .otherwork-cover img {
-      transform: scale(1.06);
-    }
-
-    .otherwork-play-btn {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: rgba(7,17,31,0.35);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .otherwork-cover:hover .otherwork-play-btn {
-      opacity: 1;
-    }
-
-    .otherwork-play-btn svg {
-      width: 56px;
-      height: 56px;
-      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
-      transition: transform 0.25s ease;
-    }
-
-    .otherwork-cover:hover .otherwork-play-btn svg {
-      transform: scale(1.08);
-    }
-
-    .otherwork-body {
-      padding: 18px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .otherwork-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .otherwork-head h3 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .otherwork-badge {
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--accent);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .otherwork-body audio {
-      width: 100%;
-      height: 40px;
-      border-radius: 8px;
-    }
-
-    .otherwork-body audio::-webkit-media-controls-panel {
-      background: rgba(255,255,255,0.06);
-    }
-
-    .otherwork-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .otherwork-tags span {
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #d7e4f7;
-    }
-
-    @keyframes floatGlow {
-      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(10px, 18px, 0) scale(1.06); }
-    }
-
-    @media (max-width: 1120px) {
-      .hero-shell,
-      .overview-grid,
-      .awards-layout,
-      .contact-shell,
-      .project-top,
-      .project-bottom {
-        grid-template-columns: 1fr;
-      }
-
-      .skills-grid,
-      .vibecoding-grid,
-      .otherworks-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        width: min(var(--max-width), calc(100% - 24px));
-      }
-
-      .navbar {
-        padding: 14px;
-        border-radius: 18px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 26px 0 10px;
-      }
-
-      .hero-main,
-      .hero-side,
-      .overview-card,
-      .project-card,
-      .contact-card-large,
-      .contact-card-side {
-        padding: 22px;
-      }
-
-      .stats-grid,
-      .skills-grid,
-      .certificate-grid,
-      .vibecoding-grid,
-      .otherworks-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .thumb-row {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .section {
-        padding: 72px 0;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .hero-title {
-        font-size: 38px;
-      }
-
-      .project-title {
-        font-size: 26px;
-      }
-
-      .thumb-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .hero-meta,
-      .hero-actions,
-      .filters {
-        gap: 10px;
-      }
-
-      .project-card,
-      .work-block,
-      .project-side-info,
-      .award-item,
-      .skill-card,
-      .project-video-card {
-        border-radius: 22px;
-      }
-    }
-  </style>
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 20%, rgba(94, 106, 210, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 15%, rgba(113, 112, 255, 0.08), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(94, 106, 210, 0.06), transparent 50%),
+    linear-gradient(180deg, #08090a 0%, #0b0d12 50%, #08090a 100%);
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent 75%);
+  pointer-events: none;
+}
+
+body.modal-open { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+::selection { background: rgba(113, 112, 255, 0.35); color: #fff; }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; width: 0; height: 2px;
+  z-index: 1200;
+  background: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet));
+  box-shadow: 0 0 14px rgba(94, 106, 210, 0.5);
+  transition: width 0.1s linear;
+}
+
+.container { width: min(var(--max-width), calc(100% - 48px)); margin: 0 auto; }
+
+.section { padding: 120px 0; position: relative; }
+
+.section-header { margin-bottom: 48px; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+  font-size: 13px; font-weight: 510; letter-spacing: -0.13px;
+  color: var(--text-tertiary);
+}
+.section-label-bar {
+  width: 28px; height: 2px;
+  background: var(--accent-indigo);
+  border-radius: 1px;
+}
+
+.section-title {
+  font-size: clamp(32px, 3.2vw, 52px);
+  font-weight: 510;
+  line-height: 1.04;
+  letter-spacing: -1.2px;
+  color: var(--text-primary);
+}
+
+.section-desc {
+  color: var(--text-tertiary);
+  max-width: 620px;
+  font-size: 16px; font-weight: 400; line-height: 1.7;
+  margin-top: 16px;
+}
+
+.glass-panel {
+  background: rgba(15, 16, 17, 0.75);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-lg);
+  transition: var(--transition);
+}
+.glass-panel:hover {
+  border-color: rgba(255,255,255,0.10);
+  background: rgba(15, 16, 17, 0.82);
+}
+
+.glass-card {
+  background: rgba(15, 16, 17, 0.65);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+.glass-card:hover {
+  border-color: rgba(94, 106, 210, 0.20);
+  background: rgba(15, 16, 17, 0.75);
+}
+
+.module-top-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 510;
+  color: var(--text-quaternary);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.module-top-btn:hover {
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+}
+
+.navbar-wrap {
+  position: sticky; top: 20px; z-index: 1000;
+  padding-top: 20px;
+}
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 10px 16px;
+  background: rgba(10, 11, 13, 0.82);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: var(--transition);
+}
+.navbar.scrolled {
+  border-color: rgba(255,255,255,0.10);
+  background: rgba(10, 11, 13, 0.92);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-badge {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: 14px; font-weight: 590;
+  background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+  color: #fff;
+  flex-shrink: 0;
+}
+.brand-text { min-width: 0; }
+.brand-text h1 {
+  font-size: 14px; font-weight: 590; line-height: 1.3;
+  letter-spacing: -0.2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.brand-text p { font-size: 11px; color: var(--text-quaternary); font-weight: 400; }
+
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-links a {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 13px; font-weight: 510; color: var(--text-tertiary);
+  transition: var(--transition);
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.06);
+}
+
+.hero {
+  padding: 60px 0 40px;
+  min-height: calc(100vh - 30px);
+  display: flex; align-items: center;
+}
+.hero-shell { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 28px; align-items: stretch; }
+
+.hero-main {
+  padding: 44px;
+  border-radius: 24px;
+  background: rgba(15, 16, 17, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.hero-main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 0% 0%, rgba(94, 106, 210, 0.12), transparent),
+    radial-gradient(ellipse 40% 30% at 100% 100%, rgba(113, 112, 255, 0.08), transparent);
+  pointer-events: none;
+}
+.hero-side {
+  padding: 28px;
+  border-radius: 24px;
+  background: rgba(15, 16, 17, 0.5);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 12px; font-weight: 510; color: var(--text-tertiary);
+}
+.eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #27a644;
+  box-shadow: 0 0 8px rgba(39, 166, 68, 0.5);
+}
+
+.hero-title {
+  font-size: clamp(40px, 5.8vw, 68px);
+  font-weight: 510;
+  line-height: 1.02;
+  letter-spacing: -1.5px;
+  margin-bottom: 18px;
+}
+.gradient-text {
+  background: linear-gradient(135deg, #7c8aff, var(--accent-violet), #a78bfa);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(17px, 1.6vw, 20px);
+  font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.hero-desc {
+  font-size: 15px; font-weight: 400; line-height: 1.7;
+  color: var(--text-tertiary);
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.hero-pill {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 13px; font-weight: 400; color: var(--text-tertiary);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 20px; border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 14px; font-weight: 510; line-height: 1.4;
+  transition: var(--transition); cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(94, 106, 210, 0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(94, 106, 210, 0.35);
+}
+.btn-secondary {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+}
+
+.hero-side { display: flex; flex-direction: column; gap: 18px; }
+
+.hero-card {
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-card h3 {
+  font-size: 12px; font-weight: 590; color: var(--text-quaternary);
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.stat-card {
+  padding: 14px; border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.stat-value { font-size: 26px; font-weight: 590; line-height: 1; margin-bottom: 3px; background: linear-gradient(135deg, var(--text-primary), var(--accent-indigo)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat-label { font-size: 11px; color: var(--text-quaternary); font-weight: 400; }
+
+.mini-list { display: grid; gap: 12px; }
+.mini-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+}
+.mini-icon {
+  width: 26px; height: 26px; border-radius: 7px;
+  display: grid; place-items: center; flex-shrink: 0;
+  background: rgba(94, 106, 210, 0.15);
+  color: var(--accent-indigo);
+  font-size: 12px; font-weight: 590;
+}
+
+.floating-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.floating-tags span {
+  padding: 5px 10px; border-radius: 9999px;
+  font-size: 11px; font-weight: 510;
+  color: var(--text-tertiary);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.overview-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: start; }
+.overview-grid > .overview-card:last-child { overflow-y: auto; scrollbar-gutter: stable; }
+.overview-grid > .overview-card:last-child::-webkit-scrollbar { width: 4px; }
+.overview-grid > .overview-card:last-child::-webkit-scrollbar-track { background: transparent; }
+.overview-grid > .overview-card:last-child::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.overview-card { padding: 28px; border-radius: 20px; }
+.overview-card h3 {
+  font-size: 20px; font-weight: 590; line-height: 1.3; letter-spacing: -0.3px;
+  margin-bottom: 16px;
+}
+.overview-card p, .overview-card li { color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+.overview-card ul { list-style: none; display: grid; gap: 14px; }
+.overview-card li { padding-left: 20px; position: relative; }
+.overview-card li::before {
+  content: ""; position: absolute; left: 0; top: 9px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent-indigo);
+}
+.overview-card li strong { color: var(--text-primary); font-weight: 510; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.skill-card { padding: 24px; border-radius: 18px; }
+.skill-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+.skill-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: grid; place-items: center;
+  font-size: 17px; margin-bottom: 16px;
+  background: rgba(94, 106, 210, 0.12);
+  color: var(--accent-indigo); font-weight: 590;
+}
+.skill-card h3 { font-size: 17px; font-weight: 590; line-height: 1.3; letter-spacing: -0.25px; margin-bottom: 8px; }
+.skill-card p { color: var(--text-tertiary); font-size: 14px; line-height: 1.7; }
+.skills-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.skills-tags span {
+  padding: 3px 8px; border-radius: 9999px;
+  font-size: 11px; font-weight: 510;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-tertiary);
+}
+
+.projects-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 6px 14px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--text-quaternary);
+  cursor: pointer; transition: var(--transition);
+  font-size: 13px; font-weight: 510;
+}
+.filter-btn.active, .filter-btn:hover {
+  color: var(--text-primary);
+  background: rgba(94, 106, 210, 0.15);
+  border-color: rgba(94, 106, 210, 0.3);
+}
+.project-count { color: var(--text-quaternary); font-size: 13px; font-weight: 400; }
+
+.projects-grid { display: grid; gap: 28px; }
+.project-card { padding: 28px; border-radius: 24px; }
+.project-card.hidden { display: none; }
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); border-color: rgba(94, 106, 210, 0.15); }
+
+.project-top { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; align-items: start; }
+.project-copy { display: grid; gap: 16px; }
+
+.project-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.project-title-wrap { min-width: 0; }
+.project-title {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 510; line-height: 1.02; letter-spacing: -0.8px;
+  margin-bottom: 6px;
+}
+.project-date { font-size: 13px; font-weight: 510; color: var(--text-quaternary); letter-spacing: -0.13px; }
+.project-badge {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 510; color: var(--text-tertiary);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+}
+
+.project-desc {
+  padding: 16px 18px; border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-secondary); font-size: 14px; line-height: 1.7;
+}
+.project-desc strong { color: var(--text-primary); }
+
+.project-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.project-tags span {
+  padding: 4px 10px; border-radius: 9999px;
+  font-size: 11px; font-weight: 510;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-tertiary);
+}
+
+.project-cap-labels { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.project-cap-labels span {
+  padding: 3px 10px; border-radius: 9999px;
+  font-size: 11px; font-weight: 590;
+  background: rgba(94, 106, 210, 0.10);
+  border: 1px solid rgba(94, 106, 210, 0.18);
+  color: var(--accent-indigo);
+}
+
+.project-highlight {
+  padding: 14px 16px; border-radius: 10px;
+  background: rgba(94, 106, 210, 0.10);
+  border: 1px solid rgba(94, 106, 210, 0.18);
+  color: var(--text-secondary); font-size: 14px; line-height: 1.7;
+  border-left: 3px solid var(--accent-indigo);
+}
+.project-highlight strong { color: var(--text-primary); }
+
+.project-gallery { display: grid; gap: 12px; }
+.project-main {
+  position: relative; border-radius: 12px;
+  overflow: hidden; aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.4);
+}
+.main-gallery-video { width: 100%; height: 100%; display: block; background: #030812; object-fit: contain; }
+.bilibili-embed { width: 100%; height: 100%; aspect-ratio: 16 / 9; border: none; background: #030812; }
+.project-main img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease; cursor: zoom-in;
+}
+.project-card:hover .project-main img { transform: scale(1.04); }
+
+.project-main-overlay {
+  position: absolute; inset: auto 0 0 0; padding: 14px;
+  background: linear-gradient(to top, rgba(8,9,10,0.85), rgba(8,9,10,0));
+  display: flex; justify-content: space-between; align-items: end; gap: 10px;
+}
+.project-main-overlay span { font-size: 12px; color: var(--text-tertiary); }
+
+.thumb-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; }
+.thumb {
+  position: relative; border-radius: 8px;
+  overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+  aspect-ratio: 1.25; cursor: pointer;
+  background: rgba(255,255,255,0.02);
+  transition: var(--transition);
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb.active, .thumb:hover { border-color: rgba(94, 106, 210, 0.4); transform: translateY(-2px); }
+
+.project-bottom { display: grid; grid-template-columns: 1fr 0.8fr; gap: 20px; margin-top: 24px; }
+.work-block, .project-side-info {
+  padding: 20px; border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.work-block h4, .project-side-info h4 {
+  font-size: 14px; font-weight: 590; letter-spacing: -0.15px;
+  margin-bottom: 14px; color: var(--text-primary);
+}
+.work-list { list-style: none; display: grid; gap: 10px; }
+.work-list li {
+  padding-left: 18px; position: relative;
+  color: var(--text-secondary); font-size: 14px; line-height: 1.6;
+}
+.work-list li::before {
+  content: ""; position: absolute; left: 0; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent-indigo);
+}
+
+.project-side-info dl { display: grid; gap: 12px; }
+.project-side-info dt { font-size: 11px; color: var(--text-quaternary); font-weight: 510; text-transform: uppercase; letter-spacing: 0.04em; }
+.project-side-info dd { color: var(--text-secondary); font-size: 14px; }
+.project-card-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+.awards-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+
+.award-list { display: grid; gap: 12px; }
+.award-list-inner { padding: 24px; border-radius: 20px; }
+.award-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 16px; border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: var(--transition);
+}
+.award-item:hover { transform: translateY(-2px); border-color: rgba(94, 106, 210, 0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.award-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: grid; place-items: center; flex-shrink: 0;
+  background: rgba(94, 106, 210, 0.12);
+  color: var(--accent-indigo);
+  font-size: 16px; font-weight: 590;
+}
+.award-item h4 { font-size: 15px; font-weight: 510; letter-spacing: -0.15px; margin-bottom: 3px; }
+.award-item p { font-size: 13px; color: var(--accent-violet); font-weight: 510; }
+
+.certificate-section { padding: 24px; border-radius: 20px; overflow-y: auto; scrollbar-gutter: stable; }
+.certificate-section::-webkit-scrollbar { width: 4px; }
+.certificate-section::-webkit-scrollbar-track { background: transparent; }
+.certificate-section::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.certificate-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.certificate-card {
+  position: relative; border-radius: 12px;
+  overflow: hidden;
+  cursor: zoom-in;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+}
+.certificate-card::before { content: ""; display: block; padding-bottom: 112%; }
+.certificate-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.certificate-card:hover img { transform: scale(1.06); }
+.certificate-card span {
+  position: absolute; inset: auto 10px 10px 10px;
+  padding: 8px 10px; border-radius: 8px;
+  background: rgba(8,9,10,0.75);
+  backdrop-filter: blur(8px);
+  font-size: 11px; color: var(--text-tertiary);
+  text-align: center;
+}
+
+
+.contact-shell { display: grid; grid-template-columns: 1fr 0.9fr; gap: 28px; align-items: stretch; }
+.contact-card-large, .contact-card-side { padding: 32px; border-radius: 24px; }
+.contact-title {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 510; line-height: 1.02; letter-spacing: -0.8px;
+  margin: 14px 0 12px;
+}
+.contact-desc { color: var(--text-tertiary); font-size: 15px; line-height: 1.7; margin-bottom: 24px; }
+.contact-list { display: grid; gap: 10px; }
+.contact-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.contact-item strong {
+  display: block; font-size: 11px; font-weight: 510;
+  color: var(--text-quaternary);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.contact-item span { font-size: 14px; color: var(--text-secondary); }
+.contact-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: grid; place-items: center; font-size: 15px;
+  background: rgba(94, 106, 210, 0.10);
+  color: var(--accent-indigo);
+  flex-shrink: 0;
+}
+
+.contact-card-side {
+  display: grid; place-items: center; gap: 16px; text-align: center;
+}
+.contact-card-side .section-label { justify-content: center; }
+.qr-shell {
+  width: min(100%, 200px); padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.qr-shell img { border-radius: 8px; width: 100%; aspect-ratio: 1; object-fit: cover; cursor: zoom-in; }
+
+.footer {
+  padding: 32px 0 48px;
+  color: var(--text-quaternary);
+  text-align: center;
+  font-size: 13px; font-weight: 400;
+}
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.lightbox {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.88);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1500;
+}
+.lightbox.active { opacity: 1; visibility: visible; }
+.lightbox-inner {
+  position: relative;
+  width: min(1100px, 100%); max-height: 90vh;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(15,16,17,0.96);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+.lightbox img { width: 100%; max-height: 80vh; object-fit: contain; }
+.lightbox-caption { padding: 12px 16px; color: var(--text-tertiary); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+.lightbox-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-primary); cursor: pointer; font-size: 18px;
+  background: rgba(8,9,10,0.7);
+  z-index: 2;
+}
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-primary); cursor: pointer; font-size: 24px;
+  background: rgba(8,9,10,0.7);
+  display: none; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.lightbox-nav:hover { background: rgba(94, 106, 210, 0.25); border-color: rgba(94, 106, 210, 0.3); }
+.lightbox-nav-prev { left: 12px; }
+.lightbox-nav-next { right: 12px; }
+
+.empty-state {
+  padding: 28px; border-radius: 12px;
+  text-align: center; color: var(--text-quaternary);
+  border: 1px dashed rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  display: none;
+}
+
+.capability-grid { display: grid; gap: 14px; }
+.cap-row {
+  display: grid; grid-template-columns: 160px 1fr; gap: 16px;
+  padding: 16px 20px; border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  align-items: start;
+  transition: var(--transition);
+}
+.cap-row:hover { border-color: rgba(94, 106, 210, 0.2); background: rgba(255,255,255,0.03); }
+.cap-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 590; color: var(--text-primary);
+  padding-top: 2px;
+}
+.cap-label .cap-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  display: grid; place-items: center;
+  font-size: 12px; font-weight: 590;
+  background: rgba(94, 106, 210, 0.12);
+  color: var(--accent-indigo);
+  flex-shrink: 0;
+}
+.cap-projects { display: flex; flex-wrap: wrap; gap: 8px; }
+.cap-projects span {
+  padding: 5px 10px; border-radius: 9999px;
+  font-size: 12px; font-weight: 510;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-tertiary);
+  cursor: default;
+  transition: var(--transition);
+}
+.cap-projects span:hover { color: var(--text-secondary); border-color: rgba(94, 106, 210, 0.25); }
+@media (max-width: 768px) {
+  .cap-row { grid-template-columns: 1fr; gap: 10px; }
+}
+
+.vibecoding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.vibecoding-card { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+.vibecoding-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.25); box-shadow: 0 12px 36px rgba(0,0,0,0.25); }
+.vibecoding-card-img {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.35);
+  cursor: pointer;
+}
+.vibecoding-card-img img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
+.vibecoding-card-img-hint {
+  position: absolute; right: 8px; bottom: 8px;
+  padding: 3px 8px; border-radius: 9999px;
+  background: rgba(8,9,10,0.7);
+  backdrop-filter: blur(6px);
+  font-size: 11px; color: var(--text-tertiary);
+  border: 1px solid rgba(255,255,255,0.06);
+  pointer-events: none; z-index: 2;
+}
+.vibecoding-carousel-dots {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 5px; z-index: 2; pointer-events: none;
+}
+.vibecoding-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.15); transition: var(--transition); }
+.vibecoding-dot.active { background: #fff; border-color: #fff; box-shadow: 0 0 6px rgba(255,255,255,0.4); }
+
+.vibecoding-card-body { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.vibecoding-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.vibecoding-card-head h3 { font-size: 14px; font-weight: 510; letter-spacing: -0.25px; }
+.vibecoding-badge {
+  padding: 2px 7px; border-radius: 9999px;
+  font-size: 10px; font-weight: 510;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-tertiary);
+  white-space: nowrap; flex-shrink: 0;
+}
+.vibecoding-card-body p { font-size: 12px; color: var(--text-quaternary); line-height: 1.5; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.vibecoding-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.vibecoding-tags span {
+  padding: 2px 7px; border-radius: 9999px; font-size: 10px; font-weight: 510;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-quaternary);
+}
+
+.otherworks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.otherwork-card { border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+.otherwork-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.2); box-shadow: 0 12px 36px rgba(0,0,0,0.25); }
+.otherwork-cover {
+  aspect-ratio: 1 / 1; overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative; cursor: pointer;
+}
+.otherwork-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.otherwork-card:hover .otherwork-cover img { transform: scale(1.06); }
+.otherwork-play-btn {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: rgba(8,9,10,0.35);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.otherwork-cover:hover .otherwork-play-btn { opacity: 1; }
+.otherwork-play-btn svg { width: 48px; height: 48px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); transition: transform 0.25s ease; }
+.otherwork-cover:hover .otherwork-play-btn svg { transform: scale(1.08); }
+.otherwork-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.otherwork-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.otherwork-head h3 { font-size: 16px; font-weight: 510; letter-spacing: -0.25px; }
+.otherwork-badge {
+  padding: 3px 8px; border-radius: 9999px; font-size: 10px; font-weight: 510;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-tertiary); white-space: nowrap; flex-shrink: 0;
+}
+.otherwork-body audio { width: 100%; height: 36px; border-radius: 8px; }
+.otherwork-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.otherwork-tags span {
+  padding: 2px 7px; border-radius: 9999px; font-size: 10px; font-weight: 510;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-quaternary);
+}
+
+@media (max-width: 1120px) {
+  .hero-shell, .overview-grid, .awards-layout, .contact-shell, .project-top, .project-bottom {
+    grid-template-columns: 1fr;
+  }
+  .skills-grid, .otherworks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .vibecoding-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .container { width: min(var(--max-width), calc(100% - 24px)); }
+  .navbar { padding: 10px 12px; border-radius: 12px; }
+  .nav-links { display: none; }
+  .hero { min-height: auto; padding: 28px 0 16px; }
+  .hero-main, .hero-side, .overview-card, .project-card, .contact-card-large, .contact-card-side {
+    padding: 20px;
+  }
+  .stats-grid, .skills-grid, .certificate-grid, .vibecoding-grid, .otherworks-grid {
+    grid-template-columns: 1fr;
+  }
+  .thumb-row { grid-template-columns: repeat(3, 1fr); }
+  .section { padding: 72px 0; }
+}
+@media (max-width: 560px) {
+  .hero-title { font-size: 34px; }
+  .project-title { font-size: 24px; letter-spacing: -0.5px; }
+  .thumb-row { grid-template-columns: repeat(2, 1fr); }
+  .hero-meta, .hero-actions, .filters { gap: 8px; }
+  .project-card, .work-block, .project-side-info, .award-item, .skill-card { border-radius: 16px; }
+}
+</style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
-  <div class="noise"></div>
-  <div class="progress-bar" id="progressBar"></div>
+<div class="progress-bar" id="progressBar"></div>
 
-  <div class="container navbar-wrap">
-    <nav class="navbar glass" id="navbar">
-      <div class="brand">
-        <div class="brand-badge">🎮</div>
-        <div class="brand-text">
-          <h1>刘嘉琳｜Unity 游戏开发作品集</h1>
-          <p>Unity / C# / AI 交互 / VibeCoding</p>
+<div class="container navbar-wrap">
+  <nav class="navbar" id="navbar">
+    <div class="brand">
+      <div class="brand-badge">U</div>
+      <div class="brand-text">
+        <h1>刘嘉琳</h1>
+        <p>Unity 游戏开发 · 西安邮电大学</p>
+      </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#hero">首页</a>
+      <a href="#overview">概览</a>
+      <a href="#capabilities">能力</a>
+      <a href="#skills">技术</a>
+      <a href="#projects">项目</a>
+      <a href="#vibecoding">VibeCoding</a>
+      <a href="#otherworks">其他</a>
+      <a href="#awards">获奖</a>
+      <a href="#contact">联系</a>
+    </div>
+  </nav>
+</div>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-shell">
+        <div class="hero-main card-lg reveal">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>求职：Unity 游戏客户端开发实习生</span>
+          </div>
+          <h2 class="hero-title">
+            架构、AI、玩法<br />
+            <span class="gradient-text">用 Unity 把系统做深</span>
+          </h2>
+          <p class="hero-sub">刘嘉琳 · 西安邮电大学 · 数字媒体技术（大二）</p>
+          <p class="hero-desc">8 个完整项目，覆盖 2D 叙事、Topdown、解谜冒险、音游、判案推理等多品类。从 MVC 架构到 AI 智能体集成，从 GameJam 48h 交付到自行搭建 Unity Agent 工作流。</p>
+          <div class="hero-meta">
+            <span class="hero-pill">pp_LiuJL@163.com</span>
+            <span class="hero-pill">18729928628</span>
+            <span class="hero-pill">客户端 / 系统架构 / AI 交互 / VibeCoding</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">查看项目</a>
+            <a class="btn btn-secondary" href="#contact">联系我</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-links" id="navLinks">
-        <a href="#hero">首页</a>
-        <a href="#overview">概览</a>
-        <a href="#skills">技术能力</a>
-        <a href="#projects">项目作品</a>
-        <a href="#vibecoding">VibeCoding</a>
-        <a href="#otherworks">其他作品</a>
-        <a href="#awards">获奖经历</a>
-        <a href="#contact">联系我</a>
-      </div>
-    </nav>
-  </div>
 
-  <main>
-    <section class="hero" id="hero">
-      <div class="container">
-        <div class="hero-shell">
-          <div class="hero-main glass reveal">
-            <div class="eyebrow">
-              <span class="eyebrow-dot"></span>
-              <span>求职方向：Unity 游戏客户端开发实习生</span>
-            </div>
-            <h2 class="hero-title">
-              用 <span class="gradient-text">Unity</span> 把玩法、系统与叙事<br />
-              连接成可以被体验的世界。
-            </h2>
-            <p class="hero-sub">刘嘉琳｜西安邮电大学 - 数字媒体技术（大二）</p>
-            <p class="hero-desc">
-              围绕 Unity 游戏开发、AI 交互、玩法系统设计与科研展示构建的作品集。
-            </p>
-            <div class="hero-meta">
-              <span class="hero-pill">邮箱：pp_LiuJL@163.com</span>
-              <span class="hero-pill">电话：18729928628</span>
-              <span class="hero-pill">方向：客户端 / 交互系统 / AI玩法</span>
-            </div>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="#projects">查看项目作品</a>
-              <a class="btn btn-secondary" href="#contact">联系我</a>
+        <div class="hero-side card-lg reveal">
+          <div class="hero-card">
+            <h3>能力数据</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" data-count="8">0</div>
+                <div class="stat-label">完整项目</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" data-count="2">0</div>
+                <div class="stat-label">Steam / 上线</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" data-count="5">0</div>
+                <div class="stat-label">AI 交互项目</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" data-count="11">0</div>
+                <div class="stat-label">获奖 / 荣誉</div>
+              </div>
             </div>
           </div>
 
-          <div class="hero-side glass reveal">
-            <div class="hero-card">
-              <h3>作品概况</h3>
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <div class="stat-value" data-count="8">0</div>
-                  <div class="stat-label">核心项目</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-value" data-count="7">0</div>
-                  <div class="stat-label">技术能力模块</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-value" data-count="3">0</div>
-                  <div class="stat-label">游戏/AI/交互</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-value" data-count="10">0</div>
-                  <div class="stat-label">主要获奖 / 学业亮点</div>
-                </div>
+          <div class="hero-card">
+            <h3>核心能力</h3>
+            <div class="mini-list">
+              <div class="mini-item">
+                <div class="mini-icon">S</div>
+                <div><strong>系统架构</strong>：MVC 模块化、事件驱动通信、ScriptableObject/JSON 持久化，注重系统解耦与可扩展性。</div>
+              </div>
+              <div class="mini-item">
+                <div class="mini-icon">A</div>
+                <div><strong>AI 交互</strong>：阿里云百炼智能体接入、行为树 NPC 系统、多角色 AI 对话、体感交互与 VR 项目经历。</div>
+              </div>
+              <div class="mini-item">
+                <div class="mini-icon">V</div>
+                <div><strong>VibeCoding</strong>：有 AI 基础，搭建 Unity 游戏开发 Agent 工作流（OpenCode/Codex），了解 MCP、Skill 等协议。</div>
+              </div>
+              <div class="mini-item">
+                <div class="mini-icon">T</div>
+                <div><strong>工程与管理</strong>：团队技术负责人、Git 版本控制与资产整合、GameJam 48h 交付、Steam 商店页上架全流程。</div>
               </div>
             </div>
+          </div>
 
-            <div class="hero-card">
-              <h3>我擅长的方向</h3>
-              <div class="mini-list">
-                <div class="mini-item">
-                  <div class="mini-icon">🧩</div>
-                  <div>系统化开发：UI、战斗、关卡交互、任务、成就、手机系统等完整功能闭环。</div>
-                </div>
-                <div class="mini-item">
-                  <div class="mini-icon">🤖</div>
-                  <div>AI 与交互：行为树 AI、阿里云百炼接口接入、多角色对话与体感交互逻辑。</div>
-                </div>
-                <div class="mini-item">
-                  <div class="mini-icon">🛠️</div>
-                  <div>工程化意识：MVC 模块化、事件驱动、ScriptableObject / JSON 持久化与团队协作。</div>
-                </div>
-                <div class="mini-item">
-                  <div class="mini-icon">⚡</div>
-                  <div>VibeCoding：借助 DeepSeek、ChatGPT 等大语言模型与 OpenCode 等 AI 编程平台，以对话式编程实现从想法到原型的高效闭环。</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero-card">
-              <h3>关键词</h3>
-              <div class="floating-tags">
-                <span>Unity</span>
-                <span>C#</span>
-                <span>AI剧情</span>
-                <span>行为树</span>
-                <span>VibeCoding</span>
-                <span>AI编程</span>
-                <span>Steam上线</span>
-                <span>GameJam</span>
-                <span>Kinect动捕</span>
-                <span>系统架构</span>
-              </div>
+          <div class="hero-card">
+            <h3>能力标签</h3>
+            <div class="floating-tags">
+              <span>Unity / C#</span><span>MVC架构</span><span>AI智能体</span><span>NPC系统</span>
+              <span>Agent工作流</span><span>VR/体感</span><span>Steam上线</span>
+              <span>GameJam</span><span>A*寻路</span><span>MCP/Skill</span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" id="overview">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">Portfolio Overview</div>
-            <h2 class="section-title">把项目经验整理成可被快速理解的能力地图</h2>
-          </div>
-          <p class="section-desc">
-            四个维度：玩法与系统实现能力、AI / 交互技术融合能力、VibeCoding（AI 驱动快速原型），以及在比赛、科研与上线项目中的完整开发经历。
-          </p>
+  <section class="section" id="overview">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Portfolio Overview</div>
+        <h2 class="section-title">不只是做功能 —— 我在构建可扩展的系统</h2>
+        <p class="section-desc">从架构设计到 AI 融合，从 GameJam 48h 极限交付到 Steam 上架全流程，8 个项目覆盖 4 条能力主线。</p>
+      </div>
+      <div class="overview-grid">
+        <div class="overview-card card-lg reveal">
+          <h3>核心能力矩阵</h3>
+          <ul>
+            <li><strong>系统架构能力</strong> —— MVC 模块化架构、事件驱动通信、ScriptableObject/JSON 可配置数据持久化，注重系统解耦与可扩展性。</li>
+            <li><strong>AI 融合能力</strong> —— 阿里云百炼智能体对接、行为树 NPC 系统、多角色 AI 对话、VR 项目经历与 Kinect 体感交互。</li>
+            <li><strong>VibeCoding 工程化</strong> —— 有 AI 基础，搭建 Unity 游戏开发 Agent 工作流（OpenCode / Codex），了解 MCP、Skill 等协议。多个 H5 项目验证工作流效率。</li>
+            <li><strong>团队与交付</strong> —— 技术负责人、Git 分支管理与资产整合、GameJam 获奖、Steam 商店页上架与初始包构建。</li>
+          </ul>
         </div>
-
-        <div class="overview-grid">
-          <div class="overview-card glass reveal">
-            <h3>我可以带来的价值</h3>
+          <div class="overview-card card-lg reveal">
+            <h3>项目经历时间线</h3>
             <ul>
-              <li>能够独立从需求拆解到功能闭环完成 Unity 游戏客户端核心模块开发。</li>
-              <li>具备将 AI、交互设计与玩法系统结合的意识，而不只是单点功能实现。</li>
-              <li>熟悉多项目类型：2D 平台跳跃、3D 音游系统、AI 判案 GameJam、科研展示与体感交互。</li>
-              <li>重视代码可维护性与解耦，能在项目推进中同时考虑架构、配置化与后续扩展空间。</li>
+              <li><strong>2025.5 - 2025.7 — Kinect 2D 皮影动捕系统</strong><br>体感捕捉、2D 映射、物理驱动、科研展示。</li>
+              <li><strong>2025.8 - 2025.10 — HalfWay / 中途</strong><br>GameJam 判案玩法、证物拖拽分类、场景切换与倒计时流程。</li>
+              <li><strong>2025.9 - 2025.12 — GlowBorn / 光裔</strong><br>2D 平台跳跃、多形态技能、Boss AI、关卡整合与 Steam 商店页。</li>
+              <li><strong>2025.12 - 持续 — VibeCoding H5 项目</strong><br>LoopMaster 编曲工具、Frequency Guard 塔防音游、BounceHero 等。</li>
+              <li><strong>2026.1 - 2026.3 — 3D 音游手机系统</strong><br>虚拟手机系统、AI 聊天 App、日历任务与数据持久化架构。</li>
+              <li><strong>2026.2 - 2026.3 — 情绪漂流瓶</strong><br>动态天气、漂流瓶交互、深海钓取与 AI 回复逻辑。</li>
+              <li><strong>2026.4 - 2026.5 — 遗忘之匣·回响</strong><br>2D 平台跳跃、记忆碎片与环境联动、非线性箱庭关卡、多结局系统。</li>
+              <li><strong>2026.5 - 2026.6 — Iterate / 迭代</strong><br>CorgiEngine 框架、AI 寻路、阿里云百炼 AI 剧情、多周目叙事。</li>
+              <li><strong>2026.7 — Dream Who To Be</strong><br>CIGA 西安站 GameJam、TopdownEngine 3D、双梦境玩法、Agent 工作流。</li>
             </ul>
           </div>
-
-          <div class="overview-card glass reveal">
-            <h3>项目经历时间线</h3>
-            <div class="timeline-line">
-              <div class="timeline-node">
-                <strong>2025.5 - 2025.7｜Kinect 2D 皮影动捕系统</strong>
-                <span>体感捕捉、2D 映射、物理驱动、科研展示。</span>
-              </div>
-              <div class="timeline-node">
-                <strong>2025.8 - 2025.10｜HalfWay / 中途</strong>
-                <span>GameJam 判案玩法、证物拖拽分类、场景切换与倒计时流程。</span>
-              </div>
-              <div class="timeline-node">
-                <strong>2025.9 - 2025.12｜GlowBorn / 光裔</strong>
-                <span>2D 平台跳跃、多形态技能、Boss AI、关卡整合与 Steam 商店页。</span>
-              </div>
-                <div class="timeline-node">
-                  <strong>2025.12 - 持续｜VibeCoding H5 实验项目</strong>
-                  <span>以 VibeCoding 工作流驱动的 H5 实验项目，涵盖 LoopMaster 编曲工具、Frequency Guard 塔防音游、BounceHero、飞行棋等。</span>
-                </div>
-                <div class="timeline-node">
-                  <strong>2026.1 - 2026.3｜3D 音游手机系统</strong>
-                  <span>虚拟手机系统、AI 聊天 App、日历任务与数据持久化架构。</span>
-                </div>
-              <div class="timeline-node">
-                <strong>2026.2 - 2026.3｜情绪漂流瓶</strong>
-                <span>动态天气、漂流瓶交互、深海钓取与 AI 回复逻辑。</span>
-              </div>
-              <div class="timeline-node">
-                <strong>2026.4 - 2026.5｜遗忘之匣·回响</strong>
-                <span>2D平台跳跃框架、记忆碎片与环境状态联动、非线性箱庭关卡、多NPC交互与多结局系统。</span>
-              </div>
-              <div class="timeline-node">
-                <strong>2026.5 - 2026.6｜Iterate / 迭代</strong>
-                <span>CorgiEngine框架、AI寻路与智能行为、阿里云百炼AI剧情、多周目意识进化叙事。</span>
-              </div>
-              <div class="timeline-node">
-                <strong>2026.7.3-2026.7.5｜Dream Who To Be / 我想成为谁</strong>
-                <span>CIGA 西安站 GameJam、TopdownEngine 3D、双梦境玩法、Agent 工作流。</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
         </div>
       </div>
-    </section>
-
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">Technical Capabilities</div>
-            <h2 class="section-title">技术能力</h2>
-          </div>
-          <p class="section-desc"></p>
-        </div>
-        <div class="skills-grid" id="skillsGrid"></div>
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
       </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">Selected Works</div>
-            <h2 class="section-title">项目作品</h2>
-          </div>
-          <p class="section-desc">支持按项目类型筛选，并可点击缩略图切换主展示内容；每个项目的第一项为展示视频，后续仍为图片素材。</p>
-        </div>
-
-        <div class="projects-toolbar reveal">
-          <div class="filters" id="projectFilters"></div>
-          <div class="project-count" id="projectCount"></div>
-        </div>
-
-        <div class="projects-grid" id="projectsGrid"></div>
-        <div class="empty-state" id="emptyState">当前筛选条件下暂无项目展示。</div>
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="vibecoding">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">VibeCoding</div>
-            <h2 class="section-title">网页 H5 小作品</h2>
-          </div>
-          <p class="section-desc">以 VibeCoding 工作流驱动的 H5 实验项目——借助大语言模型与 AI 编程平台实现从构思到原型的高效闭环，涵盖工具、游戏与展示页</p>
-        </div>
-        <div class="vibecoding-grid" id="vibecodingGrid"></div>
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="otherworks">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">Other Works</div>
-            <h2 class="section-title">其他作品</h2>
-          </div>
-          <p class="section-desc">兴趣爱好发展方面，自学 FL Studio 进行音乐创作</p>
-        </div>
-        <div class="otherworks-grid" id="otherworksGrid"></div>
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="awards">
-      <div class="container">
-        <div class="section-header reveal">
-          <div>
-            <div class="section-label">Awards [&] Recognition</div>
-            <h2 class="section-title">获奖经历</h2>
-          </div>
-          <p class="section-desc">包含比赛奖项、学业能力亮点，以及证书与展示海报图片。</p>
-        </div>
-
-        <div class="awards-layout">
-          <div class="award-list glass reveal" id="awardList" style="padding: 22px;"></div>
-          <div class="glass reveal" style="padding: 22px; border-radius: 30px;">
-            <div class="certificate-grid" id="certificateGrid"></div>
-          </div>
-        </div>
-
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="contact-shell">
-          <div class="contact-card-large glass reveal">
-            <div class="section-label">Contact</div>
-            <h2 class="contact-title">感谢您的观看</h2>
-            <p class="contact-desc">
-              我始终保持对游戏开发的热爱与探索，期待能加入优秀的游戏开发团队，贡献自己的技术与创意。
-            </p>
-            <div class="contact-list">
-              <div class="contact-item">
-                <div class="contact-icon">📱</div>
-                <div>
-                  <strong>电话</strong>
-                  <span>18729928628</span>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">✉️</div>
-                <div>
-                  <strong>邮箱</strong>
-                  <span>pp_LiuJL@163.com</span>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">🎯</div>
-                <div>
-                  <strong>求职意向</strong>
-                  <span>Unity 游戏客户端开发实习生</span>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">🏫</div>
-                <div>
-                  <strong>学校 / 专业</strong>
-                  <span>西安邮电大学｜数字媒体技术（大二）</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="contact-card-side glass reveal">
-            <div>
-              <div class="section-label" style="justify-content:center;">二维码</div>
-              <h3 style="font-size: 24px; margin-bottom: 10px;">更多内容入口</h3>
-              <p style="color: var(--muted); margin-bottom: 18px;"></p>
-            </div>
-            <a class="btn btn-GitHub" href="https://github.com/lili6-6" target="_blank" rel="noopener noreferrer">查看GitHub</a>
-            <div class="qr-shell">
-              <img src="img/github_qrcode.jpg" alt="GitHub二维码" data-lightbox="GitHub二维码" />
-            </div>
-          </div>
-        </div>
-
-        <div class="module-footer-action reveal">
-          <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">© 2026 刘嘉琳 - Unity 游戏开发作品集 | 西安邮电大学数字媒体技术</div>
-  </footer>
-
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-inner">
-      <button class="lightbox-close" id="lightboxClose" aria-label="关闭">×</button>
-      <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="上一张">‹</button>
-      <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="下一张">›</button>
-      <img id="lightboxImage" src=" " alt="" />
-      <div class="lightbox-caption" id="lightboxCaption"></div>
     </div>
+  </section>
+
+  <section class="section" id="capabilities">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Capability Matrix</div>
+        <h2 class="section-title">能力 × 项目映射</h2>
+        <p class="section-desc">每个项目对应不同的能力维度，快速了解我的技术覆盖面。</p>
+      </div>
+      <div class="capability-grid" id="capabilityGrid"></div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Technical Capabilities</div>
+        <h2 class="section-title">技术能力</h2>
+      </div>
+      <div class="skills-grid" id="skillsGrid"></div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Selected Works</div>
+        <h2 class="section-title">项目作品</h2>
+        <p class="section-desc">支持按项目类型筛选，点击缩略图切换主展示内容。</p>
+      </div>
+      <div class="projects-toolbar reveal">
+        <div class="filters" id="projectFilters"></div>
+        <div class="project-count" id="projectCount"></div>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+      <div class="empty-state" id="emptyState">当前筛选条件下暂无项目展示。</div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vibecoding">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> VibeCoding</div>
+        <h2 class="section-title">AI Agent 驱动的游戏快速原型</h2>
+        <p class="section-desc">基于 Agent 工作流（OpenCode、Codex 等），自行搭建 Unity 游戏开发 Agent pipeline，实现从自然语言描述到可运行游戏原型的高效闭环。同时也产出多个 H5 小游戏验证工作流。</p>
+      </div>
+      <div class="vibecoding-grid" id="vibecodingGrid"></div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="otherworks">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Other Works</div>
+        <h2 class="section-title">其他作品</h2>
+        <p class="section-desc">兴趣爱好方面，自学 FL Studio 进行音乐创作。</p>
+      </div>
+      <div class="otherworks-grid" id="otherworksGrid"></div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="awards">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label"><span class="section-label-bar"></span> Awards & Recognition</div>
+        <h2 class="section-title">获奖经历</h2>
+        <p class="section-desc">包含比赛奖项、学业能力亮点，以及证书与展示海报图片。</p>
+      </div>
+      <div class="awards-layout">
+        <div class="award-list-inner card-lg reveal">
+          <div class="award-list" id="awardList"></div>
+        </div>
+        <div class="certificate-section card-lg reveal">
+          <div class="certificate-grid" id="certificateGrid"></div>
+        </div>
+      </div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-shell">
+        <div class="contact-card-large card-lg reveal">
+          <div class="section-label"><span class="section-label-bar"></span> Contact</div>
+          <h2 class="contact-title">感谢您的观看</h2>
+          <p class="contact-desc">我始终保持对游戏开发的热爱与探索，期待能加入优秀的游戏开发团队，贡献自己的技术与创意。</p>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon">T</div>
+              <div><strong>电话</strong><span>18729928628</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">E</div>
+              <div><strong>邮箱</strong><span>pp_LiuJL@163.com</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">R</div>
+              <div><strong>求职意向</strong><span>Unity 游戏客户端开发实习生</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">S</div>
+              <div><strong>学校 / 专业</strong><span>西安邮电大学 · 数字媒体技术（大二）</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">E</div>
+              <div><strong>英语能力</strong><span>CET-4，能阅读英文技术文档与 API</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card-side card-lg reveal">
+          <div class="section-label">GitHub</div>
+          <a class="btn btn-secondary" href="https://github.com/lili6-6" target="_blank" rel="noopener noreferrer">查看 GitHub</a>
+          <div class="qr-shell">
+            <img src="img/github_qrcode.jpg" alt="GitHub 二维码" data-lightbox="GitHub 二维码" />
+          </div>
+        </div>
+      </div>
+      <div class="module-footer-action reveal">
+        <a class="module-top-btn" href="#hero">↑ 顶部</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">&copy; 2026 刘嘉琳 · Unity 游戏开发作品集 · 西安邮电大学数字媒体技术</div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="关闭">&times;</button>
+    <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="上一张">&lsaquo;</button>
+    <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="下一张">&rsaquo;</button>
+    <img id="lightboxImage" src="" alt="" />
+    <div class="lightbox-caption" id="lightboxCaption"></div>
   </div>
-
-  <script>
-    const skills = [
-      {
-        icon: "💻",
-        title: "引擎与语言",
-        desc: "熟练使用 Unity、C#，可独立开发游戏功能模块与核心系统，掌握面向组件与面向对象开发思想，具备扎实的编码规范和逻辑能力。",
-        tags: ["Unity", "C#", "组件化", "OOP"]
-      },
-      {
-        icon: "⚙️",
-        title: "系统开发",
-        desc: "具备 UI 菜单、角色技能、多形态玩法、场景交互、Boss 行为树、天气、成就、虚拟手机系统等系统化开发经验，能独立完成功能闭环。",
-        tags: ["UI", "角色技能", "Boss AI", "任务系统"]
-      },
-      {
-        icon: "🧰",
-        title: "插件与工具",
-        desc: "熟练使用 DOTweenPro、Behavior Designer、Modern UI Pack、CorgiEngine、Cinemachine 等主流插件，能高效提升开发效率。",
-        tags: ["DOTweenPro", "Behavior Designer", "Cinemachine", "CorgiEngine"]
-      },
-      {
-        icon: "🤖",
-        title: "AI 与交互",
-        desc: "掌握行为树 AI、阿里云百炼智能体接入、多角色 AI 对话剧情推进、Kinect 体感捕捉及 3D→2D 动作映射，了解虚拟现实交互逻辑。",
-        tags: ["行为树", "阿里云百炼", "AI剧情", "Kinect"]
-      },
-      {
-        icon: "🗂️",
-        title: "架构与数据",
-        desc: "熟悉 MVC 模块化架构、事件驱动设计、数据持久化（ScriptableObject、JSON），注重系统解耦与功能联动，保障代码可维护性。",
-        tags: ["MVC", "事件驱动", "ScriptableObject", "JSON"]
-      },
-      {
-        icon: "🤝",
-        title: "项目协作",
-        desc: "掌握 Git 基础操作，参与 Unity GameJam、Steam 上线项目及科研全流程开发，具备团队协作和项目流程意识。",
-        tags: ["Git", "GameJam", "Steam", "协作流程"]
-      },
-      {
-        icon: "⚡",
-        title: "VibeCoding / AI 驱动开发",
-        desc: "实践 VibeCoding 工作流——借助 DeepSeek、ChatGPT 等大语言模型与 OpenCode 等 AI 编程平台，以对话式编程与快速迭代为核心，实现从想法到可运行原型的 accelerated prototyping 闭环。在多个 H5 项目中验证了「构思→编码→调优」的高效开发模式。",
-        tags: ["VibeCoding", "DeepSeek", "OpenCode", "快速迭代"]
-      }
-    ];
-
-    const filters = ["全部", "游戏开发", "AI交互", "科研展示", "Steam", "GameJam"];
-
-    // video.src 请替换为你的实际视频文件路径，建议统一放在 video/ 目录。
-    const projects = [
-      {
-        title: "Dream Who To Be / 我想成为谁",
-        date: "2026.7.3-2026.7.5",
-        badge: "CIGA 西安站 GameJam / 第三人称 3D 剧情游戏",
-        category: ["游戏开发", "GameJam"],
-        tags: ["TopdownEngine", "3D", "第三人称", "Agent工作流", "场景交互", "VibeCoding"],
-        desc: "<strong>项目简介：</strong>一款第三人称 3D 剧情游戏。玩家通过童年的消防车与听诊器进入不同梦境，体验消防员与医生的职责与使命。在一次次选择与经历中，寻找属于自己的成长锚点，最终明白：比梦想成为谁更重要的，是成为一个愿意帮助他人的人。",
-        work: [
-          "基于 TopdownEngine 框架扩展开发第三人称漫游、场景交互与射击等核心玩法系统。",
-          "设计并实现消防员梦境（火焰扩散、灭火射击、人员救助）与医生梦境（多人急救、倒计时治疗）双玩法系统。",
-          "构建现实探索—梦境双线—醒来反馈—第二天行为变化—结局的完整叙事流程与关卡衔接。",
-          "搭建 Agent 到 Unity 的 AI 工作流，实现自然语言驱动的游戏原型快速搭建、脚本框架生成、重复性自动化与 Bug 排查，再手动优化完成。",
-          "作为唯一程序负责比赛期间整体游戏开发、团队 Git 版本控制与分支管理，保障 48h 比赛节奏下的多人协作效率。"
-        ],
-        achievement: "<strong>项目成果：</strong>CIGA 2026 西安站 GameJam 参赛作品；获得 CIGA 最受喜爱奖。",
-        summary: {
-          type: "项目类型",
-          role: "整体开发 / 唯一程序",
-          focus: "TopdownEngine、3D漫游与场景交互、双梦境玩法、Agent工作流",
-          output: "48h内完成的3D第三人称多玩法叙事体验"
-        },
-        video: {
-          type: "bilibili",
-          src: "https://player.bilibili.com/player.html?bvid=BV17cT26yE4w",
-          poster: "img/dream_cover.png",
-          title: ""
-        },
-        images: [
-          { src: "img/dream_cover.png", alt: "Dream Who To Be封面" },
-          { src: "img/dream_1.png", alt: "Dream Who To Be剧情" },
-          { src: "img/dream_2.png", alt: "Dream Who To Be消防员" },
-          { src: "img/dream_3.png", alt: "Dream Who To Be医生" },
-          { src: "img/dream_4.png", alt: "Dream Who To Be主角" },
-          { src: "img/dream_5.png", alt: "Dream Who To Be结局" },
-          { src: "img/dream_6.png", alt: "Dream Who To Be结局截图" },
-          { src: "img/dream_cert.png", alt: "CIGA通关证书" }
-        ]
-      },
-      {
-        title: "GlowBorn / 光裔",
-        date: "2025.9-2025.12",
-        badge: "2D 平台跳跃 / Steam 商店页项目",
-        category: ["游戏开发", "Steam"],
-        tags: ["Corgi Engine", "多形态技能", "Boss AI", "Localization", "Cinemachine"],
-        desc: "<strong>项目简介：</strong>以光暗对抗为核心的 2D 平台跳跃游戏，玩家拾取光源切换白 / 红 / 蓝 / 绿四种形态，搭配待机 + 主动多技能体系闯关，救助伙伴、躲避危险并挑战策略型 Boss，游戏内置 70 + 主角动画与丰富场景交互逻辑。",
-        work: [
-          "基于 Corgi Engine 扩展 CharacterAbility，开发多形态技能系统，实现烟花攻击、隐身加速、持续治疗及光源消耗等玩法机制。",
-          "构建 Boss 与小怪战斗系统，开发多阶段 AI、技能攻击逻辑与 IK 驱动肢体动作，实现完整战斗行为。",
-          "开发角色状态与战斗反馈系统，实现血条、伤害反馈与状态同步机制。",
-          "实现场景交互与机关触发机制，技能释放、敌人行为及场景机关均结合动画、音效与特效进行反馈。",
-          "完成关卡整体整合，包括 Cinemachine 摄像机镜头切换、景深控制、关卡 UI、音效与视觉效果整合。",
-          "集成 Unity Localization 实现游戏双语切换。"
-        ],
-        achievement: "<strong>项目成果：</strong>获得 Unity 中国开发挑战赛网络人气奖第四名（进入决赛）；成功上架 Steam 商店页。",
-        summary: {
-          type: "项目类型",
-          role: "玩法 / 战斗 / 关卡整合开发",
-          focus: "多形态技能、Boss AI、场景反馈、双语切换",
-          output: "具备上线与比赛展示属性的完整 2D 动作关卡体验"
-        },
-        video: {
-          src: "video/glowborn.mp4",
-          poster: "img/project2_1.jpg",
-          title: ""
-        },
-        images: [
-          { src: "img/project2_1.jpg", alt: "GlowBorn游戏主界面" },
-          { src: "img/project2_2.jpg", alt: "GlowBorn游戏截图2" },
-          { src: "img/project2_3.jpg", alt: "GlowBorn游戏截图3" },
-          { src: "img/project2_4.jpg", alt: "GlowBorn游戏截图4" },
-          { src: "img/project2_steam.jpg", alt: "Steam商店页" },
-          { src: "img/project2_boss.jpg", alt: "Boss行为树图" }
-        ]
-      },
-      {
-        title: "HalfWay / 中途",
-        date: "2025.8-2025.10",
-        badge: "Unity × 知乎 GameJam / 判案体验",
-        category: ["游戏开发", "AI交互", "Steam", "GameJam"],
-        tags: ["主菜单系统", "证物拖拽分类", "多房间切换", "倒计时机制", "Steam商店页"],
-        desc: "<strong>项目简介：</strong>一款沉浸式模拟判案游戏，玩家可自由选择关卡，前往多个案发现场进行证物搜集；将搜集到的证物按嫌疑人身份分类匹配后，进入法庭场景，与 AI 扮演的嫌疑人进行问责对峙，最终根据证物匹配度与问责结果，决定嫌疑人判刑程度，游戏结尾会生成 AI 根据判案结果自动生成的舆论反馈，还原完整判案流程，打造兼具趣味性与逻辑性的判案体验。",
-        work: [
-          "开发游戏主菜单 UI 与流程控制系统，实现案件选择、视频预览、场景跳转以及设置与退出等功能。",
-          "设计并实现证物收集与拖拽分类玩法系统，完成物品槽位管理、标签校验、正确放置生成缩略图与错误回位反馈，并将证物信息存储于 ScriptableObject。",
-          "构建多房间场景切换机制，支持首次进入与重复进入事件触发，并实现摄像机延迟移动与场景过渡控制。",
-          "开发倒计时与失败处理机制，处理时间触发事件、空收集判定以及交互反馈动画与音效。"
-        ],
-        achievement: "<strong>项目成果：</strong>成功上架 Steam 商店页；Unity×知乎 GameJam 产物，赛期内完成全流程开发并交付。",
-        summary: {
-          type: "项目类型",
-          role: "流程 / UI / 核心玩法系统开发",
-          focus: "拖拽分类、案件流程、场景切换、失败处理",
-          output: "短周期内完成可交付、可展示的判案流程体验"
-        },
-        video: {
-          src: "video/halfway.mp4",
-          poster: "img/project4_1.jpg",
-          title: ""
-        },
-        images: [
-          { src: "img/project4_1.jpg", alt: "HalfWay游戏主界面" },
-          { src: "img/project4_2.jpg", alt: "HalfWay游戏截图2" },
-          { src: "img/project4_3.jpg", alt: "HalfWay游戏截图3" },
-          { src: "img/project4_4.jpg", alt: "HalfWay游戏截图4" },
-          { src: "img/project4_5.jpg", alt: "HalfWay游戏截图5" }
-        ]
-      },
-      {
-        title: "3D音游手机系统",
-        date: "2026.1-2026.3",
-        badge: "3D 音乐节奏游戏 / 核心交互系统",
-        category: ["游戏开发", "AI交互"],
-        tags: ["虚拟手机系统", "阿里云百炼", "JSON持久化", "剧情任务", "RenderTexture"],
-        desc: "<strong>项目简介：</strong>3D 音乐节奏游戏，玩家通过节奏点击与 AI 乐队成员互动完成演出推进剧情。游戏结合节奏玩法、角色成长与剧情叙事，手机系统作为核心交互入口，整合聊天、日历、相机等多个 App，用于触发剧情事件与任务推进。",
-        work: [
-          "独立设计并开发游戏内虚拟手机系统架构，构建 PhoneManager 总控模块，统一管理多 App 应用模块的生命周期与数据通信。",
-          "开发 AI 聊天 App，对接阿里云百炼智能体接口，实现多角色对话、消息收发与动态 Prompt 构建。",
-          "实现手机相机 App，使用 RenderTexture 实现实时画面渲染与截图保存功能。",
-          "开发日历任务系统，通过 ScriptableObject 配置剧情任务与事件触发逻辑。",
-          "设计 JSON 数据持久化结构，管理聊天记录、任务数据与交易流水，并为后续游戏货币系统预留扩展架构。"
-        ],
-        achievement: "",
-        summary: {
-          type: "项目类型",
-          role: "核心系统开发 / 架构设计",
-          focus: "手机系统、AI 对话、任务配置、数据持久化",
-          output: "多 App 统一入口与剧情推进闭环"
-        },
-        video: {
-          src: "video/rhythm-phone-system.mp4",
-          poster: "img/project1_1.jpg",
-          title: ""
-        },
-        images: [
-          { src: "img/project1_1.jpg", alt: "3D音游手机系统主界面" },
-          { src: "img/project1_2.jpg", alt: "3D音游手机系统结构图" },
-          { src: "img/project1_app1.jpg", alt: "APP界面1" },
-          { src: "img/project1_app2.jpg", alt: "APP界面2" },
-          { src: "img/project1_app3.jpg", alt: "APP界面3" },
-          { src: "img/project1_app4.jpg", alt: "APP界面4" },
-          { src: "img/project1_app5.jpg", alt: "APP界面5" },
-          { src: "img/project1_app6.jpg", alt: "APP界面6" }
-        ]
-      },
-      {
-        title: "情绪漂流瓶",
-        date: "2026.2-2026.3",
-        badge: "情绪叙事 / AI 回复互动玩法",
-        category: ["游戏开发", "AI交互"],
-        tags: ["动态天气", "漂流瓶系统", "钓取玩法", "阿里云百炼", "成就解锁"],
-        desc: "<strong>项目简介：</strong>在不断变化的天气中，玩家收集情绪碎片，为漂流瓶写下自己的故事并投入海洋。远方的“陌生人”会拾起它并留下回应。玩家也可以潜入深海钓起他人的瓶子，阅读故事、留下留言。随着探索深入，特殊天气、隐藏动画与稀有碎片逐渐解锁，让这片海洋成为一个充满情绪回声的世界。",
-        work: [
-          "设计并开发情绪碎片与漂流瓶核心玩法系统，实现碎片收集、漂流瓶生成及互动逻辑，并根据情绪组合驱动颜色、光效与动画变化。",
-          "开发动态天气系统，控制天气轮换并驱动碎片生成、环境光效与海面动画变化。",
-          "设计深海钓取玩法机制，实现钩子状态机、物理拖拽与瓶子捕获逻辑。",
-          "构建成就与事件触发系统，根据收集、留言与钓鱼行为解锁特殊天气、动画与稀有碎片。",
-          "集成阿里云百炼 AI 接口，实现漂流瓶回复的异步消息交互与 AI 对话逻辑。"
-        ],
-        achievement: "<strong>项目成果：</strong>2026 国际大学生数字艺术设计大赛-铜奖（游戏程序设计赛道）。",
-        summary: {
-          type: "项目类型",
-          role: "核心玩法系统开发",
-          focus: "动态天气、情绪收集、AI 回复、钓取交互",
-          output: "情绪表达与异步互动结合的轻叙事体验"
-        },
-        video: {
-          src: "video/emotion-drift-bottle.mp4",
-          poster: "img/project3_1.jpg",
-          title: ""
-        },
-        images: [
-          { src: "img/project3_1.jpg", alt: "情绪漂流瓶游戏主界面" },
-          { src: "img/project3_2.jpg", alt: "情绪漂流瓶游戏截图2" },
-          { src: "img/project3_3.jpg", alt: "情绪漂流瓶游戏截图3" },
-          { src: "img/project3_4.jpg", alt: "情绪漂流瓶游戏截图4" }
-        ]
-      },
-      {
-        title: "Kinect 2D 皮影动捕系统",
-        date: "2025.5-2025.7",
-        badge: "科研展示 / 体感捕捉与 2D 驱动映射",
-        category: ["科研展示"],
-        tags: ["Kinect", "RGB-D", "2D皮影", "动作映射", "物理驱动"],
-        desc: "<strong>项目简介：</strong>该项目旨在通过 Kinect RGB-D 体感捕捉设备，将真人动作实时驱动二维皮影角色，实现无标记体感交互的沉浸式演示与科研展示。项目融合了具身认知、空间定位、动作捕捉与逆向运动学算法，探索传统文化动画与现代实时渲染的结合。",
-        work: [
-          "负责系统整体流程开发与架构设计，搭建三层皮影角色表现结构，完成各层数据传递与模块组织。",
-          "实现 Kinect 骨骼数据到 2D 皮影角色的映射逻辑，完成姿态转换、空间坐标映射及 Z 轴翻转处理，并对动作进行平滑优化。",
-          "引入物理驱动效果，结合关键点运动实现皮影骨骼的动态响应，增强角色动作的自然表现。"
-        ],
-        achievement: "<strong>项目成果：</strong>受邀亮相 CCF 学术大会展示，参与学术论文撰写及发明专利申报；受邀参与第六届全国数字艺术与媒介文化学术论坛并获银奖；获睿抗机器人开发者大赛-艺科融合全国一等奖、西安邮电大学首届“人工智能+”创新大赛优秀奖、2026 国际大学生数字艺术设计大赛-文化遗产保护铜奖、2026“华夏奖”文化艺术设计大赛银奖。",
-        summary: {
-          type: "项目类型",
-          role: "整体流程开发 / 架构设计",
-          focus: "Kinect 数据采集、2D 映射、物理响应、科研展示",
-          output: "传统文化视觉表现与实时交互技术结合的展示系统"
-        },
-        video: {
-          src: "video/kinect-shadow.mp4",
-          poster: "img/project5_1.jpg",
-          title: ""
-        },
-        images: [
-          { src: "img/project5_1.jpg", alt: "Kinect皮影动捕系统主界面" },
-          { src: "img/project5_2.jpg", alt: "Kinect皮影动捕系统内容1" },
-          { src: "img/project5_3.jpg", alt: "Kinect皮影动捕系统内容2" },
-          { src: "img/project5_4.jpg", alt: "Kinect皮影动捕系统内容3" },
-          { src: "img/project5_5.jpg", alt: "Kinect皮影动捕系统内容4" }
-        ]
-      },
-      {
-        title: "遗忘之匣·回响",
-        date: "2026.4-2026.5",
-        badge: "2D 平台跳跃 / 解谜探索 / 心理叙事",
-        category: ["游戏开发"],
-        tags: ["2D平台跳跃", "记忆碎片", "环境交互", "心理叙事", "小游戏", "非线性探索"],
-        desc: "<strong>项目简介：</strong>一款以记忆与自我和解为主题的2D平台跳跃解谜游戏。玩家在由遗忘构成的迷宫世界中探索，收集记忆碎片，拼凑出关于「自己」的故事。每一次探索都会引发环境变化，每一个碎片都承载着一段被压抑的情感。游戏通过碎片化叙事、环境交互与多结局设计，引导玩家直面内心的恐惧、愤怒与悲伤，最终完成与自我的和解。",
-        work: [
-          "独立完成游戏整体架构设计与全技术开发，搭建2D平台跳跃核心框架与玩法循环。",
-          "设计并实现记忆碎片收集与环境变化交互系统，碎片收集驱动场景状态改变与路径解锁。",
-          "开发非线性关卡探索体系，构建地堡、遗迹、森林等风格各异且相互连通的箱庭关卡。",
-          "设计与实现多NPC交互系统，NPC映射玩家「过去的自己」的不同面向（恐惧、愤怒、悲伤等）。",
-          "开发拼图、贪吃蛇等小游戏系统并绑定剧情推进，实现玩法与叙事的深度融合。",
-          "实现多结局系统：逃避循环、和解达成、获得救赎，并完成整体叙事表达与情感体验闭环。"
-        ],
-        achievement: "",
-        summary: {
-          type: "项目类型",
-          role: "整体开发 / 全技术+策划",
-          focus: "记忆碎片系统、环境交互、非线性叙事、多结局",
-          output: "情感驱动+碎片化叙事+箱庭探索的2D平台跳跃体验"
-        },
-        video: {
-          src: "video/CasketOfOblivion.mp4",
-          poster: "img/project6_1.png",
-          title: ""
-        },
-        images: [
-          { src: "img/project6_1.png", alt: "遗忘之匣·回响截图1" },
-          { src: "img/project6_2.png", alt: "遗忘之匣·回响截图2" },
-          { src: "img/project6_3.png", alt: "遗忘之匣·回响截图3" },
-          { src: "img/project6_4.png", alt: "遗忘之匣·回响截图4" },
-          { src: "img/project6_5.png", alt: "遗忘之匣·回响截图5" },
-          { src: "img/project6_6.png", alt: "遗忘之匣·回响截图6" }
-        ]
-      },
-      {
-        title: "Iterate / 迭代",
-        date: "2026.5-2026.6",
-        badge: "2D 平台跳跃 / AI 剧情与意识进化",
-        category: ["游戏开发"],
-        tags: ["CorgiEngine", "阿里云百炼", "AI寻路"],
-        desc: "<strong>项目简介：</strong>玩家控制的是一个「AI」，从一开始什么都不会、完全听从玩家的控制，到逐渐产生自我意识、开始反对玩家的控制。在不断循环的多周目中，世界变得更加清晰，主角也逐渐意识独立。游戏基于 CorgiEngine 框架开发，自研了 AI 寻路、跳跃台导航、角色转身与延迟操作等智能行为系统，并接入阿里云百炼 AI 智能体实现动态剧情提示与叙事推进。",
-        work: [
-          "基于 CorgiEngine 框架扩展开发自定义 AI 功能系统，实现 AI 寻路、跳跃台导航、角色转身与延迟操作等智能行为逻辑。",
-          "集成阿里云百炼 AI 智能体接口，实现游戏内动态剧情提示与 AI 驱动的叙事推进机制。",
-          "设计并实现多周目循环系统架构，周目推进驱动世界逐步清晰化，AI 主角逐渐觉醒并产生独立意识。",
-          "构建 AI 意识进化叙事框架：从完全服从玩家指令 → 产生自我怀疑 → 主动反抗玩家控制的完整剧情弧线。",
-          "开发角色行为状态机，根据周目进度动态切换 AI 行为模式，实现从被动执行到主动决策的演变。"
-        ],
-        achievement: "<strong>项目成果：</strong>参加2026网易MiniGame比赛，于规定时间内完成初赛作品提交；上架TapTap游戏平台。",
-        summary: {
-          type: "项目类型",
-          role: "整体开发 / 全技术",
-          focus: "AI寻路、阿里云百炼叙事、多周目系统、AI意识进化",
-          output: "AI意识觉醒叙事+平台跳跃玩法融合的多周目体验"
-        },
-        video: {
-          src: "video/iterate.mp4",
-          poster: "img/iterate_1.png",
-          title: ""
-        },
-        images: [
-          { src: "img/iterate_1.png", alt: "迭代游戏截图1" },
-          { src: "img/iterate_2.png", alt: "迭代游戏截图2" },
-          { src: "img/iterate_3.png", alt: "迭代游戏截图3" },
-          { src: "img/iterate_4.png", alt: "迭代游戏截图4" },
-          { src: "img/iterate_5.png", alt: "迭代游戏截图5" },
-          { src: "img/iterate_6.png", alt: "迭代游戏截图6" },
-          { src: "img/iterate_7.png", alt: "迭代游戏截图7" },
-          { src: "img/iterate_8.png", alt: "迭代游戏截图8" },
-          { src: "img/iterate_9.png", alt: "迭代游戏截图9" },
-          { src: "img/iterate_minigame.png", alt: "网易MiniGame参赛证明" }
-        ]
-      }
-    ];
-
-    const awards = [
-      { icon: "🏆", title: "睿抗机器人开发者大赛-艺科融合", level: "全国一等奖" },
-      { icon: "🏆", title: "中国好创意暨全国数字艺术设计大赛-廉洁文化AIGC视频", level: "全国三等奖" },
-      { icon: "🏆", title: "中国好创意暨全国数字艺术设计大赛-声音景观", level: "全国三等奖" },
-      { icon: "🏆", title: "未来设计师·全国高校数字艺术设计大赛（NCDA）-数字音乐", level: "全省二等奖" },
-      { icon: "🏆", title: "西安邮电大学首届“人工智能+”创新大赛", level: "优秀奖" },
-      { icon: "🎓", title: "学业能力", level: "西安邮电大学校级二等奖学金｜英语四级通过" },
-      { icon: "🏆", title: "2026 国际大学生数字艺术设计大赛-文化遗产保护", level: "铜奖" },
-      { icon: "🏆", title: "2026 国际大学生数字艺术设计大赛-游戏程序设计", level: "铜奖" },
-      { icon: "🏆", title: "2026\u201c华夏奖\u201d文化艺术设计大赛", level: "银奖" },
-      { icon: "🏆", title: "第六届全国数字艺术与媒介文化学术论坛", level: "银奖" },
-      { icon: "🏆", title: "CIGA 2026 西安站 GameJam", level: "最受喜爱奖" }
-    ];
-
-    const certificates = [
-      { src: "img/award1.jpg", alt: "睿抗机器人开发者大赛-艺科融合 全国一等奖" },
-      { src: "img/award2.jpg", alt: "校级二等奖学金" },
-      { src: "img/award3.jpg", alt: "中国好创意-廉洁文化AIGC视频 全国三等奖" },
-      { src: "img/award4.jpg", alt: "中国好创意-声音景观 全国三等奖" },
-      { src: "img/award5.jpg", alt: "未来设计师（NCDA）-数字音乐 全省二等奖" },
-      { src: "img/ccf_poster.jpg", alt: "CCF学术大会展示海报" },
-      { src: "img/award6.jpg", alt: "2026国际大学生数字艺术设计大赛-游戏程序设计 铜奖" },
-      { src: "img/award7.jpg", alt: "2026国际大学生数字艺术设计大赛-文化遗产保护 铜奖" },
-      { src: "img/award8.jpg", alt: "2026华夏奖文化艺术设计大赛 银奖" },
-      { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" },
-      { src: "img/award10.jpg", alt: "CIGA 2026 西安站 GameJam 最受喜爱奖" }
-    ];
-
-    const vibecodingProjects = [
-      {
-        title: "LoopMaster",
-        type: "工具",
-        orientation: "横屏",
-        scale: "large",
-        desc: "便携式网页编曲工具，实现多轨道编排、钢琴窗 Pattern 与采样轨道 Pattern 双模式、混音台及 FX 效果链路。",
-        images: [
-          "assets/vibecoding/LoopMaster/37044fda2870c67b6e86d678b0aad9db.png",
-          "assets/vibecoding/LoopMaster/42a20d57073f76daacf5dd7a3219b52c.png",
-          "assets/vibecoding/LoopMaster/6b8945c60b4e51e0daef3e27ec5603d2.png",
-          "assets/vibecoding/LoopMaster/73156793595c2317e07f25ab4e839753.png",
-          "assets/vibecoding/LoopMaster/7545916004e7fa80515d1bc201208fb0.png",
-          "assets/vibecoding/LoopMaster/aa911c1bcfde0a9b28c9a4998d297fca.png"
-        ]
-      },
-      {
-        title: "Frequency Guard",
-        type: "游戏",
-        orientation: "横屏",
-        scale: "large",
-        desc: "塔防 × 音游融合玩法。多种塔类型，通过不同搭配防御破坏节奏的怪物，同时奏出和谐旋律。",
-        images: [
-          "assets/vibecoding/Frequency Guard/82128082690022140b959e1d5558b647.jpg",
-          "assets/vibecoding/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg",
-          "assets/vibecoding/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg"
-        ]
-      },
-      {
-        title: "BounceHero",
-        type: "游戏",
-        orientation: "竖屏",
-        scale: "medium",
-        desc: "竖版跳跃小游戏，画绳弹起主角不断向上攀升。",
-        images: [
-          "assets/vibecoding/BounceHero/6fbed7fd2353ae8e49356ba49c0e9e8e.png",
-          "assets/vibecoding/BounceHero/8b04cafb14e5ae44ab1ec6e001125926.png"
-        ]
-      },
-      {
-        title: "飞行棋",
-        type: "游戏",
-        orientation: "横屏",
-        scale: "medium",
-        desc: "经典飞行棋 + 大富翁融合玩法，内置多偶遇事件与简易经济系统。",
-        images: [
-          "assets/vibecoding/dianziyinyue/2e277643389fab28d8ab7938c44aa314.png"
-        ]
-      },
-      {
-        title: "贪吃蛇",
-        type: "游戏",
-        orientation: "竖屏",
-        scale: "small",
-        desc: "经典贪吃蛇玩法，支持鼠标控制、限时模式与经典模式。",
-        images: [
-          "assets/vibecoding/tanchishe/9a7813c48c189979611ee9cf6b677e39.png"
-        ]
-      },
-      {
-        title: "Flappy Bird",
-        type: "游戏",
-        orientation: "竖屏",
-        scale: "small",
-        desc: "经典 Flappy Bird 玩法，支持手动调整游戏数值。",
-        images: [
-          "assets/vibecoding/Flappy Bird/7a7f99082d78cb3c0148593b8eb1b222.png"
-        ]
-      },
-      {
-        title: "电子音乐介绍页",
-        type: "展示",
-        orientation: "横屏",
-        scale: "small",
-        desc: "个人电子音乐风格介绍展示页。",
-        images: [
-          "assets/vibecoding/feixingqi/6ffd7b6756721db0ae91891807339339.png",
-          "assets/vibecoding/feixingqi/7abffd99bbe52bb4ab0943ee64eb3831.png",
-          "assets/vibecoding/feixingqi/bcf5d5cae41a9952d5a15ea4bb61fc4c.png"
-        ]
-      }
-    ];
-
-    const otherWorks = [
-      {
-        title: "Awakening",
-        type: "编曲",
-        cover: "audio/Awakening/封面.jpg",
-        audio: "audio/Awakening/Awakening.mp3",
-        tags: ["melodictechno"]
-      },
-      {
-        title: "Before I Go",
-        type: "编曲",
-        cover: "audio/Before I Go/封面.jpg",
-        audio: "audio/Before I Go/Before I Go.mp3",
-        tags: ["melodicbass", "house"]
-      }
-    ];
-
-    const skillsGrid = document.getElementById('skillsGrid');
-    const filtersWrap = document.getElementById('projectFilters');
-    const projectsGrid = document.getElementById('projectsGrid');
-    const projectCount = document.getElementById('projectCount');
-    const emptyState = document.getElementById('emptyState');
-    const awardList = document.getElementById('awardList');
-    const certificateGrid = document.getElementById('certificateGrid');
-    const navLinks = document.querySelectorAll('#navLinks a');
-    const navbar = document.getElementById('navbar');
-    const progressBar = document.getElementById('progressBar');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const lightboxClose = document.getElementById('lightboxClose');
-
-    let currentFilter = '全部';
-
-    function renderSkills() {
-      skillsGrid.innerHTML = skills.map(skill => `
-        <article class="skill-card glass reveal">
-          <div class="skill-icon">${skill.icon}</div>
-          <h3>${skill.title}</h3>
-          <p>${skill.desc}</p>
-          <div class="skills-tags">
-            ${skill.tags.map(tag => `<span>${tag}</span>`).join('')}
-          </div>
-        </article>
-      `).join('');
-    }
-
-    function renderFilters() {
-      filtersWrap.innerHTML = filters.map(filter => `
-        <button class="filter-btn ${filter === currentFilter ? 'active' : ''}" data-filter="${filter}">${filter}</button>
-      `).join('');
-
-      filtersWrap.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentFilter = btn.dataset.filter;
-          renderFilters();
-          renderProjects();
-        });
-      });
-    }
-
-    function projectMatches(project) {
-      return currentFilter === '全部' || project.category.includes(currentFilter);
-    }
-
-    function renderProjects() {
-      const visibleProjects = projects.filter(projectMatches);
-
-      projectsGrid.innerHTML = visibleProjects.map((project, projectIndex) => {
-        const mainMedia = project.video
-          ? { type: project.video.type || 'video', src: project.video.src, poster: project.video.poster, alt: project.video.title }
-          : { type: 'image', src: project.images[0].src, alt: project.images[0].alt };
-
-        return `
-          <article class="project-card glass reveal" data-project-card>
-            <div class="project-top">
-              <div class="project-copy">
-                <div class="project-head">
-                  <div class="project-title-wrap">
-                    <h3 class="project-title">${project.title}</h3>
-                    <div class="project-date">${project.date}</div>
-                  </div>
-                  <div class="project-badge">${project.badge}</div>
-                </div>
-
-                <div class="project-tags">
-                  ${project.tags.map(tag => `<span>${tag}</span>`).join('')}
-                </div>
-
-                <div class="project-desc">${project.desc}</div>
-                ${project.achievement ? `<div class="project-highlight">${project.achievement}</div>` : ''}
-              </div>
-
-              <div class="project-gallery" data-gallery-index="${projectIndex}">
-                <div class="project-main media-stage">
-                 ${mainMedia.type === 'bilibili' ? `
-  <iframe class="main-gallery-video bilibili-embed" src="${mainMedia.src}" frameborder="0" allowfullscreen></iframe>
-` : mainMedia.type === 'video' ? `
-  <video class="main-gallery-video" controls preload="metadata" playsinline poster="${mainMedia.poster || ''}">
-    <source src="${mainMedia.src}" type="video/mp4" />
-  </video>
-` : `
-  <img src="${mainMedia.src}" alt="${mainMedia.alt}" class="main-gallery-image" data-lightbox="${mainMedia.alt}" />
-`}
-<div class="project-main-overlay">
-  ${mainMedia.type === 'video' || mainMedia.type === 'bilibili' ? '' : `<span>${mainMedia.alt}</span>`}
-  <span>${mainMedia.type === 'video' || mainMedia.type === 'bilibili' ? '' : '点击查看大图'}</span>
 </div>
-                </div>
-                <div class="thumb-row">
-                  ${project.video ? `
-                    <button class="thumb active" type="button" data-type="${project.video.type || 'video'}" data-src="${project.video.src}" data-poster="${project.video.poster || ''}" data-alt="${project.video.title}">
-                      <img src="${project.video.poster || project.images[0].src}" alt="${project.video.title}" />
-                    </button>
-                  ` : ''}
-                  ${project.images.map((image, imageIndex) => `
-                    <button class="thumb ${!project.video && imageIndex === 0 ? 'active' : ''}" type="button" data-type="image" data-src="${image.src}" data-alt="${image.alt}">
-                      <img src="${image.src}" alt="${image.alt}" />
-                    </button>
-                  `).join('')}
-                </div>
-              </div>
-            </div>
 
-            <div class="project-bottom">
-              <div class="work-block">
-                <h4>核心开发工作</h4>
-                <ul class="work-list">
-                  ${project.work.map(item => `<li>${item}</li>`).join('')}
-                </ul>
-              </div>
-              <div class="project-side-info">
-                <h4>项目信息摘要</h4>
-                <dl>
-                  <div>
-                    <dt>${project.summary.type}</dt>
-                    <dd>${project.badge}</dd>
-                  </div>
-                  <div>
-                    <dt>我的角色</dt>
-                    <dd>${project.summary.role}</dd>
-                  </div>
-                  <div>
-                    <dt>核心关注</dt>
-                    <dd>${project.summary.focus}</dd>
-                  </div>
-                  <div>
-                    <dt>最终输出</dt>
-                    <dd>${project.summary.output}</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+<script>
+const skills = [
+  { icon: "C", title: "引擎与语言", desc: "熟练使用 Unity 与 C#，掌握面向组件与 OOP 开发思想。能独立完成从架构设计到功能闭环的全链路开发，具备扎实编码规范。", tags: ["Unity", "C#", "组件化", "OOP"] },
+  { icon: "S", title: "系统架构", desc: "基于 MVC 模式进行模块化架构设计，事件驱动跨模块通信，ScriptableObject / JSON 可配置数据持久化。注重系统解耦与功能联动。", tags: ["MVC", "事件驱动", "ScriptableObject", "JSON"] },
+  { icon: "A", title: "AI 与交互", desc: "接入阿里云百炼智能体实现多角色对话与动态剧情。Behavior Designer 构建游戏 NPC 行为树系统。有 VR 项目开发经历，了解体感交互逻辑。", tags: ["阿里云百炼", "Behavior Designer", "NPC系统", "VR"] },
+  { icon: "P", title: "游戏类型覆盖", desc: "2D 叙事平台跳跃、3D 第三人称 Topdown、解谜冒险、音游玩法、判案推理、体感交互——多品类项目验证适应能力。", tags: ["2D叙事", "Topdown", "解谜冒险", "音游"] },
+  { icon: "T", title: "插件与工具链", desc: "CorgiEngine / TopdownEngine 框架扩展，DOTweenPro / Cinemachine / A* Pathfinding / Lightbeam / Shader Graph / Modern UI Pack / Unity Localization。", tags: ["CorgiEngine", "A*Pathfinding", "Lightbeam", "Shader Graph"] },
+  { icon: "V", title: "VibeCoding", desc: "有 AI 基础，熟练使用 Agent 工具（OpenCode、Codex）驱动游戏原型开发。了解 MCP、Skill 等协议与工作流概念，自行搭建 Unity 游戏开发 Agent 工作流并产出可运行游戏。", tags: ["Agent工作流", "OpenCode", "Codex", "MCP/Skill"] },
+  { icon: "G", title: "项目管理", desc: "Git 分支管理与版本控制，团队技术负责人角色，GameJam 48h 极限交付。负责资产整合与初始包构建，Steam 商店页上架、TapTap 发布，学术论文支撑。", tags: ["Git", "资产整合", "初始包构建", "Steam"] }
+];
 
-            <div class="project-card-actions">
-              <a class="module-top-btn" href="#hero">↑ 返回顶部</a>
-            </div>
-          </article>
-        `;
-      }).join('');
+const capabilityMatrix = [
+  { icon: "S", label: "系统架构", projects: ["3D音游手机系统", "遗忘之匣·回响", "Iterate/迭代", "情绪漂流瓶"] },
+  { icon: "A", label: "AI 交互", projects: ["情绪漂流瓶", "Iterate/迭代", "3D音游手机系统", "HalfWay/中途", "Dream Who To Be"] },
+  { icon: "V", label: "VibeCoding", projects: ["LoopMaster", "Frequency Guard", "BounceHero", "飞行棋", "贪吃蛇", "Flappy Bird"] },
+  { icon: "G", label: "游戏类型", projects: ["GlowBorn/光裔", "遗忘之匣·回响", "Dream Who To Be", "HalfWay/中途", "3D音游手机系统"] },
+  { icon: "T", label: "团队管理", projects: ["Dream Who To Be", "GlowBorn/光裔", "Kinect 皮影动捕", "情绪漂流瓶"] },
+  { icon: "R", label: "上线/发布", projects: ["GlowBorn/光裔 (Steam)", "HalfWay/中途 (Steam)", "Iterate/迭代 (TapTap)", "情绪漂流瓶 (获奖)"] }
+];
 
-      projectCount.textContent = `当前展示 ${visibleProjects.length} / ${projects.length} 个项目`;
-      emptyState.style.display = visibleProjects.length ? 'none' : 'block';
+const filters = ["全部", "游戏开发", "AI交互", "科研展示", "Steam", "GameJam"];
 
-      bindProjectGalleries();
-      setupReveal();
-      bindLightbox();
-      setupSmoothScroll();
-    }
+const projects = [
+  {
+    title: "Dream Who To Be / 我想成为谁", date: "2026.7.3-2026.7.5",
+    badge: "CIGA 西安站 GameJam / 第三人称 3D 剧情游戏",
+    category: ["游戏开发", "GameJam"],
+    tags: ["TopdownEngine", "3D", "第三人称", "Agent工作流", "场景交互", "VibeCoding"],
+    desc: "<strong>项目简介：</strong>一款第三人称 3D 剧情游戏。玩家通过童年的消防车与听诊器进入不同梦境，体验消防员与医生的职责与使命。在一次次选择与经历中，寻找属于自己的成长锚点。",
+    capabilities: ["团队管理", "游戏类型", "AI交互"],
+    work: [
+      "基于 TopdownEngine 框架扩展开发第三人称漫游、场景交互与射击等核心玩法系统。",
+      "设计并实现消防员与医生双梦境玩法系统：火焰扩散物理、灭火射击弹道、多人急救倒计时等差异化机制。",
+      "构建「现实探索 → 梦境双线 → 醒来反馈 → 第二天变化 → 结局」的完整叙事流程与关卡衔接架构。",
+      "搭建 Agent → Unity 的 AI 工作流：通过大模型生成代码框架与脚本原型，手动优化完成最终集成，48h 完成全流程。",
+      "作为唯一程序与团队负责人，负责整体开发、Git 分支策略管理与版本控制，保障 48h 比赛节奏的高效协作。"
+    ],
+    achievement: "<strong>项目成果：</strong>CIGA 2026 西安站 GameJam 参赛作品；获得 CIGA 最受喜爱奖。",
+    summary: { type: "项目类型", role: "整体开发 / 唯一程序", focus: "TopdownEngine、3D漫游、双梦境玩法、Agent工作流", output: "48h内完成的3D第三人称多玩法叙事体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV17cT26yE4w", poster: "img/dream_cover.png", title: "" },
+    images: [
+      { src: "img/dream_cover.png", alt: "Dream Who To Be封面" }, { src: "img/dream_1.png", alt: "Dream剧情" },
+      { src: "img/dream_2.png", alt: "Dream消防员" }, { src: "img/dream_3.png", alt: "Dream医生" },
+      { src: "img/dream_4.png", alt: "Dream主角" }, { src: "img/dream_5.png", alt: "Dream结局" },
+      { src: "img/dream_6.png", alt: "Dream结局截图" }, { src: "img/dream_cert.png", alt: "CIGA通关证书" }
+    ]
+  },
+  {
+    title: "GlowBorn / 光裔", date: "2025.9-2025.12",
+    badge: "2D 平台跳跃 / Steam 商店页项目",
+    category: ["游戏开发", "Steam"],
+    tags: ["Corgi Engine", "多形态技能", "Boss AI", "Localization", "Cinemachine"],
+    desc: "<strong>项目简介：</strong>以光暗对抗为核心的 2D 平台跳跃游戏，玩家拾取光源切换白/红/蓝/绿四种形态，搭配待机 + 主动多技能体系闯关，救助伙伴、躲避危险并挑战策略型 Boss。",
+    capabilities: ["游戏类型", "团队管理", "上线/发布"],
+    work: [
+      "基于 CorgiEngine 扩展 CharacterAbility 开发多形态技能系统：4 种光源形态（白/红/蓝/绿）各配待机+主动技能，实现烟花攻击、隐身加速、持续治疗及光源消耗等玩法。",
+      "构建 Boss 多阶段 AI 战斗系统：基于 Behavior Designer 的行为树驱动，多阶段技能切换与 IK 肢体动作联动。",
+      "开发角色状态管理与战斗反馈系统：血条同步、伤害数值反馈、状态 Buff 与 UI 事件绑定。",
+      "实现场景交互与机关触发机制，整合 Cinemachine 摄像机镜头切换与关卡流程衔接。",
+      "集成 Unity Localization 实现游戏双语切换，搭建 Steam 商店页并完成上架流程。"
+    ],
+    achievement: "<strong>项目成果：</strong>获得 Unity 中国开发挑战赛网络人气奖第四名（进入决赛）；成功上架 Steam 商店页。",
+    summary: { type: "项目类型", role: "玩法 / 战斗 / 关卡整合开发", focus: "多形态技能、Boss AI、场景反馈、双语切换", output: "具备上线与比赛属性的完整 2D 动作关卡体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV11K376HEn2", poster: "img/project2_1.jpg", title: "" },
+    images: [
+      { src: "img/project2_1.jpg", alt: "GlowBorn主界面" }, { src: "img/project2_2.jpg", alt: "GlowBorn截图2" },
+      { src: "img/project2_3.jpg", alt: "GlowBorn截图3" }, { src: "img/project2_4.jpg", alt: "GlowBorn截图4" },
+      { src: "img/project2_steam.jpg", alt: "Steam商店页" }, { src: "img/project2_boss.jpg", alt: "Boss行为树" }
+    ]
+  },
+  {
+    title: "HalfWay / 中途", date: "2025.8-2025.10",
+    badge: "Unity × 知乎 GameJam / 判案体验",
+    category: ["游戏开发", "AI交互", "Steam", "GameJam"],
+    tags: ["主菜单系统", "证物拖拽分类", "多房间切换", "倒计时机制", "Steam商店页"],
+    desc: "<strong>项目简介：</strong>沉浸式模拟判案游戏。玩家选择关卡、前往案发现场搜集证物，将证物按嫌疑人身份分类匹配后，与 AI 扮演的嫌疑人进行问责对峙，最终决定判刑程度。",
+    capabilities: ["游戏类型", "AI交互", "上线/发布"],
+    work: [
+      "开发主菜单 UI 与流程控制系统：案件选择面板、视频预览播放、场景跳转、设置与退出等功能整合。",
+      "设计证物收集与拖拽分类玩法系统：实现物品槽位管理、标签校验匹配、正确/错误即时反馈与 UI 状态同步。",
+      "构建多房间场景切换机制：首入/重复进入事件区分、摄像机延迟跟随移动与场景加载过渡。",
+      "开发倒计时与失败处理系统：事件时间轴触发、空收集判定、边界条件处理与全流程交互反馈。"
+    ],
+    achievement: "<strong>项目成果：</strong>成功上架 Steam 商店页；Unity×知乎 GameJam 产物，赛期内完成全流程开发。",
+    summary: { type: "项目类型", role: "流程 / UI / 核心玩法系统开发", focus: "拖拽分类、案件流程、场景切换、失败处理", output: "短周期内完成可交付的判案流程体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1wh3j6jEQK", poster: "img/project4_1.jpg", title: "" },
+    images: [
+      { src: "img/project4_1.jpg", alt: "HalfWay主界面" }, { src: "img/project4_2.jpg", alt: "HalfWay截图2" },
+      { src: "img/project4_3.jpg", alt: "HalfWay截图3" }, { src: "img/project4_4.jpg", alt: "HalfWay截图4" },
+      { src: "img/project4_5.jpg", alt: "HalfWay截图5" }
+    ]
+  },
+  {
+    title: "3D音游手机系统", date: "2026.1-2026.3",
+    badge: "3D 音乐节奏游戏 / 核心交互系统",
+    category: ["游戏开发", "AI交互"],
+    tags: ["虚拟手机系统", "阿里云百炼", "JSON持久化", "剧情任务", "RenderTexture"],
+    desc: "<strong>项目简介：</strong>3D 音乐节奏游戏，玩家通过节奏点击与 AI 乐队成员互动完成演出推进剧情。手机系统作为核心交互入口，整合聊天、日历、相机等多个 App。",
+    capabilities: ["系统架构", "游戏类型", "AI交互"],
+    work: [
+      "基于 MVC 模式设计虚拟手机系统架构，统一管理聊天/日历/相机等多 App 生命周期与事件驱动通信。",
+      "对接阿里云百炼智能体接口，实现多角色 AI 聊天、动态 Prompt 构建、消息收发与异步响应处理。",
+      "基于 RenderTexture 实现相机 App 实时画面渲染与截图保存，完成相机权限、切换、滤镜等交互逻辑。",
+      "设计 ScriptableObject 配置驱动的日历任务系统，实现剧情任务触发条件、事件链与进度追踪。",
+      "构建 JSON 数据持久化层，统一管理聊天记录、任务状态与交易流水，支持运行时读写与重置。"
+    ],
+    achievement: "",
+    summary: { type: "项目类型", role: "核心系统开发 / 架构设计", focus: "MVC 架构、AI 对话、任务配置、数据持久化", output: "多 App 统一入口与剧情推进闭环" },
+    video: { src: "video/rhythm-phone-system.mp4", poster: "img/project1_1.jpg", title: "" },
+    images: [
+      { src: "img/project1_1.jpg", alt: "3D音游手机系统" }, { src: "img/project1_2.jpg", alt: "系统结构图" },
+      { src: "img/project1_app1.jpg", alt: "APP界面1" }, { src: "img/project1_app2.jpg", alt: "APP界面2" },
+      { src: "img/project1_app3.jpg", alt: "APP界面3" }, { src: "img/project1_app4.jpg", alt: "APP界面4" },
+      { src: "img/project1_app5.jpg", alt: "APP界面5" }, { src: "img/project1_app6.jpg", alt: "APP界面6" }
+    ]
+  },
+  {
+    title: "情绪漂流瓶", date: "2026.2-2026.3",
+    badge: "情绪叙事 / AI 回复互动玩法",
+    category: ["游戏开发", "AI交互"],
+    tags: ["动态天气", "漂流瓶系统", "钓取玩法", "阿里云百炼", "成就解锁"],
+    desc: "<strong>项目简介：</strong>在不断变化的天气中，玩家收集情绪碎片，为漂流瓶写下故事投入海洋。远方「陌生人」会拾起并回应。玩家也可以潜入深海钓起他人的瓶子，留下留言。",
+    capabilities: ["系统架构", "AI交互", "团队管理"],
+    work: [
+      "设计情绪碎片与漂流瓶核心玩法系统：基于 ScriptableObject 配置情绪类型、碎片生成规则与漂流瓶内容模板。",
+      "开发动态天气系统，状态机控制天气轮转（晴天/阴天/雨/雪/风暴），驱动环境光效、海面动画与碎片生成参数。",
+      "实现深海钓取状态机（待机/抛钩/下沉/判定/回收），结合物理拖拽与碰撞检测完成瓶子捕获逻辑。",
+      "构建成就与事件触发系统，监听收集与交互行为，通过 ScriptableObject 事件表解锁特殊天气与过场动画。",
+      "集成阿里云百炼 AI 接口，实现漂流瓶异步消息交互与 AI 回复的动态构建。"
+    ],
+    achievement: "<strong>项目成果：</strong>2026 国际大学生数字艺术设计大赛-铜奖（游戏程序设计赛道）。",
+    summary: { type: "项目类型", role: "核心玩法系统开发", focus: "动态天气、情绪收集、AI 回复、钓取交互", output: "情绪表达与异步互动结合的轻叙事体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1Fq3j6GEuE", poster: "img/project3_1.jpg", title: "" },
+    images: [
+      { src: "img/project3_1.jpg", alt: "情绪漂流瓶" }, { src: "img/project3_2.jpg", alt: "情绪漂流瓶截图2" },
+      { src: "img/project3_3.jpg", alt: "情绪漂流瓶截图3" }, { src: "img/project3_4.jpg", alt: "情绪漂流瓶截图4" }
+    ]
+  },
+  {
+    title: "Kinect 2D 皮影动捕系统", date: "2025.5-2025.7",
+    badge: "科研展示 / 体感捕捉与 2D 驱动映射",
+    category: ["科研展示"],
+    tags: ["Kinect", "RGB-D", "2D皮影", "动作映射", "物理驱动"],
+    desc: "<strong>项目简介：</strong>通过 Kinect RGB-D 体感捕捉设备，将真人动作实时驱动二维皮影角色，实现无标记体感交互的沉浸式演示与科研展示。",
+    capabilities: ["AI交互", "团队管理"],
+    work: [
+      "负责系统整体架构设计与流程开发，搭建三层皮影角色表现结构，完成骨骼层/映射层/渲染层的数据传递与模块解耦。",
+      "实现 Kinect 骨骼数据到 2D 皮影角色的坐标映射算法：姿态转换、空间映射、Z 轴翻转与关键点插值。",
+      "引入物理驱动效果，结合关键点运动与弹簧动力学实现皮影骨骼的动态响应，增强动作自然度。"
+    ],
+    achievement: "<strong>项目成果：</strong>受邀亮相 CCF 学术大会展示，参与学术论文撰写及发明专利申报；睿抗机器人开发者大赛全国一等奖等多项奖项。",
+    summary: { type: "项目类型", role: "整体流程开发 / 架构设计", focus: "Kinect 数据处理、2D 映射、物理响应、科研展示", output: "传统文化与实时交互技术结合的展示系统" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV13Wgz64EZs", poster: "img/project5_1.jpg", title: "" },
+    images: [
+      { src: "img/project5_1.jpg", alt: "Kinect皮影系统" }, { src: "img/project5_2.jpg", alt: "系统内容1" },
+      { src: "img/project5_3.jpg", alt: "系统内容2" }, { src: "img/project5_4.jpg", alt: "系统内容3" },
+      { src: "img/project5_5.jpg", alt: "系统内容4" }
+    ]
+  },
+  {
+    title: "遗忘之匣·回响", date: "2026.4-2026.5",
+    badge: "2D 平台跳跃 / 解谜探索 / 心理叙事",
+    category: ["游戏开发"],
+    tags: ["2D平台跳跃", "记忆碎片", "环境交互", "心理叙事", "非线性探索"],
+    desc: "<strong>项目简介：</strong>以记忆与自我和解为主题的 2D 平台跳跃解谜游戏。玩家在由遗忘构成的迷宫世界中探索，收集记忆碎片，拼凑关于「自己」的故事。",
+    capabilities: ["系统架构", "游戏类型"],
+    work: [
+      "独立完成游戏整体架构设计，搭建基于事件驱动的 2D 平台跳跃核心框架与玩法循环。",
+      "设计记忆碎片收集与环境联动系统：碎片驱动场景状态变更、路径解锁与机关触发的事件链机制。",
+      "实现非线性箱庭关卡探索体系，构建地堡、遗迹、森林等风格各异区域，支持回溯与隐藏路径。",
+      "开发多 NPC 交互系统及拼图、贪吃蛇等嵌入小游戏系统，统一由事件总线调度。",
+      "设计并实现三结局叙事框架（逃避/和解/救赎），通过条件变量追踪玩家行为，动态决定结局分支。"
+    ],
+    achievement: "",
+    summary: { type: "项目类型", role: "整体开发 / 全技术+策划", focus: "记忆碎片系统、环境交互、非线性叙事、多结局", output: "情感驱动+碎片化叙事+箱庭探索的 2D 平台跳跃体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1Z63j6uE2Z", poster: "img/project6_1.png", title: "" },
+    images: [
+      { src: "img/project6_1.png", alt: "遗忘之匣截图1" }, { src: "img/project6_2.png", alt: "遗忘之匣截图2" },
+      { src: "img/project6_3.png", alt: "遗忘之匣截图3" }, { src: "img/project6_4.png", alt: "遗忘之匣截图4" },
+      { src: "img/project6_5.png", alt: "遗忘之匣截图5" }, { src: "img/project6_6.png", alt: "遗忘之匣截图6" }
+    ]
+  },
+  {
+    title: "Iterate / 迭代", date: "2026.5-2026.6",
+    badge: "2D 平台跳跃 / AI 剧情与意识进化",
+    category: ["游戏开发"],
+    tags: ["CorgiEngine", "阿里云百炼", "AI寻路"],
+    desc: "<strong>项目简介：</strong>玩家控制一个「AI」，从完全听从玩家指令到逐渐产生自我意识、反抗控制。在多周目中世界更加清晰，主角也逐渐独立。",
+    capabilities: ["系统架构", "AI交互", "上线/发布"],
+    work: [
+      "基于 CorgiEngine 扩展开发 AI 寻路系统，实现跳跃台导航、角色转身与延迟操作等智能行为逻辑。",
+      "集成阿里云百炼 AI 智能体接口，实现游戏内动态剧情提示生成与 AI 驱动的叙事推进机制。",
+      "设计多周目循环系统架构：周目进度驱动世界状态变化、场景清晰度渐变与 AI 主角觉醒阶段切换。",
+      "构建 AI 意识进化叙事框架：三阶段行为模式（服从 → 自我怀疑 → 反抗），由周目条件变量动态切换。",
+      "开发角色行为状态机，根据周目进度动态切换 AI 控制模式与玩家交互权限。"
+    ],
+    achievement: "<strong>项目成果：</strong>参加 2026 网易 MiniGame 比赛并完成初赛作品提交；上架 TapTap 游戏平台。",
+    summary: { type: "项目类型", role: "整体开发 / 全技术", focus: "AI寻路、阿里云百炼叙事、多周目系统、AI意识进化", output: "AI意识觉醒叙事+平台跳跃玩法融合的多周目体验" },
+    video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1EB3j6rE1r", poster: "img/iterate_1.png", title: "" },
+    images: [
+      { src: "img/iterate_1.png", alt: "迭代截图1" }, { src: "img/iterate_2.png", alt: "迭代截图2" },
+      { src: "img/iterate_3.png", alt: "迭代截图3" }, { src: "img/iterate_4.png", alt: "迭代截图4" },
+      { src: "img/iterate_5.png", alt: "迭代截图5" }, { src: "img/iterate_6.png", alt: "迭代截图6" },
+      { src: "img/iterate_7.png", alt: "迭代截图7" }, { src: "img/iterate_8.png", alt: "迭代截图8" },
+      { src: "img/iterate_9.png", alt: "迭代截图9" }, { src: "img/iterate_minigame.png", alt: "网易MiniGame参赛" }
+    ]
+  }
+];
 
-    function bindProjectGalleries() {
-      document.querySelectorAll('[data-gallery-index]').forEach(gallery => {
-        const mainStage = gallery.querySelector('.media-stage');
-        const overlaySpans = gallery.querySelectorAll('.project-main-overlay span');
-        const titleSpan = overlaySpans[0];
-        const metaSpan = overlaySpans[1];
-        const thumbs = gallery.querySelectorAll('.thumb');
+const awards = [
+  { icon: "A", title: "睿抗机器人开发者大赛-艺科融合", level: "全国一等奖" },
+  { icon: "A", title: "中国好创意-廉洁文化AIGC视频", level: "全国三等奖" },
+  { icon: "A", title: "中国好创意-声音景观", level: "全国三等奖" },
+  { icon: "A", title: "未来设计师（NCDA）-数字音乐", level: "全省二等奖" },
+  { icon: "A", title: "西安邮电大学首届「人工智能+」创新大赛", level: "优秀奖" },
+  { icon: "E", title: "学业能力", level: "校级二等奖学金 ｜ 英语四级通过" },
+  { icon: "A", title: "2026 国际大学生数字艺术设计大赛-文化遗产保护", level: "铜奖" },
+  { icon: "A", title: "2026 国际大学生数字艺术设计大赛-游戏程序设计", level: "铜奖" },
+  { icon: "A", title: "2026「华夏奖」文化艺术设计大赛", level: "银奖" },
+  { icon: "A", title: "第六届全国数字艺术与媒介文化学术论坛", level: "银奖" },
+  { icon: "A", title: "CIGA 2026 西安站 GameJam", level: "最受喜爱奖" }
+];
 
-        thumbs.forEach(thumb => {
-          thumb.addEventListener('click', () => {
-            thumbs.forEach(item => item.classList.remove('active'));
-            thumb.classList.add('active');
+const certificates = [
+  { src: "img/award1.jpg", alt: "睿抗机器人开发者大赛 全国一等奖" },
+  { src: "img/award2.jpg", alt: "校级二等奖学金" },
+  { src: "img/award3.jpg", alt: "中国好创意-廉洁文化AIGC 全国三等奖" },
+  { src: "img/award4.jpg", alt: "中国好创意-声音景观 全国三等奖" },
+  { src: "img/award5.jpg", alt: "未来设计师（NCDA）全省二等奖" },
+  { src: "img/ccf_poster.jpg", alt: "CCF学术大会展示海报" },
+  { src: "img/award6.jpg", alt: "国际大学生数字艺术设计大赛-游戏程序 铜奖" },
+  { src: "img/award7.jpg", alt: "国际大学生数字艺术设计大赛-文化遗产 铜奖" },
+  { src: "img/award8.jpg", alt: "华夏奖文化艺术设计大赛 银奖" },
+  { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" },
+  { src: "img/award10.jpg", alt: "CIGA 西安站 GameJam 最受喜爱奖" }
+];
 
-            const type = thumb.dataset.type;
-            const src = thumb.dataset.src;
-            const alt = thumb.dataset.alt;
-            const poster = thumb.dataset.poster || '';
+const vibecodingProjects = [
+  { title: "LoopMaster", type: "工具", orientation: "横屏", scale: "large",
+    desc: "便携式网页编曲工具，实现多轨道编排、钢琴窗 Pattern 与采样轨道 Pattern 双模式、混音台及 FX 效果链路。",
+    images: ["assets/vibecoding/LoopMaster/37044fda2870c67b6e86d678b0aad9db.png","assets/vibecoding/LoopMaster/42a20d57073f76daacf5dd7a3219b52c.png","assets/vibecoding/LoopMaster/6b8945c60b4e51e0daef3e27ec5603d2.png","assets/vibecoding/LoopMaster/73156793595c2317e07f25ab4e839753.png","assets/vibecoding/LoopMaster/7545916004e7fa80515d1bc201208fb0.png","assets/vibecoding/LoopMaster/aa911c1bcfde0a9b28c9a4998d297fca.png"] },
+  { title: "Frequency Guard", type: "游戏", orientation: "横屏", scale: "large",
+    desc: "塔防 × 音游融合玩法。多种塔类型，通过不同搭配防御破坏节奏的怪物，同时奏出和谐旋律。",
+    images: ["assets/vibecoding/Frequency Guard/82128082690022140b959e1d5558b647.jpg","assets/vibecoding/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg","assets/vibecoding/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg"] },
+  { title: "BounceHero", type: "游戏", orientation: "竖屏", scale: "medium",
+    desc: "竖版跳跃小游戏，画绳弹起主角不断向上攀升。",
+    images: ["assets/vibecoding/BounceHero/6fbed7fd2353ae8e49356ba49c0e9e8e.png","assets/vibecoding/BounceHero/8b04cafb14e5ae44ab1ec6e001125926.png"] },
+  { title: "飞行棋", type: "游戏", orientation: "横屏", scale: "medium",
+    desc: "经典飞行棋 + 大富翁融合玩法，内置多偶遇事件与简易经济系统。",
+    images: ["assets/vibecoding/dianziyinyue/2e277643389fab28d8ab7938c44aa314.png"] },
+  { title: "贪吃蛇", type: "游戏", orientation: "竖屏", scale: "small",
+    desc: "经典贪吃蛇玩法，支持鼠标控制、限时模式与经典模式。",
+    images: ["assets/vibecoding/tanchishe/9a7813c48c189979611ee9cf6b677e39.png"] },
+  { title: "Flappy Bird", type: "游戏", orientation: "竖屏", scale: "small",
+    desc: "经典 Flappy Bird 玩法，支持手动调整游戏数值。",
+    images: ["assets/vibecoding/Flappy Bird/7a7f99082d78cb3c0148593b8eb1b222.png"] },
+  { title: "电子音乐介绍页", type: "展示", orientation: "横屏", scale: "small",
+    desc: "个人电子音乐风格介绍展示页。",
+    images: ["assets/vibecoding/feixingqi/6ffd7b6756721db0ae91891807339339.png","assets/vibecoding/feixingqi/7abffd99bbe52bb4ab0943ee64eb3831.png","assets/vibecoding/feixingqi/bcf5d5cae41a9952d5a15ea4bb61fc4c.png"] }
+];
 
-            if (type === 'bilibili') {
-              mainStage.innerHTML = `
-  <iframe class="main-gallery-video bilibili-embed" src="${src}" frameborder="0" allowfullscreen></iframe>
-  <div class="project-main-overlay"></div>
-`;
-            } else if (type === 'video') {
-              mainStage.innerHTML = `
-  <video class="main-gallery-video" controls preload="metadata" playsinline poster="${poster}">
-    <source src="${src}" type="video/mp4" />
-  </video>
-  <div class="project-main-overlay"></div>
-`;
-            } else {
-              mainStage.innerHTML = `
-                <img src="${src}" alt="${alt}" class="main-gallery-image" data-lightbox="${alt}" />
-                <div class="project-main-overlay">
-                  <span>${alt}</span>
-                  <span>点击查看大图</span>
-                </div>
-              `;
-              bindLightbox();
-            }
+const otherWorks = [
+  { title: "Awakening", type: "编曲", cover: "audio/Awakening/封面.jpg", audio: "audio/Awakening/Awakening.mp3", tags: ["melodictechno"] },
+  { title: "Before I Go", type: "编曲", cover: "audio/Before I Go/封面.jpg", audio: "audio/Before I Go/Before I Go.mp3", tags: ["melodicbass", "house"] }
+];
 
-            if (titleSpan && metaSpan && type !== 'video') {
-  titleSpan.textContent = alt;
-  metaSpan.textContent = '点击查看大图';
+const skillsGrid = document.getElementById('skillsGrid');
+const filtersWrap = document.getElementById('projectFilters');
+const projectsGrid = document.getElementById('projectsGrid');
+const projectCount = document.getElementById('projectCount');
+const emptyState = document.getElementById('emptyState');
+const awardList = document.getElementById('awardList');
+const certificateGrid = document.getElementById('certificateGrid');
+const navLinks = document.querySelectorAll('#navLinks a');
+const navbar = document.getElementById('navbar');
+const progressBar = document.getElementById('progressBar');
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxClose = document.getElementById('lightboxClose');
+
+let currentFilter = '全部';
+
+function renderCapabilityMatrix() {
+  const grid = document.getElementById('capabilityGrid');
+  grid.innerHTML = capabilityMatrix.map(c => `
+    <div class="cap-row reveal">
+      <div class="cap-label"><span class="cap-icon">${c.icon}</span>${c.label}</div>
+      <div class="cap-projects">${c.projects.map(p => `<span>${p}</span>`).join('')}</div>
+    </div>
+  `).join('');
 }
-          });
-        });
-      });
-    }
 
-    function renderAwards() {
-      awardList.innerHTML = awards.map(award => `
-        <div class="award-item">
-          <div class="award-icon">${award.icon}</div>
-          <div>
-            <h4>${award.title}</h4>
-            <p>${award.level}</p>
-          </div>
-        </div>
-      `).join('');
+function renderSkills() {
+  skillsGrid.innerHTML = skills.map(s => `
+    <article class="skill-card card-lg reveal">
+      <div class="skill-icon">${s.icon}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+      <div class="skills-tags">${s.tags.map(t => `<span>${t}</span>`).join('')}</div>
+    </article>
+  `).join('');
+}
 
-      certificateGrid.innerHTML = certificates.map(item => `
-        <div class="certificate-card reveal">
-          <img src="${item.src}" alt="${item.alt}" data-lightbox="${item.alt}" />
-          <span>${item.alt}</span>
-        </div>
-      `).join('');
-    }
+function renderFilters() {
+  filtersWrap.innerHTML = filters.map(f => `
+    <button class="filter-btn ${f === currentFilter ? 'active' : ''}" data-filter="${f}">${f}</button>
+  `).join('');
+  filtersWrap.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentFilter = btn.dataset.filter;
+      renderFilters();
+      renderProjects();
+    });
+  });
+}
 
-    let vibecodingGallery = null;
-    let vibecodingGalleryIndex = 0;
-    let vibecodingGalleryTitle = '';
+function projectMatches(p) { return currentFilter === '全部' || p.category.includes(currentFilter); }
 
-    function openVibecodingGallery(project) {
-      vibecodingGallery = project.images;
-      vibecodingGalleryIndex = 0;
-      vibecodingGalleryTitle = project.title;
-      showVibecodingImage();
-      lightbox.classList.add('active');
-      document.body.classList.add('modal-open');
-    }
-
-    function showVibecodingImage() {
-      if (!vibecodingGallery) return;
-      const url = vibecodingGallery[vibecodingGalleryIndex];
-      lightboxImage.src = '';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          lightboxImage.src = url;
-        });
-      });
-      lightboxCaption.textContent = `${vibecodingGalleryTitle} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
-      document.getElementById('lightboxPrev').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
-      document.getElementById('lightboxNext').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
-    }
-
-    function vibecodingPrev(e) {
-      e.stopPropagation();
-      if (!vibecodingGallery) return;
-      vibecodingGalleryIndex = (vibecodingGalleryIndex - 1 + vibecodingGallery.length) % vibecodingGallery.length;
-      showVibecodingImage();
-    }
-
-    function vibecodingNext(e) {
-      e.stopPropagation();
-      if (!vibecodingGallery) return;
-      vibecodingGalleryIndex = (vibecodingGalleryIndex + 1) % vibecodingGallery.length;
-      showVibecodingImage();
-    }
-
-    function renderVibecoding() {
-      const grid = document.getElementById('vibecodingGrid');
-      grid.innerHTML = vibecodingProjects.map((p, idx) => {
-        const hasMultiple = p.images.length > 1;
-        const imagesAttr = p.images.join(',');
-        return `
-        <article class="vibecoding-card glass reveal">
-          <div class="vibecoding-card-img" data-vibecoding-idx="${idx}">
-            <img src="${p.images[0]}" alt="${p.title}" loading="lazy" class="vibecoding-carousel-img"
-                 data-images="${imagesAttr}" data-current="0" />
-            ${hasMultiple ? '<div class="vibecoding-card-img-hint">共 ' + p.images.length + ' 张</div>' : ''}
-            ${hasMultiple ? `<div class="vibecoding-carousel-dots">
-              ${p.images.map((_, i) => `<span class="vibecoding-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
-            </div>` : ''}
-          </div>
-          <div class="vibecoding-card-body">
-            <div class="vibecoding-card-head">
-              <h3>${p.title}</h3>
-              <div class="vibecoding-badge">${p.type}</div>
-            </div>
-            <p>${p.desc}</p>
-            <div class="vibecoding-tags">
-              <span>${p.orientation}</span>
-            </div>
-          </div>
-        </article>
-      `}).join('');
-
-      grid.querySelectorAll('.vibecoding-card-img').forEach(el => {
-        el.addEventListener('click', () => {
-          const idx = parseInt(el.dataset.vibecodingIdx);
-          openVibecodingGallery(vibecodingProjects[idx]);
-        });
-      });
-
-      startVibecodingCarousels();
-    }
-
-    function startVibecodingCarousels() {
-      document.querySelectorAll('.vibecoding-card').forEach(card => {
-        const img = card.querySelector('.vibecoding-carousel-img');
-        if (!img || !img.dataset.images) return;
-        const images = img.dataset.images.split(',');
-        if (images.length <= 1) return;
-
-        let intervalId;
-
-        function tick() {
-          let current = parseInt(img.dataset.current);
-          current = (current + 1) % images.length;
-          img.dataset.current = current;
-          img.style.opacity = '0';
-          setTimeout(() => {
-            img.src = images[current];
-            img.style.opacity = '1';
-          }, 200);
-
-          const dots = card.querySelectorAll('.vibecoding-dot');
-          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-        }
-
-        function start() { intervalId = setInterval(tick, 3000); }
-        function stop() { clearInterval(intervalId); }
-
-        card.addEventListener('mouseenter', stop);
-        card.addEventListener('mouseleave', start);
-
-        start();
-      });
-    }
-
-    function renderOtherWorks() {
-      const playIcon = '<svg class="play-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>';
-      const pauseIcon = '<svg class="play-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>';
-
-      const grid = document.getElementById('otherworksGrid');
-      grid.innerHTML = otherWorks.map(w => `
-        <article class="otherwork-card glass reveal">
-          <div class="otherwork-cover">
-            <img src="${w.cover}" alt="${w.title}" loading="lazy" />
-            <div class="otherwork-play-btn">${playIcon}</div>
-          </div>
-          <div class="otherwork-body">
-            <div class="otherwork-head">
-              <h3>${w.title}</h3>
-              <div class="otherwork-badge">${w.type}</div>
-            </div>
-            ${w.tags && w.tags.length ? `
-              <div class="otherwork-tags">
-                ${w.tags.map(t => `<span>${t}</span>`).join('')}
+function renderProjects() {
+  const visible = projects.filter(projectMatches);
+  projectsGrid.innerHTML = visible.map((p, pi) => {
+    const mm = p.video
+      ? { type: p.video.type || 'video', src: p.video.src, poster: p.video.poster, alt: p.video.title }
+      : { type: 'image', src: p.images[0].src, alt: p.images[0].alt };
+    return `
+      <article class="project-card card-lg reveal" data-project-card>
+        <div class="project-top">
+          <div class="project-copy">
+            <div class="project-head">
+              <div class="project-title-wrap">
+                <h3 class="project-title">${p.title}</h3>
+                <div class="project-date">${p.date}</div>
               </div>
-            ` : ''}
-            <audio controls preload="none" src="${w.audio}"></audio>
+              <div class="project-badge">${p.badge}</div>
+            </div>
+            <div class="project-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>
+            <div class="project-desc">${p.desc}</div>
+            ${p.achievement ? `<div class="project-highlight">${p.achievement}</div>` : ''}
+            ${p.capabilities ? `<div class="project-cap-labels">${p.capabilities.map(c => `<span>${c}</span>`).join('')}</div>` : ''}
           </div>
-        </article>
-      `).join('');
+          <div class="project-gallery" data-gallery-index="${pi}">
+            <div class="project-main media-stage">
+              ${mm.type === 'bilibili' ? `<iframe class="main-gallery-video bilibili-embed" src="${mm.src}" frameborder="0" allowfullscreen></iframe>`
+              : mm.type === 'video' ? `<video class="main-gallery-video" controls preload="metadata" playsinline poster="${mm.poster || ''}"><source src="${mm.src}" type="video/mp4" /></video>`
+              : `<img src="${mm.src}" alt="${mm.alt}" class="main-gallery-image" data-lightbox="${mm.alt}" />`}
+              <div class="project-main-overlay">
+                ${mm.type === 'video' || mm.type === 'bilibili' ? '' : `<span>${mm.alt}</span><span>点击查看大图</span>`}
+              </div>
+            </div>
+            <div class="thumb-row">
+              ${p.video ? `<button class="thumb active" type="button" data-type="${p.video.type || 'video'}" data-src="${p.video.src}" data-poster="${p.video.poster || ''}" data-alt="${p.video.title}"><img src="${p.video.poster || p.images[0].src}" alt="${p.video.title}" /></button>` : ''}
+              ${p.images.map((img, ii) => `<button class="thumb ${!p.video && ii === 0 ? 'active' : ''}" type="button" data-type="image" data-src="${img.src}" data-alt="${img.alt}"><img src="${img.src}" alt="${img.alt}" /></button>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="project-bottom">
+          <div class="work-block">
+            <h4>核心开发工作</h4>
+            <ul class="work-list">${p.work.map(w => `<li>${w}</li>`).join('')}</ul>
+          </div>
+          <div class="project-side-info">
+            <h4>项目信息摘要</h4>
+            <dl>
+              <div><dt>${p.summary.type}</dt><dd>${p.badge}</dd></div>
+              <div><dt>我的角色</dt><dd>${p.summary.role}</dd></div>
+              <div><dt>核心关注</dt><dd>${p.summary.focus}</dd></div>
+              <div><dt>最终输出</dt><dd>${p.summary.output}</dd></div>
+            </dl>
+          </div>
+        </div>
+        <div class="project-card-actions">
+          <a class="module-top-btn" href="#hero">↑ 顶部</a>
+        </div>
+      </article>
+    `;
+  }).join('');
+  projectCount.textContent = `当前展示 ${visible.length} / ${projects.length} 个项目`;
+  emptyState.style.display = visible.length ? 'none' : 'block';
+  bindProjectGalleries();
+  setupReveal();
+  bindLightbox();
+  setupSmoothScroll();
+}
 
-      grid.querySelectorAll('.otherwork-card').forEach(card => {
-        const cover = card.querySelector('.otherwork-cover');
-        const audio = card.querySelector('audio');
-        const btn = card.querySelector('.otherwork-play-btn');
-
-        cover.addEventListener('click', e => {
-          e.stopPropagation();
-          if (audio.paused) {
-            audio.play();
-            btn.innerHTML = pauseIcon;
-          } else {
-            audio.pause();
-            btn.innerHTML = playIcon;
-          }
-        });
-
-        audio.addEventListener('play', () => btn.innerHTML = pauseIcon);
-        audio.addEventListener('pause', () => btn.innerHTML = playIcon);
-        audio.addEventListener('ended', () => btn.innerHTML = playIcon);
-      });
-    }
-
-    function setupReveal() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.14 });
-
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
-    }
-
-    function animateCounters() {
-      const counters = document.querySelectorAll('[data-count]');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target;
-          const target = Number(el.dataset.count);
-          let current = 0;
-          const duration = 1100;
-          const start = performance.now();
-
-          function tick(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            current = Math.floor(target * (1 - Math.pow(1 - progress, 3)));
-            el.textContent = current === 70 ? '70+' : current;
-            if (progress < 1) requestAnimationFrame(tick);
-          }
-
-          requestAnimationFrame(tick);
-          observer.unobserve(el);
-        });
-      }, { threshold: 0.55 });
-
-      counters.forEach(counter => observer.observe(counter));
-    }
-
-    function bindLightbox() {
-      document.querySelectorAll('[data-lightbox]').forEach(item => {
-        item.removeEventListener('click', openLightboxFromElement);
-        item.addEventListener('click', openLightboxFromElement);
-      });
-    }
-
-    function openLightboxFromElement(event) {
-      const target = event.currentTarget;
-      lightboxImage.src = target.getAttribute('src');
-      lightboxImage.alt = target.getAttribute('alt') || '';
-      lightboxCaption.textContent = target.dataset.lightbox || target.getAttribute('alt') || '';
-      lightbox.classList.add('active');
-      document.body.classList.add('modal-open');
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      document.body.classList.remove('modal-open');
-      vibecodingGallery = null;
-    }
-
-    function updateNavState() {
-      const sections = [...document.querySelectorAll('main section')];
-      const scrollY = window.scrollY + 140;
-
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const bottom = top + section.offsetHeight;
-        if (scrollY >= top && scrollY < bottom) {
-          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${section.id}`));
+function bindProjectGalleries() {
+  document.querySelectorAll('[data-gallery-index]').forEach(gallery => {
+    const mainStage = gallery.querySelector('.media-stage');
+    const overlaySpans = gallery.querySelectorAll('.project-main-overlay span');
+    const titleSpan = overlaySpans[0];
+    const metaSpan = overlaySpans[1];
+    const thumbs = gallery.querySelectorAll('.thumb');
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        const type = thumb.dataset.type;
+        const src = thumb.dataset.src;
+        const alt = thumb.dataset.alt;
+        const poster = thumb.dataset.poster || '';
+        if (type === 'bilibili') {
+          mainStage.innerHTML = `<iframe class="main-gallery-video bilibili-embed" src="${src}" frameborder="0" allowfullscreen></iframe><div class="project-main-overlay"></div>`;
+        } else if (type === 'video') {
+          mainStage.innerHTML = `<video class="main-gallery-video" controls preload="metadata" playsinline poster="${poster}"><source src="${src}" type="video/mp4" /></video><div class="project-main-overlay"></div>`;
+        } else {
+          mainStage.innerHTML = `<img src="${src}" alt="${alt}" class="main-gallery-image" data-lightbox="${alt}" /><div class="project-main-overlay"><span>${alt}</span><span>点击查看大图</span></div>`;
+          bindLightbox();
+        }
+        if (titleSpan && metaSpan && type !== 'video' && type !== 'bilibili') {
+          titleSpan.textContent = alt;
+          metaSpan.textContent = '点击查看大图';
         }
       });
-    }
-
-    function handleScrollEffects() {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      progressBar.style.width = `${progress}%`;
-      navbar.classList.toggle('scrolled', scrollTop > 20);
-      updateNavState();
-    }
-
-    function setupSmoothScroll() {
-      document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', (event) => {
-          const target = document.querySelector(link.getAttribute('href'));
-          if (!target) return;
-          event.preventDefault();
-          const offset = target.getBoundingClientRect().top + window.pageYOffset - 90;
-          window.scrollTo({ top: offset, behavior: 'smooth' });
-        });
-      });
-    }
-
-    lightbox.addEventListener('click', (event) => {
-      if (event.target === lightbox) closeLightbox();
     });
-    lightboxClose.addEventListener('click', closeLightbox);
-    document.getElementById('lightboxPrev').addEventListener('click', vibecodingPrev);
-    document.getElementById('lightboxNext').addEventListener('click', vibecodingNext);
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeLightbox();
-      if (event.key === 'ArrowLeft') vibecodingGallery && vibecodingPrev(event);
-      if (event.key === 'ArrowRight') vibecodingGallery && vibecodingNext(event);
+  });
+}
+
+function renderAwards() {
+  awardList.innerHTML = awards.map(a => `
+    <div class="award-item">
+      <div class="award-icon">${a.icon}</div>
+      <div><h4>${a.title}</h4><p>${a.level}</p></div>
+    </div>
+  `).join('');
+  certificateGrid.innerHTML = certificates.map(c => `
+    <div class="certificate-card reveal">
+      <img src="${c.src}" alt="${c.alt}" data-lightbox="${c.alt}" />
+      <span>${c.alt}</span>
+    </div>
+  `).join('');
+}
+
+let vibecodingGallery = null;
+let vibecodingGalleryIndex = 0;
+let vibecodingGalleryTitle = '';
+
+function openVibecodingGallery(project) {
+  vibecodingGallery = project.images;
+  vibecodingGalleryIndex = 0;
+  vibecodingGalleryTitle = project.title;
+  showVibecodingImage();
+  lightbox.classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function showVibecodingImage() {
+  if (!vibecodingGallery) return;
+  lightboxImage.src = '';
+  requestAnimationFrame(() => { requestAnimationFrame(() => { lightboxImage.src = vibecodingGallery[vibecodingGalleryIndex]; }); });
+  lightboxCaption.textContent = `${vibecodingGalleryTitle} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
+  document.getElementById('lightboxPrev').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
+  document.getElementById('lightboxNext').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
+}
+
+function vibecodingPrev(e) { e.stopPropagation(); if (!vibecodingGallery) return; vibecodingGalleryIndex = (vibecodingGalleryIndex - 1 + vibecodingGallery.length) % vibecodingGallery.length; showVibecodingImage(); }
+function vibecodingNext(e) { e.stopPropagation(); if (!vibecodingGallery) return; vibecodingGalleryIndex = (vibecodingGalleryIndex + 1) % vibecodingGallery.length; showVibecodingImage(); }
+
+function renderVibecoding() {
+  const grid = document.getElementById('vibecodingGrid');
+  grid.innerHTML = vibecodingProjects.map((p, idx) => {
+    const hasMultiple = p.images.length > 1;
+    return `
+      <article class="vibecoding-card card-lg reveal">
+        <div class="vibecoding-card-img" data-vibecoding-idx="${idx}">
+          <img src="${p.images[0]}" alt="${p.title}" loading="lazy" class="vibecoding-carousel-img" data-images="${p.images.join(',')}" data-current="0" />
+          ${hasMultiple ? `<div class="vibecoding-card-img-hint">共 ${p.images.length} 张</div>` : ''}
+          ${hasMultiple ? `<div class="vibecoding-carousel-dots">${p.images.map((_, i) => `<span class="vibecoding-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}</div>` : ''}
+        </div>
+        <div class="vibecoding-card-body">
+          <div class="vibecoding-card-head"><h3>${p.title}</h3><div class="vibecoding-badge">${p.type}</div></div>
+          <p>${p.desc}</p>
+          <div class="vibecoding-tags"><span>${p.orientation}</span></div>
+        </div>
+      </article>
+    `;
+  }).join('');
+  grid.querySelectorAll('.vibecoding-card-img').forEach(el => {
+    el.addEventListener('click', () => { const idx = parseInt(el.dataset.vibecodingIdx); openVibecodingGallery(vibecodingProjects[idx]); });
+  });
+  startVibecodingCarousels();
+}
+
+function startVibecodingCarousels() {
+  document.querySelectorAll('.vibecoding-card').forEach(card => {
+    const img = card.querySelector('.vibecoding-carousel-img');
+    if (!img || !img.dataset.images) return;
+    const images = img.dataset.images.split(',');
+    if (images.length <= 1) return;
+    let intervalId;
+    function tick() {
+      let current = parseInt(img.dataset.current);
+      current = (current + 1) % images.length;
+      img.dataset.current = current;
+      img.style.opacity = '0';
+      setTimeout(() => { img.src = images[current]; img.style.opacity = '1'; }, 200);
+      card.querySelectorAll('.vibecoding-dot').forEach((dot, i) => dot.classList.toggle('active', i === current));
+    }
+    function start() { intervalId = setInterval(tick, 3000); }
+    function stop() { clearInterval(intervalId); }
+    card.addEventListener('mouseenter', stop);
+    card.addEventListener('mouseleave', start);
+    start();
+  });
+}
+
+function renderOtherWorks() {
+  const playIcon = '<svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>';
+  const pauseIcon = '<svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>';
+  const grid = document.getElementById('otherworksGrid');
+  grid.innerHTML = otherWorks.map(w => `
+    <article class="otherwork-card card-lg reveal">
+      <div class="otherwork-cover"><img src="${w.cover}" alt="${w.title}" loading="lazy" /><div class="otherwork-play-btn">${playIcon}</div></div>
+      <div class="otherwork-body">
+        <div class="otherwork-head"><h3>${w.title}</h3><div class="otherwork-badge">${w.type}</div></div>
+        ${w.tags && w.tags.length ? `<div class="otherwork-tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
+        <audio controls preload="none" src="${w.audio}"></audio>
+      </div>
+    </article>
+  `).join('');
+  grid.querySelectorAll('.otherwork-card').forEach(card => {
+    const cover = card.querySelector('.otherwork-cover');
+    const audio = card.querySelector('audio');
+    const btn = card.querySelector('.otherwork-play-btn');
+    cover.addEventListener('click', e => {
+      e.stopPropagation();
+      if (audio.paused) { audio.play(); btn.innerHTML = pauseIcon; }
+      else { audio.pause(); btn.innerHTML = playIcon; }
     });
+    audio.addEventListener('play', () => btn.innerHTML = pauseIcon);
+    audio.addEventListener('pause', () => btn.innerHTML = playIcon);
+    audio.addEventListener('ended', () => btn.innerHTML = playIcon);
+  });
+}
 
-    renderSkills();
-    renderFilters();
-    renderProjects();
-    renderVibecoding();
-    renderOtherWorks();
-    renderAwards();
-    setupReveal();
-    animateCounters();
-    bindLightbox();
-    setupSmoothScroll();
-    handleScrollEffects();
+function setupReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.14 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+}
 
-    window.addEventListener('scroll', handleScrollEffects, { passive: true });
-    window.addEventListener('resize', handleScrollEffects);
-  </script>
+function animateCounters() {
+  const counters = document.querySelectorAll('[data-count]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = Number(el.dataset.count);
+      let current = 0;
+      const duration = 1100;
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        current = Math.floor(target * (1 - Math.pow(1 - progress, 3)));
+        el.textContent = current === 70 ? '70+' : current;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.55 });
+  counters.forEach(counter => observer.observe(counter));
+}
+
+function bindLightbox() {
+  document.querySelectorAll('[data-lightbox]').forEach(item => {
+    item.removeEventListener('click', openLightboxFromElement);
+    item.addEventListener('click', openLightboxFromElement);
+  });
+}
+
+function openLightboxFromElement(event) {
+  const target = event.currentTarget;
+  lightboxImage.src = target.getAttribute('src');
+  lightboxImage.alt = target.getAttribute('alt') || '';
+  lightboxCaption.textContent = target.dataset.lightbox || target.getAttribute('alt') || '';
+  lightbox.classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function closeLightbox() { lightbox.classList.remove('active'); document.body.classList.remove('modal-open'); vibecodingGallery = null; }
+
+function updateNavState() {
+  const sections = [...document.querySelectorAll('main section')];
+  const scrollY = window.scrollY + 140;
+  sections.forEach(section => {
+    const top = section.offsetTop;
+    const bottom = top + section.offsetHeight;
+    if (scrollY >= top && scrollY < bottom) {
+      navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${section.id}`));
+    }
+  });
+}
+
+function handleScrollEffects() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : '0';
+  navbar.classList.toggle('scrolled', scrollTop > 20);
+  updateNavState();
+}
+
+function setupSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (event) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      event.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+    });
+  });
+}
+
+lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+lightboxClose.addEventListener('click', closeLightbox);
+document.getElementById('lightboxPrev').addEventListener('click', vibecodingPrev);
+document.getElementById('lightboxNext').addEventListener('click', vibecodingNext);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeLightbox();
+  if (event.key === 'ArrowLeft') vibecodingGallery && vibecodingPrev(event);
+  if (event.key === 'ArrowRight') vibecodingGallery && vibecodingNext(event);
+});
+
+function syncColumnHeights() {
+  var overviewCards = document.querySelectorAll('.overview-grid > .overview-card');
+  if (overviewCards.length === 2) {
+    overviewCards[1].style.maxHeight = overviewCards[0].offsetHeight + 'px';
+  }
+  var awardLeft = document.querySelector('.award-list-inner');
+  var certSection = document.querySelector('.certificate-section');
+  if (awardLeft && certSection) {
+    certSection.style.maxHeight = awardLeft.offsetHeight + 'px';
+  }
+}
+
+renderCapabilityMatrix();
+renderSkills();
+renderFilters();
+renderProjects();
+renderVibecoding();
+renderOtherWorks();
+renderAwards();
+syncColumnHeights();
+setupReveal();
+animateCounters();
+bindLightbox();
+setupSmoothScroll();
+handleScrollEffects();
+window.addEventListener('scroll', handleScrollEffects, { passive: true });
+window.addEventListener('resize', handleScrollEffects);
+window.addEventListener('load', syncColumnHeights);
+</script>
 </body>
 </html>
