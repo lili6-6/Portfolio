@@ -722,51 +722,6 @@ a { color: inherit; text-decoration: none; }
   .cap-row { grid-template-columns: 1fr; gap: 10px; }
 }
 
-.vibecoding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
-.vibecoding-card { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
-.vibecoding-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.25); box-shadow: 0 12px 36px rgba(0,0,0,0.25); }
-.vibecoding-card-img {
-  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: rgba(0,0,0,0.35);
-  cursor: pointer;
-}
-.vibecoding-card-img img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
-.vibecoding-card-img-hint {
-  position: absolute; right: 8px; bottom: 8px;
-  padding: 3px 8px; border-radius: 9999px;
-  background: rgba(8,9,10,0.7);
-  backdrop-filter: blur(6px);
-  font-size: 11px; color: var(--text-tertiary);
-  border: 1px solid rgba(255,255,255,0.06);
-  pointer-events: none; z-index: 2;
-}
-.vibecoding-carousel-dots {
-  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 5px; z-index: 2; pointer-events: none;
-}
-.vibecoding-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.15); transition: var(--transition); }
-.vibecoding-dot.active { background: #fff; border-color: #fff; box-shadow: 0 0 6px rgba(255,255,255,0.4); }
-
-.vibecoding-card-body { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-.vibecoding-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.vibecoding-card-head h3 { font-size: 14px; font-weight: 510; letter-spacing: -0.25px; }
-.vibecoding-badge {
-  padding: 2px 7px; border-radius: 9999px;
-  font-size: 10px; font-weight: 510;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: var(--text-tertiary);
-  white-space: nowrap; flex-shrink: 0;
-}
-.vibecoding-card-body p { font-size: 12px; color: var(--text-quaternary); line-height: 1.5; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.vibecoding-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.vibecoding-tags span {
-  padding: 2px 7px; border-radius: 9999px; font-size: 10px; font-weight: 510;
-  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-  color: var(--text-quaternary);
-}
-
 .otherworks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 .otherwork-card { border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
 .otherwork-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.2); box-shadow: 0 12px 36px rgba(0,0,0,0.25); }
@@ -808,9 +763,6 @@ a { color: inherit; text-decoration: none; }
   .skills-grid, .otherworks-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .vibecoding-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 @media (max-width: 768px) {
   .container { width: min(var(--max-width), calc(100% - 24px)); }
@@ -820,7 +772,7 @@ a { color: inherit; text-decoration: none; }
   .hero-main, .hero-side, .overview-card, .project-card, .contact-card-large, .contact-card-side {
     padding: 20px;
   }
-  .stats-grid, .skills-grid, .certificate-grid, .vibecoding-grid, .otherworks-grid {
+  .stats-grid, .skills-grid, .certificate-grid, .otherworks-grid {
     grid-template-columns: 1fr;
   }
   .thumb-row { grid-template-columns: repeat(3, 1fr); }
@@ -853,7 +805,6 @@ a { color: inherit; text-decoration: none; }
       <a href="#capabilities">能力</a>
       <a href="#skills">技术</a>
       <a href="#projects">项目</a>
-      <a href="#vibecoding">VibeCoding</a>
       <a href="#otherworks">其他</a>
       <a href="#awards">获奖</a>
       <a href="#contact">联系</a>
@@ -875,7 +826,7 @@ a { color: inherit; text-decoration: none; }
             <span class="gradient-text">用 Unity 把系统做深</span>
           </h2>
           <p class="hero-sub">刘嘉琳 · 西安邮电大学 · 数字媒体技术（大二）</p>
-           <p class="hero-desc"><strong>8 个完整项目，横跨 7 个游戏品类：</strong>2D 叙事平台跳跃、3D Topdown 第三人称、解谜冒险、音乐节奏、判案推理、情绪叙事、体感交互。每个项目从立项到封包全程担任程序兼策划。深度实践 MVC 架构、AI 智能体、Boss/NPC AI 系统，自建 Unity Agent 工作流驱动快速原型开发。</p>
+           <p class="hero-desc"><strong>9 个完整项目，横跨 7 个游戏品类：</strong>2D 叙事平台跳跃、3D Topdown 第三人称、解谜冒险、音乐节奏、判案推理、情绪叙事、体感交互。每个项目从立项到封包全程担任程序兼策划。深度实践 MVC 架构、AI 智能体、Boss/NPC AI 系统，自建 Unity Agent 工作流驱动快速原型开发。</p>
           <div class="hero-meta">
             <span class="hero-pill">pp_LiuJL@163.com</span>
             <span class="hero-pill">18729928628</span>
@@ -904,7 +855,7 @@ a { color: inherit; text-decoration: none; }
             <h3>能力数据</h3>
             <div class="stats-grid">
               <div class="stat-card">
-                <div class="stat-value" data-count="8">0</div>
+                <div class="stat-value" data-count="9">0</div>
                 <div class="stat-label">完整项目</div>
               </div>
               <div class="stat-card">
@@ -954,13 +905,13 @@ a { color: inherit; text-decoration: none; }
       <div class="section-header reveal">
         <div class="section-label"><span class="section-label-bar"></span> Portfolio Overview</div>
         <h2 class="section-title">不做堆砌 —— 我做可扩展的系统</h2>
-        <p class="section-desc">7 个品类、8 个项目，从架构到 AI 到交付全线独立啃下来。不只是能写功能，是能搭一套能跑能改能上线的东西。</p>
+        <p class="section-desc">7 个品类、9 个项目，从架构到 AI 到交付全线独立啃下来。不只是能写功能，是能搭一套能跑能改能上线的东西。</p>
       </div>
       <div class="overview-grid">
         <div class="overview-card card-lg reveal">
           <h3>核心能力矩阵</h3>
           <ul>
-            <li><strong>系统架构能力</strong> —— MVC 架构、事件驱动通信、ScriptableObject/JSON 持久化。8 个项目磨出来的模块化解耦意识，不写死、好扩展、能复用。</li>
+            <li><strong>系统架构能力</strong> —— MVC 架构、事件驱动通信、ScriptableObject/JSON 持久化。9 个项目磨出来的模块化解耦意识，不写死、好扩展、能复用。</li>
             <li><strong>AI × 游戏融合</strong> —— 阿里云百炼智能体对接、多角色 AI 对话、AI 驱动的动态叙事与剧情生成、Boss 多阶段 AI 与 NPC AI 系统，覆盖 5 个项目的 AI 交互落地经验。</li>
             <li><strong>VibeCoding / Agent 工作流</strong> —— 自建 Unity Agent pipeline（OpenCode / Codex），从自然语言到可运行游戏原型的完整闭环。<strong>3D+2D+H5</strong> 多品类项目验证，能用 AI 真正提效。</li>
             <li><strong>全流程交付</strong> —— 程序兼策划、Git 分支管理、GameJam 48h 产出、Steam 上架、学术论文支撑。不是只做demo，是能推到线上的东西。</li>
@@ -972,7 +923,7 @@ a { color: inherit; text-decoration: none; }
               <li><strong>2025.5 - 2025.7 — Kinect 2D 皮影动捕系统</strong><br>体感捕捉、2D 映射、物理驱动、科研展示。</li>
               <li><strong>2025.8 - 2025.10 — HalfWay / 中途</strong><br>GameJam 判案玩法、证物拖拽分类、场景切换与倒计时流程。</li>
               <li><strong>2025.9 - 2025.12 — GlowBorn / 光裔</strong><br>2D 平台跳跃、多形态技能、Boss AI、关卡整合与 Steam 商店页。</li>
-              <li><strong>2025.12 - 持续 — VibeCoding H5 项目</strong><br>LoopMaster 编曲工具、Frequency Guard 塔防音游、BounceHero 等。</li>
+              <li><strong>2026.4 - 至今 — Geminants</strong><br>Agent 工作流驱动快速原型：Frequency Guard 塔防音游、BounceHero 竖版跳跃。</li>
               <li><strong>2026.1 - 2026.3 — 3D 音游手机系统</strong><br>虚拟手机系统、AI 聊天 App、日历任务与数据持久化架构。</li>
               <li><strong>2026.2 - 2026.3 — 情绪漂流瓶</strong><br>动态天气、漂流瓶交互、深海钓取与 AI 回复逻辑。</li>
               <li><strong>2026.4 - 2026.5 — 遗忘之匣·回响</strong><br>2D 平台跳跃、记忆碎片与环境联动、非线性箱庭关卡、多结局系统。</li>
@@ -1028,20 +979,6 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="projects-grid" id="projectsGrid"></div>
       <div class="empty-state" id="emptyState">当前筛选条件下暂无项目展示。</div>
-      <div class="module-footer-action reveal">
-        <a class="module-top-btn" href="#hero">↑ 顶部</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="vibecoding">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-label"><span class="section-label-bar"></span> VibeCoding</div>
-        <h2 class="section-title">AI Agent 驱动的游戏快速原型</h2>
-        <p class="section-desc">基于 Agent 工作流（OpenCode、Codex 等），自行搭建 Unity 游戏开发 Agent pipeline，实现从自然语言描述到可运行游戏原型的高效闭环。同时也产出多个 H5 小游戏验证工作流。</p>
-      </div>
-      <div class="vibecoding-grid" id="vibecodingGrid"></div>
       <div class="module-footer-action reveal">
         <a class="module-top-btn" href="#hero">↑ 顶部</a>
       </div>
@@ -1136,8 +1073,6 @@ a { color: inherit; text-decoration: none; }
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner">
     <button class="lightbox-close" id="lightboxClose" aria-label="关闭">&times;</button>
-    <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="上一张">&lsaquo;</button>
-    <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="下一张">&rsaquo;</button>
     <img id="lightboxImage" src="" alt="" />
     <div class="lightbox-caption" id="lightboxCaption"></div>
   </div>
@@ -1157,7 +1092,7 @@ const skills = [
 const capabilityMatrix = [
   { icon: "S", label: "系统架构", projects: ["3D音游手机系统", "遗忘之匣·回响", "Iterate/迭代", "情绪漂流瓶"] },
   { icon: "A", label: "AI 交互", projects: ["情绪漂流瓶", "Iterate/迭代", "3D音游手机系统", "HalfWay/中途", "Dream Who To Be"] },
-  { icon: "V", label: "VibeCoding", projects: ["LoopMaster", "Frequency Guard", "BounceHero", "飞行棋", "贪吃蛇", "Flappy Bird"] },
+  { icon: "V", label: "VibeCoding", projects: ["Geminants", "Frequency Guard", "BounceHero"] },
   { icon: "G", label: "游戏类型", projects: ["GlowBorn/光裔", "遗忘之匣·回响", "Dream Who To Be", "HalfWay/中途", "3D音游手机系统"] },
   { icon: "T", label: "团队管理", projects: ["Dream Who To Be", "GlowBorn/光裔", "Kinect 皮影动捕", "情绪漂流瓶"] },
   { icon: "R", label: "上线/发布", projects: ["GlowBorn/光裔 (Steam)", "HalfWay/中途 (Steam)", "Iterate/迭代 (TapTap)", "情绪漂流瓶 (获奖)"] }
@@ -1349,6 +1284,30 @@ const projects = [
       { src: "img/iterate_7.png", alt: "迭代截图7" }, { src: "img/iterate_8.png", alt: "迭代截图8" },
       { src: "img/iterate_9.png", alt: "迭代截图9" }, { src: "img/iterate_minigame.png", alt: "网易MiniGame参赛" }
     ]
+  },
+  {
+    title: "Geminants", date: "2026.4-至今",
+    badge: "AI 游戏 App 内置游戏开发 / 刷玩式分发平台",
+    category: ["游戏开发"],
+    tags: ["Agent工作流", "AI对话改编", "内置游戏", "即点即玩", "机制/美术/音效生成", "OpenCode"],
+    desc: "<strong>项目简介：</strong>Geminants 是一款游戏 App，采用「刷短视频」式交互——上下滑动浏览、即点即玩各类小游戏，并支持联网排行榜等在线功能。最大特色是内置 <strong>AI 即兴改编引擎</strong>：用户可通过 AI 对话即时改编任意游戏的机制、美术资产与音效。我负责其中内置游戏的开发，已产出 <strong>Frequency Guard</strong>（塔防 × 音游融合）与 <strong>BounceHero</strong>（竖版跳跃）两款作品。",
+    capabilities: ["VibeCoding", "游戏类型"],
+    work: [
+      "利用 Agent 搭建内置游戏产出工作流：从自然语言需求到可运行游戏的稳定闭环，保障内置游戏的批量产出与迭代更新。",
+      "Frequency Guard：塔防 × 音游融合玩法，多种塔类型搭配，防御破坏节奏的怪物同时奏出和谐旋律。",
+      "BounceHero：竖版跳跃玩法，画绳弹起主角不断向上攀升。",
+      "遵循 App 框架接入规范，保证内置游戏在「刷玩、即点即玩、AI 对话改编」场景下的稳定运行与表现一致。",
+      "把控游戏美术与技术质量：统一视觉风格与性能标准，确保与 App 内改编引擎兼容、可即时替换资产。"
+    ],
+    achievement: "",
+    summary: { type: "项目类型", role: "参与开发 / 内置游戏开发", focus: "Agent 工作流产出内置游戏、适配刷玩式 App 框架", output: "适应刷玩与 AI 即兴改编场景的内置游戏" },
+    images: [
+      { src: "assets/vibecoding/Frequency Guard/82128082690022140b959e1d5558b647.jpg", alt: "Frequency Guard 塔防音游" },
+      { src: "assets/vibecoding/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg", alt: "Frequency Guard 玩法截图" },
+      { src: "assets/vibecoding/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg", alt: "Frequency Guard 关卡截图" },
+      { src: "assets/vibecoding/BounceHero/6fbed7fd2353ae8e49356ba49c0e9e8e.png", alt: "BounceHero 竖版跳跃" },
+      { src: "assets/vibecoding/BounceHero/8b04cafb14e5ae44ab1ec6e001125926.png", alt: "BounceHero 玩法截图" }
+    ]
   }
 ];
 
@@ -1380,30 +1339,6 @@ const certificates = [
   { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" },
   { src: "img/award10.jpg", alt: "CIGA 西安站 GameJam 最受喜爱奖" },
   { src: "img/award11.jpg", alt: "中国好创意-数智声景 全国三等奖" }
-];
-
-const vibecodingProjects = [
-  { title: "LoopMaster", type: "工具", orientation: "横屏", scale: "large",
-    desc: "便携式网页编曲工具，实现多轨道编排、钢琴窗 Pattern 与采样轨道 Pattern 双模式、混音台及 FX 效果链路。",
-    images: ["assets/vibecoding/LoopMaster/37044fda2870c67b6e86d678b0aad9db.png","assets/vibecoding/LoopMaster/42a20d57073f76daacf5dd7a3219b52c.png","assets/vibecoding/LoopMaster/6b8945c60b4e51e0daef3e27ec5603d2.png","assets/vibecoding/LoopMaster/73156793595c2317e07f25ab4e839753.png","assets/vibecoding/LoopMaster/7545916004e7fa80515d1bc201208fb0.png","assets/vibecoding/LoopMaster/aa911c1bcfde0a9b28c9a4998d297fca.png"] },
-  { title: "Frequency Guard", type: "游戏", orientation: "横屏", scale: "large",
-    desc: "塔防 × 音游融合玩法。多种塔类型，通过不同搭配防御破坏节奏的怪物，同时奏出和谐旋律。",
-    images: ["assets/vibecoding/Frequency Guard/82128082690022140b959e1d5558b647.jpg","assets/vibecoding/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg","assets/vibecoding/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg"] },
-  { title: "BounceHero", type: "游戏", orientation: "竖屏", scale: "medium",
-    desc: "竖版跳跃小游戏，画绳弹起主角不断向上攀升。",
-    images: ["assets/vibecoding/BounceHero/6fbed7fd2353ae8e49356ba49c0e9e8e.png","assets/vibecoding/BounceHero/8b04cafb14e5ae44ab1ec6e001125926.png"] },
-  { title: "飞行棋", type: "游戏", orientation: "横屏", scale: "medium",
-    desc: "经典飞行棋 + 大富翁融合玩法，内置多偶遇事件与简易经济系统。",
-    images: ["assets/vibecoding/dianziyinyue/2e277643389fab28d8ab7938c44aa314.png"] },
-  { title: "贪吃蛇", type: "游戏", orientation: "竖屏", scale: "small",
-    desc: "经典贪吃蛇玩法，支持鼠标控制、限时模式与经典模式。",
-    images: ["assets/vibecoding/tanchishe/9a7813c48c189979611ee9cf6b677e39.png"] },
-  { title: "Flappy Bird", type: "游戏", orientation: "竖屏", scale: "small",
-    desc: "经典 Flappy Bird 玩法，支持手动调整游戏数值。",
-    images: ["assets/vibecoding/Flappy Bird/7a7f99082d78cb3c0148593b8eb1b222.png"] },
-  { title: "电子音乐介绍页", type: "展示", orientation: "横屏", scale: "small",
-    desc: "个人电子音乐风格介绍展示页。",
-    images: ["assets/vibecoding/feixingqi/6ffd7b6756721db0ae91891807339339.png","assets/vibecoding/feixingqi/7abffd99bbe52bb4ab0943ee64eb3831.png","assets/vibecoding/feixingqi/bcf5d5cae41a9952d5a15ea4bb61fc4c.png"] }
 ];
 
 const otherWorks = [
@@ -1577,79 +1512,6 @@ function renderAwards() {
   `).join('');
 }
 
-let vibecodingGallery = null;
-let vibecodingGalleryIndex = 0;
-let vibecodingGalleryTitle = '';
-
-function openVibecodingGallery(project) {
-  vibecodingGallery = project.images;
-  vibecodingGalleryIndex = 0;
-  vibecodingGalleryTitle = project.title;
-  showVibecodingImage();
-  lightbox.classList.add('active');
-  document.body.classList.add('modal-open');
-}
-
-function showVibecodingImage() {
-  if (!vibecodingGallery) return;
-  lightboxImage.src = '';
-  requestAnimationFrame(() => { requestAnimationFrame(() => { lightboxImage.src = vibecodingGallery[vibecodingGalleryIndex]; }); });
-  lightboxCaption.textContent = `${vibecodingGalleryTitle} — ${vibecodingGalleryIndex + 1} / ${vibecodingGallery.length}`;
-  document.getElementById('lightboxPrev').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
-  document.getElementById('lightboxNext').style.display = vibecodingGallery.length > 1 ? 'flex' : 'none';
-}
-
-function vibecodingPrev(e) { e.stopPropagation(); if (!vibecodingGallery) return; vibecodingGalleryIndex = (vibecodingGalleryIndex - 1 + vibecodingGallery.length) % vibecodingGallery.length; showVibecodingImage(); }
-function vibecodingNext(e) { e.stopPropagation(); if (!vibecodingGallery) return; vibecodingGalleryIndex = (vibecodingGalleryIndex + 1) % vibecodingGallery.length; showVibecodingImage(); }
-
-function renderVibecoding() {
-  const grid = document.getElementById('vibecodingGrid');
-  grid.innerHTML = vibecodingProjects.map((p, idx) => {
-    const hasMultiple = p.images.length > 1;
-    return `
-      <article class="vibecoding-card card-lg reveal">
-        <div class="vibecoding-card-img" data-vibecoding-idx="${idx}">
-          <img src="${p.images[0]}" alt="${p.title}" loading="lazy" class="vibecoding-carousel-img" data-images="${p.images.join(',')}" data-current="0" />
-          ${hasMultiple ? `<div class="vibecoding-card-img-hint">共 ${p.images.length} 张</div>` : ''}
-          ${hasMultiple ? `<div class="vibecoding-carousel-dots">${p.images.map((_, i) => `<span class="vibecoding-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}</div>` : ''}
-        </div>
-        <div class="vibecoding-card-body">
-          <div class="vibecoding-card-head"><h3>${p.title}</h3><div class="vibecoding-badge">${p.type}</div></div>
-          <p>${p.desc}</p>
-          <div class="vibecoding-tags"><span>${p.orientation}</span></div>
-        </div>
-      </article>
-    `;
-  }).join('');
-  grid.querySelectorAll('.vibecoding-card-img').forEach(el => {
-    el.addEventListener('click', () => { const idx = parseInt(el.dataset.vibecodingIdx); openVibecodingGallery(vibecodingProjects[idx]); });
-  });
-  startVibecodingCarousels();
-}
-
-function startVibecodingCarousels() {
-  document.querySelectorAll('.vibecoding-card').forEach(card => {
-    const img = card.querySelector('.vibecoding-carousel-img');
-    if (!img || !img.dataset.images) return;
-    const images = img.dataset.images.split(',');
-    if (images.length <= 1) return;
-    let intervalId;
-    function tick() {
-      let current = parseInt(img.dataset.current);
-      current = (current + 1) % images.length;
-      img.dataset.current = current;
-      img.style.opacity = '0';
-      setTimeout(() => { img.src = images[current]; img.style.opacity = '1'; }, 200);
-      card.querySelectorAll('.vibecoding-dot').forEach((dot, i) => dot.classList.toggle('active', i === current));
-    }
-    function start() { intervalId = setInterval(tick, 3000); }
-    function stop() { clearInterval(intervalId); }
-    card.addEventListener('mouseenter', stop);
-    card.addEventListener('mouseleave', start);
-    start();
-  });
-}
-
 function renderOtherWorks() {
   const playIcon = '<svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/><polygon points="9,7 9,17 18,12" fill="white"/></svg>';
   const pauseIcon = '<svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/><rect x="8" y="7" width="3" height="10" rx="1" fill="white"/><rect x="13" y="7" width="3" height="10" rx="1" fill="white"/></svg>';
@@ -1727,7 +1589,7 @@ function openLightboxFromElement(event) {
   document.body.classList.add('modal-open');
 }
 
-function closeLightbox() { lightbox.classList.remove('active'); document.body.classList.remove('modal-open'); vibecodingGallery = null; }
+function closeLightbox() { lightbox.classList.remove('active'); document.body.classList.remove('modal-open'); }
 
 function updateNavState() {
   const sections = [...document.querySelectorAll('main section')];
@@ -1762,12 +1624,8 @@ function setupSmoothScroll() {
 
 lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
 lightboxClose.addEventListener('click', closeLightbox);
-document.getElementById('lightboxPrev').addEventListener('click', vibecodingPrev);
-document.getElementById('lightboxNext').addEventListener('click', vibecodingNext);
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') closeLightbox();
-  if (event.key === 'ArrowLeft') vibecodingGallery && vibecodingPrev(event);
-  if (event.key === 'ArrowRight') vibecodingGallery && vibecodingNext(event);
 });
 
 function syncColumnHeights() {
@@ -1786,7 +1644,6 @@ renderCapabilityMatrix();
 renderSkills();
 renderFilters();
 renderProjects();
-renderVibecoding();
 renderOtherWorks();
 renderAwards();
 syncColumnHeights();
