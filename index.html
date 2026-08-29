@@ -1021,6 +1021,8 @@ a { color: inherit; text-decoration: none; }
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner">
     <button class="lightbox-close" id="lightboxClose" aria-label="关闭">&times;</button>
+    <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="上一张">&#10094;</button>
+    <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="下一张">&#10095;</button>
     <img id="lightboxImage" src="" alt="" />
     <div class="lightbox-caption" id="lightboxCaption"></div>
   </div>
@@ -1374,7 +1376,11 @@ const lightbox = document.getElementById('lightbox');
 const lightboxImage = document.getElementById('lightboxImage');
 const lightboxCaption = document.getElementById('lightboxCaption');
 const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
 
+let lightboxItems = [];
+let lightboxIndex = 0;
 let currentFilter = '全部';
 
 const summaryLabels = { role: '我的角色', focus: '核心关注', output: '最终输出', team: '团队 / 职责', stack: '技术栈' };
@@ -1587,14 +1593,48 @@ function bindLightbox() {
   });
 }
 
+function getLightboxGroup(target) {
+  const src = target.getAttribute('src');
+  const alt = target.dataset.lightbox || target.getAttribute('alt') || '';
+  const gallery = target.closest('[data-gallery-index]');
+  const certGrid = target.closest('#certificateGrid');
+  let items = null;
+  if (gallery) {
+    items = [...gallery.querySelectorAll('.thumb')]
+      .filter(t => t.dataset.type === 'image')
+      .map(t => ({ src: t.dataset.src, alt: t.dataset.alt }));
+  } else if (certGrid) {
+    items = [...certGrid.querySelectorAll('img[data-lightbox]')]
+      .map(t => ({ src: t.getAttribute('src'), alt: t.dataset.lightbox || t.getAttribute('alt') || '' }));
+  }
+  if (items && items.length) {
+    const index = Math.max(0, items.findIndex(it => it.src === src));
+    return { items, index };
+  }
+  return { items: [{ src, alt }], index: 0 };
+}
+
+function renderLightbox() {
+  const item = lightboxItems[lightboxIndex];
+  lightboxImage.src = item.src;
+  lightboxImage.alt = item.alt;
+  lightboxCaption.textContent = lightboxItems.length > 1 ? `${item.alt}（${lightboxIndex + 1} / ${lightboxItems.length}）` : item.alt;
+  lightboxPrev.style.display = lightboxItems.length > 1 ? 'flex' : 'none';
+  lightboxNext.style.display = lightboxItems.length > 1 ? 'flex' : 'none';
+  lightbox.classList.add('active');
+}
+
 function openLightboxFromElement(event) {
   const target = event.currentTarget;
-  lightboxImage.src = target.getAttribute('src');
-  lightboxImage.alt = target.getAttribute('alt') || '';
-  lightboxCaption.textContent = target.dataset.lightbox || target.getAttribute('alt') || '';
-  lightbox.classList.add('active');
+  const group = getLightboxGroup(target);
+  lightboxItems = group.items;
+  lightboxIndex = group.index;
+  renderLightbox();
   document.body.classList.add('modal-open');
 }
+
+function goLightboxPrev() { if (lightboxItems.length < 2) return; lightboxIndex = (lightboxIndex - 1 + lightboxItems.length) % lightboxItems.length; renderLightbox(); }
+function goLightboxNext() { if (lightboxItems.length < 2) return; lightboxIndex = (lightboxIndex + 1) % lightboxItems.length; renderLightbox(); }
 
 function closeLightbox() { lightbox.classList.remove('active'); document.body.classList.remove('modal-open'); }
 
@@ -1631,8 +1671,12 @@ function setupSmoothScroll() {
 
 lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
 lightboxClose.addEventListener('click', closeLightbox);
+lightboxPrev.addEventListener('click', (event) => { event.stopPropagation(); goLightboxPrev(); });
+lightboxNext.addEventListener('click', (event) => { event.stopPropagation(); goLightboxNext(); });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') closeLightbox();
+  else if (event.key === 'ArrowLeft') goLightboxPrev();
+  else if (event.key === 'ArrowRight') goLightboxNext();
 });
 
 function syncColumnHeights() {
