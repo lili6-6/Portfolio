@@ -7,8 +7,12 @@
 !README.md
 !documents/**
 !documents/**/*
+!assets/
 !assets/vibecoding/**
 !assets/vibecoding/**/*
+!assets/刘嘉琳.jpg
+!assets/sprite-anim-harness/
+!assets/sprite-anim-harness/*.png
 !audio/
 !audio/**
 !.gitignore
