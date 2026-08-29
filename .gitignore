@@ -11,6 +11,10 @@
 !assets/vibecoding/**
 !assets/vibecoding/**/*
 !assets/刘嘉琳.jpg
+!assets/疯狂派对/
+!assets/疯狂派对/**/*
+!assets/Geminants/
+!assets/Geminants/**/*
 !assets/sprite-anim-harness/
 !assets/sprite-anim-harness/*.png
 !audio/
