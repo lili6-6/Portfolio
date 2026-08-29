@@ -378,28 +378,6 @@ a { color: inherit; text-decoration: none; }
 }
 .overview-card li strong { color: var(--text-primary); font-weight: 510; }
 
-.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.skill-card { padding: 24px; border-radius: 18px; }
-.skill-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
-
-.skill-icon {
-  width: 42px; height: 42px; border-radius: 10px;
-  display: grid; place-items: center;
-  font-size: 17px; margin-bottom: 16px;
-  background: rgba(94, 106, 210, 0.12);
-  color: var(--accent-indigo); font-weight: 590;
-}
-.skill-card h3 { font-size: 17px; font-weight: 590; line-height: 1.3; letter-spacing: -0.25px; margin-bottom: 8px; }
-.skill-card p { color: var(--text-tertiary); font-size: 14px; line-height: 1.7; }
-.skills-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-.skills-tags span {
-  padding: 3px 8px; border-radius: 9999px;
-  font-size: 11px; font-weight: 510;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: var(--text-tertiary);
-}
-
 .projects-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
 .filters { display: flex; gap: 6px; flex-wrap: wrap; }
 .filter-btn {
@@ -684,42 +662,26 @@ a { color: inherit; text-decoration: none; }
   display: none;
 }
 
-.capability-grid { display: grid; gap: 14px; }
-.cap-row {
-  display: grid; grid-template-columns: 160px 1fr; gap: 16px;
-  padding: 16px 20px; border-radius: 14px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
-  align-items: start;
-  transition: var(--transition);
-}
-.cap-row:hover { border-color: rgba(94, 106, 210, 0.2); background: rgba(255,255,255,0.03); }
-.cap-label {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 590; color: var(--text-primary);
-  padding-top: 2px;
-}
-.cap-label .cap-icon {
-  width: 28px; height: 28px; border-radius: 7px;
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.skill-card { padding: 24px; border-radius: 18px; }
+.skill-card:hover { transform: translateY(-3px); border-color: rgba(94, 106, 210, 0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+.skill-icon {
+  width: 42px; height: 42px; border-radius: 10px;
   display: grid; place-items: center;
-  font-size: 12px; font-weight: 590;
+  font-size: 17px; margin-bottom: 16px;
   background: rgba(94, 106, 210, 0.12);
-  color: var(--accent-indigo);
-  flex-shrink: 0;
+  color: var(--accent-indigo); font-weight: 590;
 }
-.cap-projects { display: flex; flex-wrap: wrap; gap: 8px; }
-.cap-projects span {
-  padding: 5px 10px; border-radius: 9999px;
-  font-size: 12px; font-weight: 510;
+.skill-card h3 { font-size: 17px; font-weight: 590; line-height: 1.3; letter-spacing: -0.25px; margin-bottom: 8px; }
+.skill-card p { color: var(--text-tertiary); font-size: 14px; line-height: 1.7; }
+.skills-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.skills-tags span {
+  padding: 3px 8px; border-radius: 9999px;
+  font-size: 11px; font-weight: 510;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
   color: var(--text-tertiary);
-  cursor: default;
-  transition: var(--transition);
-}
-.cap-projects span:hover { color: var(--text-secondary); border-color: rgba(94, 106, 210, 0.25); }
-@media (max-width: 768px) {
-  .cap-row { grid-template-columns: 1fr; gap: 10px; }
 }
 
 .otherworks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
@@ -763,8 +725,7 @@ a { color: inherit; text-decoration: none; }
   .skills-grid, .otherworks-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-@media (max-width: 768px) {
+}@media (max-width: 768px) {
   .container { width: min(var(--max-width), calc(100% - 24px)); }
   .navbar { padding: 10px 12px; border-radius: 12px; }
   .nav-links { display: none; }
@@ -802,7 +763,6 @@ a { color: inherit; text-decoration: none; }
     <div class="nav-links" id="navLinks">
       <a href="#hero">首页</a>
       <a href="#overview">概览</a>
-      <a href="#capabilities">能力</a>
       <a href="#skills">技术</a>
       <a href="#projects">项目</a>
       <a href="#otherworks">其他</a>
@@ -826,7 +786,7 @@ a { color: inherit; text-decoration: none; }
             <span class="gradient-text">用 Unity 把系统做深</span>
           </h2>
           <p class="hero-sub">刘嘉琳 · 西安邮电大学 · 数字媒体技术（大二）</p>
-           <p class="hero-desc"><strong>9 个完整项目，横跨 7 个游戏品类：</strong>2D 叙事平台跳跃、3D Topdown 第三人称、解谜冒险、音乐节奏、判案推理、情绪叙事、体感交互。每个项目从立项到封包全程担任程序兼策划。深度实践 MVC 架构、AI 智能体、Boss/NPC AI 系统，自建 Unity Agent 工作流驱动快速原型开发。</p>
+           <p class="hero-desc"><strong>11 个完整项目，横跨 7 个游戏品类：</strong>2D 叙事平台跳跃、3D Topdown 第三人称、解谜冒险、音乐节奏、判案推理、情绪叙事、体感交互。每个项目从立项到封包全程担任程序兼策划。深度实践 MVC 架构、AI 智能体、Boss/NPC AI 系统，自建 Unity Agent 工作流与序列帧动画自动产出 Harness 驱动快速原型开发。</p>
           <div class="hero-meta">
             <span class="hero-pill">pp_LiuJL@163.com</span>
             <span class="hero-pill">18729928628</span>
@@ -855,19 +815,19 @@ a { color: inherit; text-decoration: none; }
             <h3>能力数据</h3>
             <div class="stats-grid">
               <div class="stat-card">
-                <div class="stat-value" data-count="9">0</div>
+                <div class="stat-value" data-count="11">0</div>
                 <div class="stat-label">完整项目</div>
               </div>
               <div class="stat-card">
-                <div class="stat-value" data-count="2">0</div>
+                <div class="stat-value" data-count="3">0</div>
                 <div class="stat-label">Steam / 上线</div>
               </div>
               <div class="stat-card">
-                <div class="stat-value" data-count="5">0</div>
+                <div class="stat-value" data-count="7">0</div>
                 <div class="stat-label">AI 交互项目</div>
               </div>
               <div class="stat-card">
-                <div class="stat-value" data-count="11">0</div>
+                <div class="stat-value" data-count="14">0</div>
                 <div class="stat-label">获奖 / 荣誉</div>
               </div>
             </div>
@@ -905,14 +865,14 @@ a { color: inherit; text-decoration: none; }
       <div class="section-header reveal">
         <div class="section-label"><span class="section-label-bar"></span> Portfolio Overview</div>
         <h2 class="section-title">不做堆砌 —— 我做可扩展的系统</h2>
-        <p class="section-desc">7 个品类、9 个项目，从架构到 AI 到交付全线独立啃下来。不只是能写功能，是能搭一套能跑能改能上线的东西。</p>
+        <p class="section-desc">11 个项目、7 个品类，从架构到 AI 到交付全线独立啃下来。不只是能写功能，是能搭一套能跑能改能上线的东西。</p>
       </div>
       <div class="overview-grid">
         <div class="overview-card card-lg reveal">
           <h3>核心能力矩阵</h3>
           <ul>
-            <li><strong>系统架构能力</strong> —— MVC 架构、事件驱动通信、ScriptableObject/JSON 持久化。9 个项目磨出来的模块化解耦意识，不写死、好扩展、能复用。</li>
-            <li><strong>AI × 游戏融合</strong> —— 阿里云百炼智能体对接、多角色 AI 对话、AI 驱动的动态叙事与剧情生成、Boss 多阶段 AI 与 NPC AI 系统，覆盖 5 个项目的 AI 交互落地经验。</li>
+            <li><strong>系统架构能力</strong> —— MVC 架构、事件驱动通信、ScriptableObject/JSON 持久化。11 个项目磨出来的模块化解耦意识，不写死、好扩展、能复用。</li>
+            <li><strong>AI × 游戏融合</strong> —— 阿里云百炼智能体对接、多角色 AI 对话、AI 驱动的动态叙事与剧情生成、Boss 多阶段 AI 与 NPC AI 系统，覆盖 7 个项目的 AI 交互落地经验。</li>
             <li><strong>VibeCoding / Agent 工作流</strong> —— 自建 Unity Agent pipeline（OpenCode / Codex），从自然语言到可运行游戏原型的完整闭环。<strong>3D+2D+H5</strong> 多品类项目验证，能用 AI 真正提效。</li>
             <li><strong>全流程交付</strong> —— 程序兼策划、Git 分支管理、GameJam 48h 产出、Steam 上架、学术论文支撑。不是只做demo，是能推到线上的东西。</li>
           </ul>
@@ -920,6 +880,8 @@ a { color: inherit; text-decoration: none; }
           <div class="overview-card card-lg reveal">
             <h3>项目经历时间线</h3>
             <ul>
+              <li><strong>2026.7 - 2026.9 — 疯狂派对：不眠之夜</strong><br>Unity 6 俯视角潜行暗杀、NPC 群体 AI、URP 渲染特性、技术开发 / 版本控制 / 项目负责。</li>
+              <li><strong>2026.8 — SpriteAnim Harness / 序列帧动画自动产出</strong><br>AI Agent 流水线、SubAgent 编排、Skill 调用、六阶段流水线、Docker 部署。</li>
               <li><strong>2025.5 - 2025.7 — Kinect 2D 皮影动捕系统</strong><br>体感捕捉、2D 映射、物理驱动、科研展示。</li>
               <li><strong>2025.8 - 2025.10 — HalfWay / 中途</strong><br>GameJam 判案玩法、证物拖拽分类、场景切换与倒计时流程。</li>
               <li><strong>2025.9 - 2025.12 — GlowBorn / 光裔</strong><br>2D 平台跳跃、多形态技能、Boss AI、关卡整合与 Steam 商店页。</li>
@@ -933,20 +895,6 @@ a { color: inherit; text-decoration: none; }
           </div>
         </div>
       </div>
-      <div class="module-footer-action reveal">
-        <a class="module-top-btn" href="#hero">↑ 顶部</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="capabilities">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-label"><span class="section-label-bar"></span> Capability Matrix</div>
-        <h2 class="section-title">能力 × 项目映射</h2>
-        <p class="section-desc">每个项目对应不同的能力维度，快速了解我的技术覆盖面。</p>
-      </div>
-      <div class="capability-grid" id="capabilityGrid"></div>
       <div class="module-footer-action reveal">
         <a class="module-top-btn" href="#hero">↑ 顶部</a>
       </div>
@@ -1086,21 +1034,65 @@ const skills = [
   { icon: "P", title: "游戏类型覆盖", desc: "2D 叙事平台跳跃、3D 第三人称 Topdown、解谜冒险、音游玩法、判案推理、体感交互——多品类项目验证适应能力。", tags: ["2D叙事", "Topdown", "解谜冒险", "音游"] },
   { icon: "T", title: "插件与工具链", desc: "CorgiEngine / TopdownEngine 框架扩展，DOTweenPro / Cinemachine / A* Pathfinding / Lightbeam / Shader Graph / Modern UI Pack / Unity Localization。", tags: ["CorgiEngine", "A*Pathfinding", "Lightbeam", "Shader Graph"] },
   { icon: "V", title: "VibeCoding", desc: "有 AI 基础，熟练使用 Agent 工具（OpenCode、Codex）驱动游戏原型开发。了解 MCP、Skill 等协议与工作流概念，自行搭建 Unity 游戏开发 Agent 工作流并产出可运行游戏。", tags: ["Agent工作流", "OpenCode", "Codex", "MCP/Skill"] },
-  { icon: "G", title: "项目管理", desc: "Git 分支管理与版本控制，团队技术负责人角色，GameJam 48h 极限交付。负责资产整合与初始包构建，Steam 商店页上架、TapTap 发布，学术论文支撑。", tags: ["Git", "资产整合", "初始包构建", "Steam"] }
-];
-
-const capabilityMatrix = [
-  { icon: "S", label: "系统架构", projects: ["3D音游手机系统", "遗忘之匣·回响", "Iterate/迭代", "情绪漂流瓶"] },
-  { icon: "A", label: "AI 交互", projects: ["情绪漂流瓶", "Iterate/迭代", "3D音游手机系统", "HalfWay/中途", "Dream Who To Be"] },
-  { icon: "V", label: "VibeCoding", projects: ["Geminants", "Frequency Guard", "BounceHero"] },
-  { icon: "G", label: "游戏类型", projects: ["GlowBorn/光裔", "遗忘之匣·回响", "Dream Who To Be", "HalfWay/中途", "3D音游手机系统"] },
-  { icon: "T", label: "团队管理", projects: ["Dream Who To Be", "GlowBorn/光裔", "Kinect 皮影动捕", "情绪漂流瓶"] },
-  { icon: "R", label: "上线/发布", projects: ["GlowBorn/光裔 (Steam)", "HalfWay/中途 (Steam)", "Iterate/迭代 (TapTap)", "情绪漂流瓶 (获奖)"] }
+  { icon: "G", title: "项目管理", desc: "Git 分支管理与版本控制，团队技术负责人角色，GameJam 48h 极限交付。负责资产整合与初始包构建，Steam 商店页上架、TapTap 发布，学术论文支撑。", tags: ["Git", "资产整合", "初始包构建", "Steam"] },
+  { icon: "F", title: "渲染与画面表现", desc: "熟悉 URP 渲染管线下的画面表现开发，掌握 Shader Graph 与自定义 RenderFeature / Shader 编写，能实现后处理效果与动态场景光效，注重渲染性能与画面质量的平衡。", tags: ["URP", "RenderFeature", "Shader", "后处理"] },
+  { icon: "U", title: "UI / 交互系统", desc: "掌握 UGUI 与状态机驱动的 UI / 交互系统开发，覆盖界面管理、拖拽交互、HUD 信息面板与交互反馈表现，注重交互流畅度与状态同步。", tags: ["UGUI", "拖拽交互", "HUD", "状态机"] }
 ];
 
 const filters = ["全部", "游戏开发", "AI交互", "科研展示", "Steam", "GameJam"];
 
 const projects = [
+  {
+    title: "疯狂派对：不眠之夜 / Party Hard: Alternate Night", date: "2026.7-2026.9",
+    badge: "Unity 6 俯视角潜行暗杀策略 / 5 人团队",
+    category: ["游戏开发"],
+    tags: ["Unity 6", "URP", "NPC群体AI", "行为链状态机", "ScriptableObject", "可扩展框架", "URP RenderFeature", "目击报警调度"],
+    desc: "<strong>项目简介：</strong>俯视角潜行暗杀策略游戏。玩家扮演被辞退的社畜「莱姆」，戴上白面具潜入夜店，在限定时间内利用人群盲区、陷阱与道具暗杀目标，规避目击、对抗警察，完成肃清任务。在 5 人团队中负责技术开发、版本控制与项目整体推进，从架构到系统全程序侧独立完成。",
+    capabilities: ["系统架构", "AI交互", "游戏类型", "团队管理"],
+    work: [
+      "基于 TopDown Engine AIBrain 构建 9+ 个 NPC 行为状态（游荡/跳舞/发呆/拥抱/进食/睡觉+恐惧路由），利用 FalseState 空状态的 fall-through 机制实现「检测失败自动落到下一级」，决策逻辑无需手写 if-else，状态与分支增删完全可视化配置。",
+      "设计 NPC 性格系统：NPC_Data（ScriptableObject）集中定义行为权重、触发概率与时长区间，生成时叠加随机方差并归一化自动写入决策组件，新增一种人格只需新建 SO 资产，NPC 行为个性各异。",
+      "打通「目击→报警→调度」完整链路：扇形视野+视线遮挡检测、按识破概率判定目击凶手/尸体；警察已在场直接上报，否则跑向电话召唤警车，警车到场→追捕→逮捕→搬尸→撤离闭环，救护车按现场尸体数量动态配置医生。",
+      "实现 NPC 灵性系统：静态事件广播驱动恐慌级联传染（概率/冷却/2跳上限），渐进怀疑值与好奇心机制让 NPC 注视尸体时累积怀疑、首次发现走近检查。",
+      "自研 URP 渲染特性 ColorZone：自定义 ScriptableRendererFeature + RenderGraph 全屏 Pass + 自研 Shader，实现「世界空间指定区域外灰度化、区域内保留彩色」的聚光式美术表现，仅对主相机生效、不破坏 UI/Overlay 渲染。",
+      "构建火焰燃烧链路：油箱倒油生成油坑→点燃触发连锁燃烧→FireZone 灼烧致死；燃烧瓶慢动作瞄准+抛物线预览投掷。",
+      "搭建可扩展机关与道具框架：Mechanism_Base 统一抽象触发/高亮/PartyVision/目标过滤，11 种机关自动注册 MechanismManager；Prop_Base 抽象拾取/选择/使用/合成生命周期，4 格背包与合成系统统一管理。",
+      "全局单例与场景管理器分层解耦，状态机驱动主菜单→过场 CG→关卡选择→夜店关卡→结算全流程；VolumeManager 集中调度 7 套后处理效果，HUD 覆盖任务列表/倒计时/连杀/道具栏。"
+    ],
+    achievement: "",
+    summary: { type: "项目类型", role: "技术开发 / 版本控制 / 项目负责", focus: "NPC 群体 AI、可扩展机关/道具框架、URP 渲染特性、目击报警调度链路", output: "完整可运行的俯视角潜行暗杀策略游戏，含主菜单→过场 CG→关卡选择→夜店关卡→结算全流程", team: "5 人团队 · 程序 ×1 / 美术动画 ×4", stack: "Unity 6 · URP · Cinemachine · Timeline · NavMesh · TopDown Engine · Behavior Designer · DOTween" },
+    images: [
+      { src: "assets/疯狂派对/封面.png", alt: "疯狂派对：不眠之夜封面" },
+      { src: "assets/疯狂派对/截图1.png", alt: "游戏截图1" },
+      { src: "assets/疯狂派对/截图2.png", alt: "游戏截图2" },
+      { src: "assets/疯狂派对/截图3.png", alt: "游戏截图3" }
+    ]
+  },
+  {
+    title: "SpriteAnim Harness / 序列帧动画自动产出", date: "2026.8",
+    badge: "AI Agent 流水线 / 游戏序列帧动画自动产出",
+    category: ["AI交互", "游戏开发"],
+    tags: ["Harness", "Agent工作流", "SubAgent编排", "意图分析", "编译/生成/优化", "Skill调用", "校验", "Docker"],
+    desc: "<strong>项目简介：</strong>一套用于游戏序列帧动画自动产出的 Harness。用户输入动画需求后，Agent 自动开始分析并调用 SubAgent，按序执行 <strong>意图分析 → 编译 → 生成 → 后期处理 → 优化 → 写入</strong> 六阶段链路；每个 SubAgent 会根据所处阶段调用对应 Skill 并执行校验，实现从需求到可用序列帧动画资产的自动化产出。后端基于 Docker 容器化部署，环境一致、易于交付与扩展。",
+    capabilities: ["VibeCoding", "AI交互"],
+    work: [
+      "设计整体流水线架构：需求输入后由主 Agent 自动分析意图，并按阶段分发任务给多个 SubAgent。",
+      "实现「意图分析」阶段：解析动画需求（角色、动作、帧率、循环、尺寸）为结构化动画规格。",
+      "实现「编译 / 生成 / 后期处理 / 优化」阶段：编译规格为执行计划，调用生成 Skill 产出序列帧，完成去底、裁剪、打包与一致性优化。",
+      "实现「写入」阶段：将产物按规范写入资产目录并生成元数据清单，可直接被 H5 / Web 前端加载播放。",
+      "为每个 SubAgent 挂载 Skill 调用与结果校验逻辑，链路中任一步失败可回退修正，提升产出稳定性。",
+      "后端以 Docker 容器化部署，独立运行环境，支持服务编排与持续集成。"
+    ],
+    achievement: "",
+    summary: { type: "项目类型", role: "整体开发 / 流水线设计", focus: "Agent编排、SubAgent、Skill调用、六阶段流水线、Docker部署", output: "输入动画需求即可自动产出的序列帧动画资产" },
+    images: [
+      { src: "assets/sprite-anim-harness/f353484f6b483acdd8f113a884595836.png", alt: "SpriteAnim Harness 流水线总览" },
+      { src: "assets/sprite-anim-harness/25d7c40ec611d3d728659450d2c64727.png", alt: "需求输入与 Agent 对话" },
+      { src: "assets/sprite-anim-harness/2779f15dc5bab1be5a7ea76562995ee0.png", alt: "意图分析与编译执行" },
+      { src: "assets/sprite-anim-harness/311487dee41bd867dfbfd30b6de247ef.png", alt: "SubAgent 生成与各层检验" },
+      { src: "assets/sprite-anim-harness/7f3fb1061459faacb5f6ced6fc4b5328.png", alt: "最终序列帧产出" }
+    ]
+  },
   {
     title: "Dream Who To Be / 我想成为谁", date: "2026.7.3-2026.7.5",
     badge: "CIGA 西安站 GameJam / 第三人称 3D 剧情游戏",
@@ -1208,7 +1200,7 @@ const projects = [
       "构建成就与事件触发系统，监听收集与交互行为，通过 ScriptableObject 事件表解锁特殊天气与过场动画。",
       "集成阿里云百炼 AI 接口，实现漂流瓶异步消息交互与 AI 回复的动态构建。"
     ],
-    achievement: "<strong>项目成果：</strong>2026 国际大学生数字艺术设计大赛-铜奖（游戏程序设计赛道）。",
+    achievement: "<strong>项目成果：</strong>2026 国际大学生数字艺术设计大赛-铜奖（游戏程序设计赛道）；未来设计师（NCDA）-陕西赛区三等奖（《情绪漂流瓶》）。",
     summary: { type: "项目类型", role: "核心玩法系统开发", focus: "动态天气、情绪收集、AI 回复、钓取交互", output: "情绪表达与异步互动结合的轻叙事体验" },
     video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1Fq3j6GEuE&autoplay=0", poster: "img/project3_1.jpg", title: "" },
     images: [
@@ -1274,7 +1266,7 @@ const projects = [
       "构建 AI 意识进化叙事框架：三阶段行为模式（服从 → 自我怀疑 → 反抗），由周目条件变量动态切换。",
       "开发角色行为状态机，根据周目进度动态切换 AI 控制模式与玩家交互权限。"
     ],
-    achievement: "<strong>项目成果：</strong>参加 2026 网易 MiniGame 比赛并完成初赛作品提交；上架 TapTap 游戏平台。",
+    achievement: "<strong>项目成果：</strong>未来设计师（NCDA）-全国总决赛二等奖（《迭代》）；参加 2026 网易 MiniGame 比赛并完成初赛作品提交；上架 TapTap 游戏平台。",
     summary: { type: "项目类型", role: "整体开发 / 全技术", focus: "AI寻路、阿里云百炼叙事、多周目系统、AI意识进化", output: "AI意识觉醒叙事+平台跳跃玩法融合的多周目体验" },
     video: { type: "bilibili", src: "https://player.bilibili.com/player.html?bvid=BV1EB3j6rE1r&autoplay=0", poster: "img/iterate_1.png", title: "" },
     images: [
@@ -1290,23 +1282,36 @@ const projects = [
     badge: "AI 游戏 App 内置游戏开发 / 刷玩式分发平台",
     category: ["游戏开发"],
     tags: ["Agent工作流", "AI对话改编", "内置游戏", "即点即玩", "机制/美术/音效生成", "OpenCode"],
-    desc: "<strong>项目简介：</strong>Geminants 是一款游戏 App，采用「刷短视频」式交互——上下滑动浏览、即点即玩各类小游戏，并支持联网排行榜等在线功能。最大特色是内置 <strong>AI 即兴改编引擎</strong>：用户可通过 AI 对话即时改编任意游戏的机制、美术资产与音效。我负责其中内置游戏的开发，已产出 <strong>Frequency Guard</strong>（塔防 × 音游融合）与 <strong>BounceHero</strong>（竖版跳跃）两款作品。",
+    desc: "<strong>项目简介：</strong>Geminants 是一款游戏 App，采用「刷短视频」式交互——上下滑动浏览、即点即玩各类小游戏，并支持联网排行榜等在线功能。最大特色是内置 <strong>AI 即兴改编引擎</strong>：用户可通过 AI 对话即时改编任意游戏的机制、美术资产与音效。我负责其中内置游戏的开发，已产出 <strong>Frequency Guard</strong>（塔防 × 音游融合）、<strong>BounceHero</strong>（竖版跳跃）、<strong>ColorOn</strong>（几何跳跃点亮）与 <strong>CutThatRope</strong>（盲盒收集解谜）四款作品。",
     capabilities: ["VibeCoding", "游戏类型"],
     work: [
       "利用 Agent 搭建内置游戏产出工作流：从自然语言需求到可运行游戏的稳定闭环，保障内置游戏的批量产出与迭代更新。",
       "Frequency Guard：塔防 × 音游融合玩法，多种塔类型搭配，防御破坏节奏的怪物同时奏出和谐旋律。",
       "BounceHero：竖版跳跃玩法，画绳弹起主角不断向上攀升。",
+      "ColorOn：控制小人在几何色块间不断跳跃，点亮每一个几何体。",
+      "CutThatRope：帮助喜欢收集盲盒的外星人通过关卡，获取并收集盲盒。",
       "遵循 App 框架接入规范，保证内置游戏在「刷玩、即点即玩、AI 对话改编」场景下的稳定运行与表现一致。",
       "把控游戏美术与技术质量：统一视觉风格与性能标准，确保与 App 内改编引擎兼容、可即时替换资产。"
     ],
     achievement: "",
     summary: { type: "项目类型", role: "参与开发 / 内置游戏开发", focus: "Agent 工作流产出内置游戏、适配刷玩式 App 框架", output: "适应刷玩与 AI 即兴改编场景的内置游戏" },
     images: [
-      { src: "assets/vibecoding/Frequency Guard/82128082690022140b959e1d5558b647.jpg", alt: "Frequency Guard 塔防音游" },
-      { src: "assets/vibecoding/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg", alt: "Frequency Guard 玩法截图" },
-      { src: "assets/vibecoding/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg", alt: "Frequency Guard 关卡截图" },
-      { src: "assets/vibecoding/BounceHero/6fbed7fd2353ae8e49356ba49c0e9e8e.png", alt: "BounceHero 竖版跳跃" },
-      { src: "assets/vibecoding/BounceHero/8b04cafb14e5ae44ab1ec6e001125926.png", alt: "BounceHero 玩法截图" }
+      { src: "assets/Geminants/Frequency Guard/82128082690022140b959e1d5558b647.jpg", alt: "Frequency Guard 塔防音游" },
+      { src: "assets/Geminants/Frequency Guard/992f7af733173f6f3e1066200f45834a.jpg", alt: "Frequency Guard 玩法截图" },
+      { src: "assets/Geminants/Frequency Guard/a7a2149c9e99ad06051fed3d6458880e.jpg", alt: "Frequency Guard 关卡截图" },
+      { src: "assets/Geminants/BounceHero/635900477d31cc4438205aef1949fbf3.jpg", alt: "BounceHero 竖版跳跃" },
+      { src: "assets/Geminants/BounceHero/a921aea257f8432c8dcdb8afb6578e8d.jpg", alt: "BounceHero 玩法截图" },
+      { src: "assets/Geminants/BounceHero/b1fc3f14ea6917a1e7a6b9ec2128e188.jpg", alt: "BounceHero 关卡截图" },
+      { src: "assets/Geminants/BounceHero/faed3c209313dd9bede0c9164aa680b7.jpg", alt: "BounceHero 截图" },
+      { src: "assets/Geminants/ColorOn/1613a65a825f08f6f4d6f726be9f252f.png", alt: "ColorOn 上色玩法" },
+      { src: "assets/Geminants/ColorOn/476ad3bbf84ad9b71c2d35e8a7d047a0.jpg", alt: "ColorOn 玩法截图" },
+      { src: "assets/Geminants/ColorOn/c97579095aa9aa5406498db15c7e8533.png", alt: "ColorOn 关卡截图" },
+      { src: "assets/Geminants/ColorOn/d735b16e2153385384c42f2fc688131a.png", alt: "ColorOn 截图" },
+      { src: "assets/Geminants/CutThatRope/02d7794b75d71b3955bbd69bde6199fa.jpg", alt: "CutThatRope 割绳子玩法" },
+      { src: "assets/Geminants/CutThatRope/9c659f85a37c92ead7f8a6f7e7b7306b.jpg", alt: "CutThatRope 玩法截图" },
+      { src: "assets/Geminants/CutThatRope/c632111507176b560cdf827d55e603f9.jpg", alt: "CutThatRope 关卡截图" },
+      { src: "assets/Geminants/CutThatRope/c8e15db9a6ba411a37ff578925c3e6d1.jpg", alt: "CutThatRope 截图" },
+      { src: "assets/Geminants/CutThatRope/8771a996703b607a90c9f2d74d656216.png", alt: "CutThatRope 盲盒收集" }
     ]
   }
 ];
@@ -1314,7 +1319,9 @@ const projects = [
 const awards = [
   { icon: "A", title: "CIGA 2026 西安站 GameJam", level: "最受喜爱奖" },
   { icon: "A", title: "2026 国际大学生数字艺术设计大赛-游戏程序设计", level: "铜奖" },
+  { icon: "A", title: "未来设计师（NCDA）-游戏设计《迭代》", level: "全国二等奖" },
   { icon: "A", title: "睿抗机器人开发者大赛-艺科融合", level: "全国一等奖" },
+  { icon: "A", title: "未来设计师（NCDA）-《情绪漂流瓶》", level: "全省三等奖" },
   { icon: "A", title: "西安邮电大学首届「人工智能+」创新大赛", level: "优秀奖" },
   { icon: "A", title: "2026 国际大学生数字艺术设计大赛-文化遗产保护", level: "铜奖" },
   { icon: "A", title: "2026「华夏奖」文化艺术设计大赛", level: "银奖" },
@@ -1338,7 +1345,9 @@ const certificates = [
   { src: "img/award8.jpg", alt: "华夏奖文化艺术设计大赛 银奖" },
   { src: "img/award9.jpg", alt: "第六届全国数字艺术与媒介文化学术论坛 银奖" },
   { src: "img/award10.jpg", alt: "CIGA 西安站 GameJam 最受喜爱奖" },
-  { src: "img/award11.jpg", alt: "中国好创意-数智声景 全国三等奖" }
+  { src: "img/award11.jpg", alt: "中国好创意-数智声景 全国三等奖" },
+  { src: "img/award12.png", alt: "未来设计师（NCDA）《迭代》 全国二等奖" },
+  { src: "img/award13.png", alt: "未来设计师（NCDA）《情绪漂流瓶》 陕西赛区三等奖" }
 ];
 
 const otherWorks = [
@@ -1363,14 +1372,9 @@ const lightboxClose = document.getElementById('lightboxClose');
 
 let currentFilter = '全部';
 
-function renderCapabilityMatrix() {
-  const grid = document.getElementById('capabilityGrid');
-  grid.innerHTML = capabilityMatrix.map(c => `
-    <div class="cap-row reveal">
-      <div class="cap-label"><span class="cap-icon">${c.icon}</span>${c.label}</div>
-      <div class="cap-projects">${c.projects.map(p => `<span>${p}</span>`).join('')}</div>
-    </div>
-  `).join('');
+const summaryLabels = { role: '我的角色', focus: '核心关注', output: '最终输出', team: '团队 / 职责', stack: '技术栈' };
+function summaryRows(s) {
+  return Object.entries(s).filter(([k]) => k !== 'type').map(([k, v]) => `<div><dt>${summaryLabels[k] || k}</dt><dd>${v}</dd></div>`).join('');
 }
 
 function renderSkills() {
@@ -1444,10 +1448,8 @@ function renderProjects() {
           <div class="project-side-info">
             <h4>项目信息摘要</h4>
             <dl>
-              <div><dt>${p.summary.type}</dt><dd>${p.badge}</dd></div>
-              <div><dt>我的角色</dt><dd>${p.summary.role}</dd></div>
-              <div><dt>核心关注</dt><dd>${p.summary.focus}</dd></div>
-              <div><dt>最终输出</dt><dd>${p.summary.output}</dd></div>
+              <div><dt>${p.summary.type || '项目类型'}</dt><dd>${p.badge}</dd></div>
+              ${summaryRows(p.summary)}
             </dl>
           </div>
         </div>
@@ -1640,7 +1642,6 @@ function syncColumnHeights() {
   }
 }
 
-renderCapabilityMatrix();
 renderSkills();
 renderFilters();
 renderProjects();
